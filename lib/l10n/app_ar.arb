@@ -1,0 +1,99 @@
+{
+    "@@locale": "ar",
+    "anUnexpectedErrorOccurred": "حدث خطأ غير متوقع",
+    "applyChanges": "تطبيق التغييرات",
+    "areYouSureYouWantToLogout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "changePassword": "تغيير كلمة المرور",
+    "chooseAnImageSource": "اختر مصدر الصورة",
+    "completeProfile": "إكمال الملف الشخصي",
+    "completeYourProfile": "أكمل ملفك الشخصي",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "contactInformation": "معلومات الاتصال",
+    "contactSupport": "الاتصال بالدعم",
+    "createAnAccount": "إنشاء حساب",
+    "currentSelectedThemeMode": "الحالي: {mode}",
+    "dartTemplate": "قالب دارت",
+    "dontHaveAnAccountSignUp": "ليس لديك حساب؟ سجل الآن",
+    "editProfile": "تعديل الملف الشخصي",
+    "emailAddress": "البريد الإلكتروني",
+    "enableNotifications": "تفعيل الإشعارات",
+    "enterTheSubjectOfYourMessage": "أدخل موضوع رسالتك",
+    "enterYourEmail": "أدخل بريدك الإلكتروني",
+    "enterYourEmailToRecoverYourPassword": "أدخل بريدك الإلكتروني لاستعادة كلمة المرور",
+    "enterYourMessage": "أدخل رسالتك",
+    "enterYourName": "أدخل اسمك",
+    "enterYourPassword": "أدخل كلمة المرور",
+    "errorOccurredDuringSignup": "حدث خطأ أثناء التسجيل.",
+    "errorOccurredWhileUploadingTheImage": "حدث خطأ أثناء تحميل الصورة: {e}",
+    "errorPostingComment": "خطأ في نشر التعليق: {e}",
+    "errorReauthenticatingUser": "خطأ في إعادة مصادقة المستخدم: {e}",
+    "errorSendingPasswordRecoveryEmail": "خطأ في إرسال بريد استعادة كلمة المرور: {e}",
+    "errorSigningOut": "خطأ في تسجيل الخروج",
+    "errorSubmittingSupportRequest": "خطأ في إرسال طلب الدعم",
+    "errorUpdatingPassword": "خطأ في تحديث كلمة المرور: {e}",
+    "errorUpdatingProfile": "خطأ في تحديث الملف الشخصي: {e}",
+    "errorSnapshotError": "خطأ: {error}",
+    "failedToCreateProfile": "فشل في إنشاء الملف الشخصي: {e}",
+    "failedToUploadImage": "فشل تحميل الصورة",
+    "firstName": "الاسم",
+    "firstNameIsRequired": "الاسم مطلوب",
+    "lastName": "اللقب",
+    "lastNameIsRequired": "اللقب مطلوب",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "genderIsRequired": "الجنس مطلوب",
+    "incorrectPassword": "كلمة مرور غير صحيحة",
+    "invalidEmailAddress": "عنوان بريد إلكتروني غير صالح",
+    "loginFailed": "فشل تسجيل الدخول",
+    "loginFailedWithMessage": "فشل تسجيل الدخول: {message}",
+    "newPassword": "كلمة المرور الجديدة",
+    "noAccountFoundWithThisEmail": "لم يتم العثور على حساب بهذا البريد الإلكتروني",
+    "noCommentsYet": "لا توجد تعليقات بعد",
+    "oldPassword": "كلمة المرور القديمة",
+    "orContinueWith": "أو المتابعة باستخدام",
+    "passwordRequirements": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتحتوي على رقم",
+    "passwordUpdatedSuccessfully": "تم تحديث كلمة المرور بنجاح",
+    "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+    "passwordsDoNotMatchExclamation": "كلمات المرور غير متطابقة!",
+    "personalAccount": "حساب شخصي",
+    "phoneNumber": "رقم الهاتف",
+    "phoneNumberIsRequired": "رقم الهاتف مطلوب",
+    "pleaseConfirmYourPassword": "الرجاء تأكيد كلمة المرور",
+    "pleaseEnterLabel": "الرجاء إدخال {label}",
+    "pleaseEnterAPassword": "الرجاء إدخال كلمة مرور",
+    "pleaseEnterAValidEmailAddress": "الرجاء إدخال عنوان بريد إلكتروني صالح",
+    "pleaseEnterAValidPhoneNumber": "الرجاء إدخال رقم هاتف صالح",
+    "pleaseEnterYourEmail": "الرجاء إدخال بريدك الإلكتروني",
+    "pleaseEnterYourFirstName": "الرجاء إدخال اسمك الأول",
+    "pleaseEnterYourLastName": "الرجاء إدخال اسمك الأخير",
+    "pleaseFillInAllFields": "الرجاء ملء جميع الحقول",
+    "pleaseSelectYourBirthdate": "الرجاء تحديد تاريخ ميلادك",
+    "pleaseSelectYourGender": "الرجاء تحديد جنسك",
+    "postedBy": "نشر بواسطة",
+    "profileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح",
+    "randomText": "نص عشوائي",
+    "recoverPassword": "استعادة كلمة المرور",
+    "selectYourBirthdate": "حدد تاريخ ميلادك",
+    "signIn": "تسجيل الدخول",
+    "signInToContinueYourJourney": "سجل الدخول لمتابعة رحلتك",
+    "signUp": "إنشاء حساب",
+    "signingIn": "جارٍ تسجيل الدخول...",
+    "submitRequest": "إرسال الطلب",
+    "supportRequestSubmittedSuccessfully": "تم إرسال طلب الدعم بنجاح",
+    "tapAgainToExit": "انقر مرة أخرى للخروج",
+    "textOnButton": "نص على الزر",
+    "themeMode": "وضع السمة",
+    "thisAccountHasBeenDisabled": "تم تعطيل هذا الحساب",
+    "thisPageIsAPlaceHolder": "هذه الصفحة هي عنصر نائب",
+    "tooManyFailedAttempts": "محاولات فاشلة كثيرة. يرجى المحاولة مرة أخرى لاحقًا",
+    "typeYourOldPasswordAndTheNewOneToApplyChanges": "اكتب كلمة مرورك القديمة والجديدة لتطبيق التغييرات",
+    "typeYourPasswordToApplyChanges": "اكتب كلمة مرورك لتطبيق التغييرات",
+    "unknownUser": "مستخدم غير معروف",
+    "userNotLoggedIn": "المستخدم لم يسجل دخوله",
+    "weNeedAFewMoreDetails": "نحتاج إلى بعض التفاصيل الإضافية لتبدأ",
+    "welcomeBack": "مرحباً بعودتك!",
+    "wouldYouLikeToTakeAPictureOrChooseFromGallery": "هل ترغب في التقاط صورة أو الاختيار من المعرض؟",
+    "writeAComment": "اكتب تعليقًا...",
+    "wrongPassword": "كلمة مرور خاطئة",
+    "youCanInteractWithMeInMultipleWays": "يمكنك التفاعل معي بعدة طرق:",
+    "hiThereImBBot": "👋 مرحبًا! أنا بي-بوت"
+}
