@@ -6,6 +6,7 @@ import 'add_land.dart';
 import 'proof_upload.dart';
 import 'chat_sponsors.dart';
 import 'chat_ai.dart';
+import '../user_management/add_user.dart';
 
 class FarmerDashboard extends StatefulWidget {
   const FarmerDashboard({super.key});
@@ -266,6 +267,16 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
       appBar: AppBar(
         title: const Text('My Farm Dashboard'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.person_add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddUserScreen()),
+              );
+            },
+            tooltip: 'Add User',
+          ),
           IconButton(
             icon: const Icon(Icons.psychology),
             onPressed: () {

@@ -11,12 +11,15 @@ import 'screens/farmer/add_land.dart';
 import 'screens/farmer/proof_upload.dart';
 import 'screens/farmer/chat_ai.dart';
 import 'screens/farmer/chat_sponsors.dart';
+import 'screens/farmer/conversation_selection.dart';
+import 'screens/farmer/farms_list.dart';
 
 // Sponsor pages
 import 'screens/sponsor/dashboard.dart' as sponsor;
 import 'screens/sponsor/land_list.dart';
 import 'screens/sponsor/land_details.dart';
 import 'screens/sponsor/chat_farmers.dart';
+import 'screens/sponsor/conversation_selection.dart' as sponsor_conv;
 
 // Shared pages
 import 'screens/profile_screen.dart';
@@ -68,9 +71,9 @@ class _HomePageState extends State<BottomNavbar> {
       _pages = [
         const farmer.FarmerDashboard(),
         const AddLandScreen(),
-        // const ProofUploadScreen(land: "",),
+        const FarmsListScreen(),
         const ChatAIScreen(),
-        // const ChatSponsorsScreen("default"),
+        const ConversationSelectionScreen(),
         const ProfileScreen(),
       ];
 
@@ -93,7 +96,7 @@ class _HomePageState extends State<BottomNavbar> {
       _pages = [
         const sponsor.SponsorDashboard(),
         const LandListScreen(),
-        // const ChatFarmersScreen(land: land),
+        const sponsor_conv.SponsorConversationSelectionScreen(),
         const ProfileScreen(),
       ];
 
