@@ -1,6 +1,6 @@
-part of 'widgets.dart';
+﻿part of 'widgets.dart';
 
-Widget buildWelcomeMessage() {
+Widget buildWelcomeMessage(AppLocalizations loc) {
   return Expanded(
     child: Center(
       child: Column(
@@ -39,17 +39,17 @@ Widget buildWelcomeMessage() {
               padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                color: Colors.purple.withOpacity(0.1),
+                color: Colors.purple.withAlpha(25),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: Colors.purple.withOpacity(0.3),
+                  color: Colors.purple.withAlpha(80),
                   width: 1,
                 ),
               ),
               child: Column(
                 children: [
-                  const Text(
-                    "👋 Hi there! I'm B-BOT",
+                  Text(
+                    loc.hiThereImBBot,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -58,7 +58,7 @@ Widget buildWelcomeMessage() {
                   ),
                   const SizedBox(height: 15),
                   Text(
-                    "You can interact with me in multiple ways:",
+                    loc.youCanInteractWithMeInMultipleWays,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey[700],
@@ -91,7 +91,7 @@ Widget _buildFeatureItem(IconData icon, String label) {
       Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.purple.withOpacity(0.1),
+          color: Colors.purple.withAlpha(25),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(

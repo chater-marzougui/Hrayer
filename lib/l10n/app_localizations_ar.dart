@@ -317,4 +317,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get hiThereImBBot => '👋 مرحبًا! أنا بي-بوت';
+
+  @override
+  String get camera => 'الكاميرا';
+
+  @override
+  String get gallery => 'المعرض';
 }

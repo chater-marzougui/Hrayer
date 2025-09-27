@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import './user_management/login.dart';
 import '../controllers/user_controller.dart';
 import '../structures/structs.dart' as structs;
@@ -42,16 +43,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       }
     } catch (e) {
-      if (context.mounted) showSnackBar(context, "Error signing out");
+      if (context.mounted) showSnackBar(context, AppLocalizations.of(context)!.errorSigningOut);
     }
   }
 
-  void _handleLogout(BuildContext context) {
+  void _handleLogout(BuildContext context, AppLocalizations loc) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Text("Logout"),
-        content: const Text("Are you sure you want to logout?"),
+        content: Text(loc.areYouSureYouWantToLogout),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -95,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildMenuItems(ThemeData theme) {
+  Widget _buildMenuItems(ThemeData theme, AppLocalizations loc) {
     return Column(
       children: [
         settingScreenItem(
@@ -106,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         ListTile(
           leading: Icon(Icons.person_rounded, color: theme.primaryColor),
-          title: Text("Personal Account", style: theme.textTheme.titleSmall),
+          title: Text(loc.personalAccount, style: theme.textTheme.titleSmall),
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const EditProfileScreen()))
@@ -116,13 +117,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         settingScreenItem(
           context,
           icon: Icons.support_agent,
-          itemName: "Contact Support",
+          itemName: loc.contactSupport,
           page: const ContactSupportScreen(),
         ),
         ListTile(
           leading: Icon(Icons.exit_to_app, color: theme.primaryColor),
           title: Text("Logout", style: theme.textTheme.titleSmall),
-          onTap: () => _handleLogout(context),
+          onTap: () => _handleLogout(context, loc),
         ),
       ],
     );
@@ -137,6 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: Scaffold(
@@ -159,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    _buildMenuItems(theme),
+                    _buildMenuItems(theme, loc),
                   ],
                 ),
               ),

@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+﻿import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../bottom_navbar.dart';
+import '../../l10n/app_localizations.dart';
 import "../../structures/structs.dart" as structs;
 import "../../controllers/user_controller.dart";
 
@@ -160,8 +161,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> _login() async {
-    if (!_validateAuthData()) return;
+  Future<void> _login(AppLocalizations loc) async {
+    if (!_validateAuthData(loc)) return;
 
     setState(() {
       _isLoading = true;
@@ -194,22 +195,22 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     } on FirebaseAuthException catch (e) {
-      String message = "Login failed";
+      String message = loc.loginFailed;
       switch (e.code) {
         case 'user-not-found':
-          message = "No account found with this email";
+          message = loc.noAccountFoundWithThisEmail;
           break;
         case 'wrong-password':
-          message = "Incorrect password";
+          message = loc.incorrectPassword;
           break;
         case 'invalid-email':
-          message = "Invalid email address";
+          message = loc.invalidEmailAddress;
           break;
         case 'user-disabled':
-          message = "This account has been disabled";
+          message = loc.thisAccountHasBeenDisabled;
           break;
         case 'too-many-requests':
-          message = "Too many failed attempts. Please try again later";
+          message = loc.tooManyFailedAttempts;
           break;
         default:
           message = "Login failed: ${e.message}";
@@ -224,11 +225,11 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       setState(() {
-        errorMessage = "An unexpected error occurred";
+        errorMessage = loc.anUnexpectedErrorOccurred;
       });
 
       if (mounted) {
-        showSnackBar(context, "An unexpected error occurred");
+        showSnackBar(context, loc.anUnexpectedErrorOccurred);
       }
     } finally {
       setState(() {
@@ -237,18 +238,18 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  bool _validateAuthData() {
+  bool _validateAuthData(AppLocalizations loc) {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      showSnackBar(context, "Please fill in all fields");
+      showSnackBar(context, loc.pleaseFillInAllFields);
       return false;
     }
 
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(email)) {
-      showSnackBar(context, "Please enter a valid email address");
+      showSnackBar(context, loc.pleaseEnterAValidEmailAddress);
       return false;
     }
 
@@ -256,7 +257,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!passwordRegex.hasMatch(password)) {
       showSnackBar(
         context,
-        "Password must be at least 8 characters long and contain a number",
+        loc.passwordRequirements,
       );
       return false;
     }
@@ -274,6 +275,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -311,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Welcome Back!',
+                      loc.welcomeBack,
                       style: theme.textTheme.headlineMedium?.copyWith(
                         color: theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,
@@ -321,7 +323,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Sign in to continue your journey',
+                      loc.signInToContinueYourJourney,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 180),
                       ),
@@ -340,11 +342,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   style: theme.textTheme.bodyLarge,
                   decoration: InputDecoration(
-                    labelText: 'Email Address',
+                    labelText: loc.emailAddress,
                     labelStyle: TextStyle(
                       color: theme.colorScheme.primary.withValues(alpha: 205),
                     ),
-                    hintText: 'Enter your email',
+                    hintText: loc.enterYourEmail,
                     hintStyle: TextStyle(
                       color: theme.textTheme.bodyLarge?.color?.withValues(alpha: 128),
                     ),
@@ -394,7 +396,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelStyle: TextStyle(
                       color: theme.colorScheme.primary.withValues(alpha: 205),
                     ),
-                    hintText: 'Enter your password',
+                    hintText: loc.enterYourPassword,
                     hintStyle: TextStyle(
                       color: theme.textTheme.bodyLarge?.color?.withValues(alpha: 128),
                     ),
@@ -458,7 +460,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   ),
                   child: Text(
-                    "Don't have an account? Sign up",
+                    loc.dontHaveAnAccountSignUp,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.primary,
                       fontWeight: FontWeight.w600,
@@ -472,7 +474,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.only(bottom: 20),
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: (_isLoading || _isGoogleSignInLoading) ? null : _login,
+                  onPressed: (_isLoading || _isGoogleSignInLoading) ? null : () => _login(loc),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,
                     foregroundColor: Colors.white,
@@ -495,7 +497,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   )
                       : Text(
-                    'Sign In',
+                    loc.signIn,
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -519,7 +521,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        'Or continue with',
+                        loc.orContinueWith,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.textTheme.bodySmall?.color?.withValues(alpha: 144),
                         ),
@@ -536,7 +538,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               // Google Sign In Button
-              Container(
+              SizedBox(
                 height: 56,
                 child: ElevatedButton.icon(
                   onPressed: (_isLoading || _isGoogleSignInLoading) ? null : _signInWithGoogle,
@@ -571,7 +573,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 24,
                   ),
                   label: Text(
-                    _isGoogleSignInLoading ? 'Signing in...' : 'Continue with Google',
+                    _isGoogleSignInLoading ? loc.signingIn : 'Continue with Google',
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.2,

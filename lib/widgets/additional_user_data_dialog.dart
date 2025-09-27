@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+﻿part of 'widgets.dart';
 
 class AdditionalUserDetailsDialog extends StatefulWidget {
   final String uid;
@@ -51,7 +51,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
     super.dispose();
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, AppLocalizations loc) async {
     final theme = Theme.of(context);
     final DateTime now = DateTime.now();
     final DateTime eighteenYearsAgo = DateTime(now.year - 18, now.month, now.day);
@@ -62,7 +62,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
       initialDate: eighteenYearsAgo,
       firstDate: hundredYearsAgo,
       lastDate: eighteenYearsAgo,
-      helpText: 'Select Your Birthdate',
+      helpText: loc.selectYourBirthdate,
       cancelText: 'Cancel',
       confirmText: 'Select',
       builder: (context, child) {
@@ -85,7 +85,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
     }
   }
 
-  Future<void> _submitForm() async {
+  Future<void> _submitForm(AppLocalizations loc) async {
     if (_isSubmitting) return;
 
     if (!_formKey.currentState!.validate()) {
@@ -96,7 +96,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Please select your birthdate',
+            loc.pleaseSelectYourBirthdate,
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Theme.of(context).colorScheme.error,
@@ -110,7 +110,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Please select your gender',
+            loc.pleaseSelectYourGender,
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Theme.of(context).colorScheme.error,
@@ -173,6 +173,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Dialog(
@@ -218,7 +219,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Complete Your Profile',
+                          loc.completeYourProfile,
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.primary,
@@ -226,7 +227,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'We need a few more details to get you started',
+                          loc.weNeedAFewMoreDetails,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.textTheme.bodySmall?.color?.withAlpha(180),
                           ),
@@ -253,7 +254,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         enabled: !_isSubmitting,
                         style: theme.textTheme.bodyLarge,
                         decoration: InputDecoration(
-                          labelText: 'First Name',
+                          labelText: loc.firstName,
                           labelStyle: TextStyle(
                             color: theme.colorScheme.primary.withAlpha(200),
                           ),
@@ -285,7 +286,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         ),
                         validator: (value) {
                           if (value?.trim().isEmpty ?? true) {
-                            return 'First name is required';
+                            return loc.firstNameIsRequired;
                           }
                           return null;
                         },
@@ -299,7 +300,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         enabled: !_isSubmitting,
                         style: theme.textTheme.bodyLarge,
                         decoration: InputDecoration(
-                          labelText: 'Last Name',
+                          labelText: loc.lastName,
                           labelStyle: TextStyle(
                             color: theme.colorScheme.primary.withAlpha(200),
                           ),
@@ -331,7 +332,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         ),
                         validator: (value) {
                           if (value?.trim().isEmpty ?? true) {
-                            return 'Last name is required';
+                            return loc.lastNameIsRequired;
                           }
                           return null;
                         },
@@ -346,7 +347,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         keyboardType: TextInputType.phone,
                         style: theme.textTheme.bodyLarge,
                         decoration: InputDecoration(
-                          labelText: 'Phone Number',
+                          labelText: loc.phoneNumber,
                           labelStyle: TextStyle(
                             color: theme.colorScheme.primary.withAlpha(200),
                           ),
@@ -378,12 +379,12 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         ),
                         validator: (value) {
                           if (value?.trim().isEmpty ?? true) {
-                            return 'Phone number is required';
+                            return loc.phoneNumberIsRequired;
                           }
                           // Basic phone validation
                           final phoneRegex = RegExp(r'^\+?[\d\s\-\(\)]{8,}$');
                           if (!phoneRegex.hasMatch(value!.trim())) {
-                            return 'Please enter a valid phone number';
+                            return loc.pleaseEnterAValidPhoneNumber;
                           }
                           return null;
                         },
@@ -393,7 +394,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
 
                       // Birthdate Selector
                       InkWell(
-                        onTap: _isSubmitting ? null : () => _selectDate(context),
+                        onTap: _isSubmitting ? null : () => _selectDate(context, loc),
                         borderRadius: BorderRadius.circular(12),
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -426,7 +427,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                                     const SizedBox(height: 2),
                                     Text(
                                       _selectedDate == null
-                                          ? 'Select your birthdate'
+                                          ? loc.selectYourBirthdate
                                           : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
                                       style: theme.textTheme.bodyLarge?.copyWith(
                                         color: _selectedDate == null
@@ -496,7 +497,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         }).toList(),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Gender is required';
+                            return loc.genderIsRequired;
                           }
                           return null;
                         },
@@ -551,7 +552,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                   Expanded(
                     flex: 2,
                     child: ElevatedButton(
-                      onPressed: _isSubmitting ? null : _submitForm,
+                      onPressed: _isSubmitting ? null : () => _submitForm(loc),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: theme.colorScheme.primary,
                         foregroundColor: Colors.white,
@@ -573,7 +574,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         ),
                       )
                           : Text(
-                        'Complete Profile',
+                        loc.completeProfile,
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,

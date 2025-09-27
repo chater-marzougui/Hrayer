@@ -95,5 +95,7 @@
     "writeAComment": "Écrire un commentaire...",
     "wrongPassword": "Mauvais mot de passe",
     "youCanInteractWithMeInMultipleWays": "Vous pouvez interagir avec moi de plusieurs manières :",
-    "hiThereImBBot": "👋 Salut ! Je suis B-BOT"
+    "hiThereImBBot": "👋 Salut ! Je suis B-BOT",
+    "camera": "Caméra",
+    "gallery": "Galerie"
 }

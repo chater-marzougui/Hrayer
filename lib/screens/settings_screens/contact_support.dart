@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../Widgets/widgets.dart';
 import '../../controllers/user_controller.dart';
+import '../../l10n/app_localizations.dart';
 import '../../structures/structs.dart';
 
 class ContactSupportScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
 
   bool _isLoading = false;
 
-  Future<void> _submitSupportRequest() async {
+  Future<void> _submitSupportRequest(AppLocalizations loc) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -49,14 +50,14 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
       }, SetOptions(merge: true));
 
       if (mounted) {
-        showSnackBar(context, "Support request submitted successfully");
+        showSnackBar(context, loc.supportRequestSubmittedSuccessfully);
       }
 
       _subjectController.clear();
       _messageController.clear();
     } catch (e) {
       if (mounted) {
-        showSnackBar(context, "Error submitting support request");
+        showSnackBar(context, loc.errorSubmittingSupportRequest);
       }
     } finally {
       setState(() {
@@ -84,8 +85,9 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text("Contact Support")),
+      appBar: AppBar(title: Text(loc.contactSupport)),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -96,22 +98,25 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    buildTextField(_nameController, "Name", "Enter your name"),
+                    buildTextField(loc, _nameController, "Name", loc.enterYourName),
                     buildTextField(
+                      loc,
                       _emailController,
                       "Email",
-                      "Enter your email",
+                      loc.enterYourEmail,
                       email: true,
                     ),
                     buildTextField(
+                      loc,
                       _subjectController,
                       "Subject",
-                      "Enter the subject of your message",
+                      loc.enterTheSubjectOfYourMessage,
                     ),
                     buildTextField(
+                      loc,
                       _messageController,
                       "Message",
-                      "Enter your message",
+                      loc.enterYourMessage,
                       maxLines: 4,
                     ),
                     const SizedBox(height: 20),
@@ -119,8 +124,8 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                         ? const Center(child: CircularProgressIndicator())
                         : ElevatedButton(
                           style: theme.elevatedButtonTheme.style,
-                          onPressed: _submitSupportRequest,
-                          child: const Text("Submit Request"),
+                          onPressed: () => _submitSupportRequest(loc),
+                          child: Text(loc.submitRequest),
                         ),
                   ],
                 ),
@@ -130,7 +135,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
               buildInfoCard(
                 context,
                 Icons.support_agent_sharp,
-                "Contact Information",
+                loc.contactInformation,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -165,6 +170,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
   }
 
   Widget buildTextField(
+    AppLocalizations loc,
     TextEditingController controller,
     String label,
     String hint, {
@@ -187,7 +193,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
             return "Please enter $label";
           }
           if (email && !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-            return "Please enter a valid email address";
+            return loc.pleaseEnterAValidEmailAddress;
           }
           return null;
         },

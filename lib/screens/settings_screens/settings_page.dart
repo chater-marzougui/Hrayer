@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../controllers/app_preferences.dart';
+import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -74,6 +75,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
@@ -103,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               ListTile(
-                title: const Text('Theme Mode'),
+                title: Text(loc.themeMode),
                 subtitle: Text('Current: $_selectedThemeMode'), // Localized 'Current:'
                 trailing: DropdownButton<String>(
                   value: _selectedThemeMode,
@@ -121,7 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               SwitchListTile(
-                title: const Text('Enable Notifications'),
+                title: Text(loc.enableNotifications),
                 value: _notificationsEnabled,
                 onChanged: (bool newValue) {
                   _toggleNotifications(newValue);

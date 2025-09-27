@@ -317,4 +317,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hiThereImBBot => '👋 Hi there! I\'m B-BOT';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get gallery => 'Gallery';
 }

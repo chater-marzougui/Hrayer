@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+﻿import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'l10n/app_localizations.dart';
 import 'screens/profile_screen.dart';
 import 'screens/place_holder.dart';
 
@@ -64,6 +65,7 @@ class _HomePageState extends State<BottomNavbar> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return PopScope(
       canPop: false,
@@ -72,7 +74,7 @@ class _HomePageState extends State<BottomNavbar> {
         if (lastPressed == null ||
             now.difference(lastPressed!) > const Duration(seconds: 2)) {
           lastPressed = now;
-          Fluttertoast.showToast(msg: 'Tap again to exit');
+          Fluttertoast.showToast(msg: loc.tapAgainToExit);
         } else {
           SystemNavigator.pop();
         }
@@ -99,14 +101,9 @@ class _HomePageState extends State<BottomNavbar> {
                 showUnselectedLabels: true,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.chat, color: theme.colorScheme.tertiary),
-                    activeIcon: Icon(Icons.chat, color: theme.primaryColor),
-                    label: "ControlChat",
-                  ),
-                  BottomNavigationBarItem(
                     icon: Icon(Icons.request_page, color: theme.colorScheme.tertiary),
                     activeIcon: Icon(Icons.request_page, color: theme.primaryColor),
-                    label: "Requests",
+                    label: "Place Holder",
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.person, color: theme.colorScheme.tertiary),

@@ -1,9 +1,10 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../controllers/user_controller.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/widgets.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -44,10 +45,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  Future<void> _updateProfile() async {
+  Future<void> _updateProfile(AppLocalizations loc) async {
     bool reauthenticated = await _reauthenticateUser();
     if (!reauthenticated) {
-      if (mounted) showSnackBar(context, "Wrong password");
+      if (mounted) showSnackBar(context, loc.wrongPassword);
       return;
     }
 
@@ -74,23 +75,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         user = _auth.currentUser;
       });
 
-      if (mounted) showSnackBar(context, "Profile updated successfully");
+      if (mounted) showSnackBar(context, loc.profileUpdatedSuccessfully);
     } catch (e) {
       if (mounted) showSnackBar(context, "Error updating profile: $e");
     }
   }
 
-  Future<void> _updatePassword() async {
+  Future<void> _updatePassword(AppLocalizations loc) async {
     bool reauthenticated = await _reauthenticateUser();
 
     if (!reauthenticated) {
-      if (mounted) showSnackBar(context, "Wrong password");
+      if (mounted) showSnackBar(context, loc.wrongPassword);
       return;
     }
 
     try {
       await user!.updatePassword(_newPasswordController.text);
-      if (mounted) showSnackBar(context, "Password updated successfully");
+      if (mounted) showSnackBar(context, loc.passwordUpdatedSuccessfully);
     } catch (e) {
       if (mounted) showSnackBar(context, "Error updating password: $e");
     }
@@ -99,13 +100,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     if (goraUser == null) {
       return const Scaffold(
         body: Center(child: CustomLoadingScreen(message: "Loading")),
       );
     } else {
       return Scaffold(
-        appBar: AppBar(title: const Text("Edit Profile")),
+        appBar: AppBar(title: Text(loc.editProfile)),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -114,7 +116,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: _pickImage,
+                    onTap: () => _pickImage(loc),
                     child: CircleAvatar(
                       radius: 90,
                       backgroundColor: const Color(0x00087a22),
@@ -122,19 +124,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  buildTextField(context, _nameController, "First Name"),
+                  buildTextField(context, _nameController, loc.firstName),
                   const SizedBox(height: 16),
                   buildTextField(
                     context,
                     _lastNameController,
-                    "Last Name",
+                    loc.lastName,
                     validator: (value) => null,
                   ),
                   const SizedBox(height: 16),
                   buildTextField(
                     context,
                     _phoneNumberController,
-                    "Phone Number",
+                    loc.phoneNumber,
                     validator: (value) => null,
                   ),
                   const SizedBox(height: 16),
@@ -149,9 +151,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: _showUpdatePasswordDialog,
+                          onPressed: () => _showUpdatePasswordDialog(loc),
                           child: Text(
-                            "Change Password",
+                            loc.changePassword,
                             style: theme.textTheme.labelMedium,
                           ),
                         ),
@@ -163,11 +165,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             if (!_formKey.currentState!.validate()) {
                               return;
                             } else {
-                              _showUpdateProfileDialog();
+                              _showUpdateProfileDialog(loc);
                             }
                           },
                           child: Text(
-                            "Apply Changes",
+                            loc.applyChanges,
                             style: theme.textTheme.labelMedium,
                           ),
                         ),
@@ -184,7 +186,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  void _showUpdateProfileDialog() => showDialog(
+  void _showUpdateProfileDialog(AppLocalizations loc) => showDialog(
     context: context,
     builder:
         (context) => Theme(
@@ -196,7 +198,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 16),
-                  const Text("Type your password to apply changes"),
+                  Text(loc.typeYourPasswordToApplyChanges),
                   const SizedBox(height: 16),
                   buildTextField(
                     context,
@@ -207,10 +209,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      _updateProfile();
+                      _updateProfile(loc);
                       Navigator.of(context).pop();
                     },
-                    child: const Text("Apply Changes"),
+                    child: Text(loc.applyChanges),
                   ),
                 ],
               ),
@@ -219,8 +221,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
   );
 
-  Future<void> _pickImage() async {
-    final source = await _showImageSourceDialog();
+  Future<void> _pickImage(AppLocalizations loc) async {
+    final source = await _showImageSourceDialog(loc);
     if (source != null) {
       final pickedFile = await ImagePicker().pickImage(source: source);
       if (pickedFile != null) {
@@ -231,24 +233,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  Future<ImageSource?> _showImageSourceDialog() async {
+  Future<ImageSource?> _showImageSourceDialog(AppLocalizations loc) async {
     return await showDialog(
       context: context,
       builder:
           (context) => AlertDialog(
-            title: const Text("Choose an image source"),
-            content: const Text(
-              "Would you like to take a picture or choose from gallery?",
+            title: Text(loc.chooseAnImageSource),
+            content: Text(
+              loc.wouldYouLikeToTakeAPictureOrChooseFromGallery,
             ),
             actions: [
               TextButton(
-                child: const Text("Camera"),
+                child: Text(loc.camera),
                 onPressed: () {
                   Navigator.of(context).pop(ImageSource.camera);
                 },
               ),
               TextButton(
-                child: const Text("Gallery"),
+                child: Text(loc.gallery),
                 onPressed: () {
                   Navigator.of(context).pop(ImageSource.gallery);
                 },
@@ -274,7 +276,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  void _showUpdatePasswordDialog() => showDialog(
+  void _showUpdatePasswordDialog(AppLocalizations loc) => showDialog(
     context: context,
     builder:
         (context) => Theme(
@@ -286,28 +288,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 16),
-                  const Text(
-                    "Type your old password and the new one to apply changes",
+                  Text(
+                    loc.typeYourOldPasswordAndTheNewOneToApplyChanges,
                   ),
                   const SizedBox(height: 16),
                   buildTextField(
                     context,
                     _passwordController,
-                    "Old Password",
+                    loc.oldPassword,
                     obscureText: true,
                   ),
                   const SizedBox(height: 16),
                   buildTextField(
                     context,
                     _newPasswordController,
-                    "New Password",
+                    loc.newPassword,
                     obscureText: true,
                   ),
                   const SizedBox(height: 16),
                   buildTextField(
                     context,
                     _confirmPasswordController,
-                    "Confirm Password",
+                    loc.confirmPassword,
                     obscureText: true,
                   ),
                   const SizedBox(height: 16),
@@ -316,25 +318,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       // Validate the passwords
                       if (_newPasswordController.text !=
                           _confirmPasswordController.text) {
-                        showSnackBar(context, "Passwords do not match");
+                        showSnackBar(context, loc.passwordsDoNotMatch);
                         return;
                       }
                       try {
-                        _updatePassword();
+                        _updatePassword(loc);
                         Navigator.of(context).pop();
-                        showSnackBar(context, "Password updated successfully");
+                        showSnackBar(context, loc.passwordUpdatedSuccessfully);
                       } catch (e) {
                         showSnackBar(context, "Error updating password: $e");
                       }
                     },
-                    child: const Text("Apply Changes"),
+                    child: Text(loc.applyChanges),
                   ),
                   TextButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      _showRecoverPasswordDialog();
+                      _showRecoverPasswordDialog(loc);
                     },
-                    child: const Text("Forgot Password?"),
+                    child: Text(loc.forgotPassword),
                   ),
                 ],
               ),
@@ -343,7 +345,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
   );
 
-  void _showRecoverPasswordDialog() => showDialog(
+  void _showRecoverPasswordDialog(AppLocalizations loc) => showDialog(
     context: context,
     builder:
         (dialogContext) => Theme(
@@ -355,7 +357,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 16),
-                  const Text("Enter your email to recover your password"),
+                  Text(loc.enterYourEmailToRecoverYourPassword),
                   const SizedBox(height: 16),
                   buildTextField(
                     dialogContext,
@@ -387,7 +389,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         }
                       }
                     },
-                    child: const Text("Recover Password"),
+                    child: Text(loc.recoverPassword),
                   ),
                 ],
               ),

@@ -1,4 +1,4 @@
-part of '../widgets.dart';
+﻿part of '../widgets.dart';
 
 
 class RequestOwnerInfo extends StatelessWidget {
@@ -8,6 +8,7 @@ class RequestOwnerInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final user = UserController().currentUser;
+    final loc = AppLocalizations.of(context)!;
 
     return Row(
       children: [
@@ -21,11 +22,11 @@ class RequestOwnerInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              user?.displayName ?? 'Unknown User',
+              user?.displayName ?? loc.unknownUser,
               style: theme.textTheme.titleMedium,
             ),
             Text(
-              'Posted by',
+              loc.postedBy,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -50,7 +51,7 @@ class CommentCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+        color: theme.colorScheme.surfaceContainerHighest.withAlpha(80),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -110,6 +111,8 @@ class CommentInputState extends State<CommentInput> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
+
 
     return Container(
       padding: EdgeInsets.only(
@@ -122,7 +125,7 @@ class CommentInputState extends State<CommentInput> {
         color: theme.colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withAlpha(25),
             blurRadius: 4,
             offset: const Offset(0, -2),
           ),
@@ -134,7 +137,7 @@ class CommentInputState extends State<CommentInput> {
             child: TextField(
               controller: _commentController,
               decoration: InputDecoration(
-                hintText: 'Write a comment...',
+                hintText: loc.writeAComment,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
@@ -148,7 +151,7 @@ class CommentInputState extends State<CommentInput> {
           ),
           const SizedBox(width: 8),
           IconButton(
-            onPressed: _isSubmitting ? null : _submitComment,
+            onPressed: _isSubmitting ? null : () => _submitComment(loc),
             icon: _isSubmitting
                 ? const SizedBox(
               width: 24,
@@ -165,7 +168,7 @@ class CommentInputState extends State<CommentInput> {
     );
   }
 
-  Future<void> _submitComment() async {
+  Future<void> _submitComment(AppLocalizations loc) async {
     final text = _commentController.text.trim();
     if (text.isEmpty) return;
 
@@ -173,7 +176,7 @@ class CommentInputState extends State<CommentInput> {
 
     try {
       final user = FirebaseAuth.instance.currentUser;
-      if (user == null) throw Exception('User not logged in');
+      if (user == null) throw Exception(loc.userNotLoggedIn);
 
       final userDoc = await FirebaseFirestore.instance
           .collection('users')
@@ -224,6 +227,8 @@ class CommentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('requests')
@@ -245,7 +250,7 @@ class CommentsList extends StatelessWidget {
         if (comments.isEmpty) {
           return Center(
             child: Text(
-              'No comments yet',
+              loc.noCommentsYet,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),

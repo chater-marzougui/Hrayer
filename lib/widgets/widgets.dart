@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../controllers/user_controller.dart';
+import '../l10n/app_localizations.dart';
 import '../structures/structs.dart' as structs;
 
 import '../structures/structs.dart';

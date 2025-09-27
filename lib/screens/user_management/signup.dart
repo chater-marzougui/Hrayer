@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
+import '../../l10n/app_localizations.dart';
 import '../../structures/structs.dart' as structs;
 
 import '../../bottom_navbar.dart';
@@ -52,7 +53,7 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-  Future<String?> _uploadImage() async {
+  Future<String?> _uploadImage(AppLocalizations loc) async {
     await _checkPermission();
     if (_selectedImage != null) {
       try {
@@ -72,7 +73,7 @@ class _SignupScreenState extends State<SignupScreen> {
         );
 
         if (imageUploadResponse.statusCode != 200) {
-          throw Exception('Failed to upload image');
+          throw Exception(loc.failedToUploadImage);
         }
 
         final imageUploadJson = jsonDecode(imageUploadResponse.body);
@@ -86,12 +87,12 @@ class _SignupScreenState extends State<SignupScreen> {
     return null;
   }
 
-  Future<void> _signup() async {
+  Future<void> _signup(AppLocalizations loc) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
     if (_passwordController.text != _confirmPasswordController.text) {
-      showSnackBar(context, "Passwords do not match!");
+      showSnackBar(context, loc.passwordsDoNotMatchExclamation);
       return;
     }
     setState(() {
@@ -105,7 +106,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
       User? user = userCredential.user;
       if (user != null) {
-        String? profileImageUrl = await _uploadImage();
+        String? profileImageUrl = await _uploadImage(loc);
 
         structs.User newUser = structs.User(
           uid: user.uid,
@@ -128,7 +129,7 @@ class _SignupScreenState extends State<SignupScreen> {
         );
       }
     } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message ?? "Error occurred during signup.");
+      showSnackBar(context, e.message ?? loc.errorOccurredDuringSignup);
     }
   }
 
@@ -149,10 +150,11 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Sign Up", style: theme.textTheme.titleMedium),
+          title: Text(loc.signUp, style: theme.textTheme.titleMedium),
           foregroundColor: theme.textTheme.titleMedium?.color,
           backgroundColor: const Color.fromARGB(49, 68, 138, 255),
         ),
@@ -163,7 +165,7 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               children: [
                 Text(
-                  'Create an Account',
+                  loc.createAnAccount,
                   style: theme.textTheme.headlineMedium?.copyWith(
                     color: theme.primaryColor,
                     fontWeight: FontWeight.bold,
@@ -185,21 +187,21 @@ class _SignupScreenState extends State<SignupScreen> {
                 TextFormField(
                   controller: _firstNameController,
                   decoration: InputDecoration(
-                    labelText: 'First Name',
+                    labelText: loc.firstName,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
                     prefixIcon: const Icon(Icons.person),
                   ),
-                  validator: (value) => value!.isEmpty ? 'Please enter your first name' : null,
+                  validator: (value) => value!.isEmpty ? loc.pleaseEnterYourFirstName : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _lastNameController,
                   decoration: InputDecoration(
-                    labelText: 'Last Name',
+                    labelText: loc.lastName,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
                     prefixIcon: const Icon(Icons.person),
                   ),
-                  validator: (value) => value!.isEmpty ? 'Please enter your last name' : null,
+                  validator: (value) => value!.isEmpty ? loc.pleaseEnterYourLastName : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -210,7 +212,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     prefixIcon: const Icon(Icons.email),
                   ),
                   keyboardType: TextInputType.emailAddress,
-                  validator: (value) => value!.isEmpty ? 'Please enter your email' : null,
+                  validator: (value) => value!.isEmpty ? loc.pleaseEnterYourEmail : null,
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
@@ -222,7 +224,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     child: Text(
                       _selectedDate == null
-                          ? 'Select your birthdate'
+                          ? loc.selectYourBirthdate
                           : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
                     ),
                   ),
@@ -245,7 +247,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       _selectedGender = newValue;
                     });
                   },
-                  validator: (value) => value == null ? 'Please select your gender' : null,
+                  validator: (value) => value == null ? loc.pleaseSelectYourGender : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -256,22 +258,22 @@ class _SignupScreenState extends State<SignupScreen> {
                     prefixIcon: const Icon(Icons.lock),
                   ),
                   obscureText: true,
-                  validator: (value) => value!.isEmpty ? 'Please enter a password' : null,
+                  validator: (value) => value!.isEmpty ? loc.pleaseEnterAPassword : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _confirmPasswordController,
                   decoration: InputDecoration(
-                    labelText: 'Confirm Password',
+                    labelText: loc.confirmPassword,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
                     prefixIcon: const Icon(Icons.lock),
                   ),
                   obscureText: true,
-                  validator: (value) => value!.isEmpty ? 'Please confirm your password' : null,
+                  validator: (value) => value!.isEmpty ? loc.pleaseConfirmYourPassword : null,
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: _isLoading ? null : _signup, // disable when loading
+                  onPressed: _isLoading ? null : () => _signup(loc), // disable when loading
                   style: theme.elevatedButtonTheme.style?.copyWith(
                     padding: WidgetStateProperty.all(
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
@@ -292,7 +294,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   )
                       : Text(
-                    'Sign Up',
+                    loc.signUp,
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: Colors.white,
                     ),
