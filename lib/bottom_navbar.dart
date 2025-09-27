@@ -19,7 +19,7 @@ import 'screens/sponsor/dashboard.dart' as sponsor;
 import 'screens/sponsor/land_list.dart';
 import 'screens/sponsor/land_details.dart';
 import 'screens/sponsor/chat_farmers.dart';
-import 'screens/sponsor/conversation_selection.dart';
+import 'screens/sponsor/conversation_selection.dart' as sponsor_conv;
 
 // Shared pages
 import 'screens/profile_screen.dart';
@@ -96,7 +96,7 @@ class _HomePageState extends State<BottomNavbar> {
       _pages = [
         const sponsor.SponsorDashboard(),
         const LandListScreen(),
-        const SponsorConversationSelectionScreen(),
+        const sponsor_conv.SponsorConversationSelectionScreen(),
         const ProfileScreen(),
       ];
 
