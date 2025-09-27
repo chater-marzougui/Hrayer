@@ -34,6 +34,7 @@ class _SignupScreenState extends State<SignupScreen> {
   DateTime? _selectedDate;
   File? _selectedImage;
   String? _selectedGender;
+  String? _selectedRole;
 
   Future<void> _pickImage() async {
     await _checkPermission();
@@ -119,6 +120,7 @@ class _SignupScreenState extends State<SignupScreen> {
           gender: _selectedGender ?? 'Other',
           createdAt: DateTime.now(),
           profileImage: profileImageUrl ?? "",
+          role: _selectedRole == 'Farmer' ? 'farmer' : 'sponsor',
         );
 
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set(newUser.toFirestore());
@@ -245,6 +247,26 @@ class _SignupScreenState extends State<SignupScreen> {
                   onChanged: (String? newValue) {
                     setState(() {
                       _selectedGender = newValue;
+                    });
+                  },
+                  validator: (value) => value == null ? loc.pleaseSelectYourGender : null,
+                ),
+                const SizedBox(height: 20),
+                DropdownButtonFormField<String>(
+                  initialValue: _selectedRole,
+                  decoration: const InputDecoration(
+                    labelText: 'Role',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: ['Farmer', 'Sponsor'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedRole = newValue;
                     });
                   },
                   validator: (value) => value == null ? loc.pleaseSelectYourGender : null,

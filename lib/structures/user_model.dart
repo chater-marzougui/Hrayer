@@ -11,6 +11,7 @@ class User {
   final String gender;
   final DateTime createdAt;
   final String profileImage;
+  final String role;
 
   User({
     required this.uid,
@@ -23,6 +24,8 @@ class User {
     required this.gender,
     required this.createdAt,
     required this.profileImage,
+
+    required this.role,
   });
 
   // Factory method to create a User from Firestore document
@@ -38,7 +41,11 @@ class User {
       birthdate: (data['birthdate'] ?? DateTime.now() as Timestamp).toDate(),
       gender: data['gender'] ?? '',
       createdAt: (data['createdAt'] ?? DateTime.now() as Timestamp).toDate(),
-      profileImage: data['profileImage'] ?? ''
+      profileImage: data['profileImage'] ?? '',
+
+      // get role from data if exists, else default to 'sponsor'
+      role: data['role'] ?? 'sponsor'
+
     );
   }
 
@@ -54,7 +61,8 @@ class User {
       'birthdate': Timestamp.fromDate(birthdate),
       'gender': gender,
       'createdAt': FieldValue.serverTimestamp(),
-      'profileImage': profileImage
+      'profileImage': profileImage,
+      'role': role,
     };
   }
 }

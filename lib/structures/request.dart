@@ -8,7 +8,7 @@ class Request {
   final String category;
   final List<String> images;
   final DateTime createdAt;
-  final String status; // 'open', 'closed', 'in_progress'
+  final String status;
   final int commentCount;
   final String location;
 

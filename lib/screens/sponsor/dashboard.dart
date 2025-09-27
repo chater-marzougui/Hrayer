@@ -1,0 +1,560 @@
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../structures/land_models.dart';
+import 'land_list.dart';
+import 'land_details.dart';
+import 'chat_farmers.dart';
+
+class SponsorDashboard extends StatefulWidget {
+  const SponsorDashboard({super.key});
+
+  @override
+  State<SponsorDashboard> createState() => _SponsorDashboardState();
+}
+
+class _SponsorDashboardState extends State<SponsorDashboard> {
+  final currentUser = FirebaseAuth.instance.currentUser;
+  List<LandModel> sponsoredLands = [];
+  bool isLoading = true;
+  double totalSponsored = 0.0;
+  int activeSponsorships = 0;
+  int farmersBenefited = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSponsoredLands();
+  }
+
+  Future<void> _loadSponsoredLands() async {
+    if (currentUser == null) return;
+
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('lands')
+          .where('sponsors', arrayContains: currentUser!.uid)
+          .orderBy('createdAt', descending: true)
+          .get();
+
+      sponsoredLands = querySnapshot.docs
+          .map((doc) => LandModel.fromFirestore(doc))
+          .toList();
+
+      // Calculate stats
+      totalSponsored = 0;
+      Set<String> uniqueFarmers = {};
+
+      for (var land in sponsoredLands) {
+        // For demo, assume user contributed proportionally
+        double userContribution = land.totalFulfilled * (1.0 / land.sponsors.length);
+        totalSponsored += userContribution;
+        uniqueFarmers.add(land.ownerId);
+      }
+
+      activeSponsorships = sponsoredLands.where((land) => land.isActive).length;
+      farmersBenefited = uniqueFarmers.length;
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading sponsorships: $e')),
+        );
+      }
+    }
+  }
+
+  Widget _buildStatsCard(String title, String value, IconData icon, Color color) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withAlpha(51),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: color, size: 30),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+          Text(
+            title,
+            style: theme.textTheme.bodySmall,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuickActionButton(String title, IconData icon, Color color, VoidCallback onTap) {
+    final theme = Theme.of(context);
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: color.withAlpha(76),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Icon(icon, color: Colors.white, size: 24),
+              const SizedBox(height: 8),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSponsoredLandCard(LandModel land) {
+    final theme = Theme.of(context);
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        land.title,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${land.size} hectares • ${land.intendedCrop}',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      Text(
+                        land.location,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: land.isFullyFunded
+                        ? Colors.green.withAlpha(51)
+                        : theme.primaryColor.withAlpha(51),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    land.isFullyFunded ? 'Completed' : 'Active',
+                    style: TextStyle(
+                      color: land.isFullyFunded ? Colors.green : theme.primaryColor,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Progress bar
+            LinearProgressIndicator(
+              value: land.progressPercentage / 100,
+              backgroundColor: Colors.grey[300],
+              valueColor: AlwaysStoppedAnimation<Color>(
+                land.isFullyFunded ? Colors.green : theme.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '\$${land.totalFulfilled.toStringAsFixed(0)} of \$${land.totalNeeded.toStringAsFixed(0)} raised',
+                    style: theme.textTheme.bodySmall,
+                  ),
+                ),
+                Text(
+                  '${land.sponsors.length} sponsor${land.sponsors.length != 1 ? 's' : ''}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Action buttons
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LandDetailsScreen(land: land),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.visibility, size: 16),
+                    label: const Text('View Details'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatFarmersScreen(land: land),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.chat, size: 16),
+                    label: const Text('Chat'),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImpactSection() {
+    final theme = Theme.of(context);
+
+    if (sponsoredLands.isEmpty) return const SizedBox.shrink();
+
+    final completedProjects = sponsoredLands.where((land) => land.isFullyFunded).length;
+    final totalHectares = sponsoredLands.fold(0.0, (sum, land) => sum + land.size);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            theme.primaryColor.withAlpha(25),
+            theme.primaryColor.withAlpha(12),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: theme.primaryColor.withAlpha(76)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.eco,
+                color: theme.primaryColor,
+                size: 24,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Your Impact',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.primaryColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: _buildImpactItem(
+                  'Projects Completed',
+                  completedProjects.toString(),
+                  Icons.check_circle,
+                ),
+              ),
+              Expanded(
+                child: _buildImpactItem(
+                  'Total Hectares',
+                  totalHectares.toStringAsFixed(1),
+                  Icons.landscape,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Thank you for supporting sustainable agriculture and empowering rural farmers! 🌱',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontStyle: FontStyle.italic,
+              color: theme.primaryColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImpactItem(String label, String value, IconData icon) {
+    final theme = Theme.of(context);
+    return Column(
+      children: [
+        Icon(icon, color: theme.primaryColor, size: 32),
+        const SizedBox(height: 8),
+        Text(
+          value,
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: theme.primaryColor,
+          ),
+        ),
+        Text(
+          label,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: Colors.grey[700],
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: const Text('Sponsor Dashboard'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LandListScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+        onRefresh: _loadSponsoredLands,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Stats Row
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildStatsCard(
+                      'Active Projects',
+                      activeSponsorships.toString(),
+                      Icons.agriculture,
+                      theme.primaryColor,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildStatsCard(
+                      'Total Contributed',
+                      '\$${totalSponsored.toStringAsFixed(0)}',
+                      Icons.monetization_on,
+                      Colors.green,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildStatsCard(
+                      'Farmers Helped',
+                      farmersBenefited.toString(),
+                      Icons.people,
+                      Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 24),
+
+              // Quick Actions
+              Text(
+                'Quick Actions',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  _buildQuickActionButton(
+                    'Browse Projects',
+                    Icons.search,
+                    theme.primaryColor,
+                        () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LandListScreen(),
+                        ),
+                      ).then((_) => _loadSponsoredLands());
+                    },
+                  ),
+                  _buildQuickActionButton(
+                    'Impact Report',
+                    Icons.analytics,
+                    Colors.blue,
+                        () {
+                      // TODO: Implement impact report
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Impact report feature coming soon!')),
+                      );
+                    },
+                  ),
+                  _buildQuickActionButton(
+                    'Community',
+                    Icons.forum,
+                    Colors.purple,
+                        () {
+                      // TODO: Implement community features
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Community features coming soon!')),
+                      );
+                    },
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 24),
+
+              // Impact Section
+              _buildImpactSection(),
+
+              // My Sponsorships Section
+              Text(
+                'My Sponsorships',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              if (sponsoredLands.isEmpty)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: theme.cardColor,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.withAlpha(76)),
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.volunteer_activism,
+                        size: 64,
+                        color: Colors.grey[400],
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'No sponsorships yet',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Browse available projects and start making a difference in rural farming communities',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.grey[500],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LandListScreen(),
+                            ),
+                          ).then((_) => _loadSponsoredLands());
+                        },
+                        icon: const Icon(Icons.search),
+                        label: const Text('Browse Projects'),
+                      ),
+                    ],
+                  ),
+                )
+              else
+                ...sponsoredLands.map((land) => _buildSponsoredLandCard(land)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
