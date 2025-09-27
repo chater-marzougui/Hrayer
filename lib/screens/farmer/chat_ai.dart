@@ -507,8 +507,10 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
                     controller: _messageController,
                     maxLines: null,
                     textCapitalization: TextCapitalization.sentences,
+                    style: const TextStyle(fontSize: 14), // Reduced text size
                     decoration: InputDecoration(
-                      hintText: 'Ask about crops, diseases, fertilizers...',
+                      hintText: 'Ask anything....',
+                      hintStyle: const TextStyle(fontSize: 14), // Smaller hint text
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
@@ -516,8 +518,8 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
                       filled: true,
                       fillColor: theme.scaffoldBackgroundColor,
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 12,
+                        horizontal: 16, // Slightly reduced horizontal padding
+                        vertical: 10,  // Slightly reduced vertical padding
                       ),
                     ),
                     onSubmitted: (_) => _sendMessage(),

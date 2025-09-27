@@ -58,7 +58,7 @@ class _HomePageState extends State<BottomNavbar> {
         await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
 
     setState(() {
-      role = doc.data()?['role'] as String? ?? "farmer"; // Default to "farmer" if role doesn't exist
+      role = doc.data()?['role'] as String? ?? "sponsor"; // Default to "farmer" if role doesn't exist
       _setupPages();
     });
   }

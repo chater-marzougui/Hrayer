@@ -34,7 +34,6 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('lands')
           .where('sponsors', arrayContains: currentUser!.uid)
-          .orderBy('createdAt', descending: true)
           .get();
 
       sponsoredLands = querySnapshot.docs

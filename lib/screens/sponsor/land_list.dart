@@ -45,13 +45,11 @@ class _LandListScreenState extends State<LandListScreen> {
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('lands')
-          .where('isActive', isEqualTo: true)
-          .orderBy('createdAt', descending: true)
           .get();
 
       availableLands = querySnapshot.docs
           .map((doc) => LandModel.fromFirestore(doc))
-          .where((land) => !land.isFullyFunded) // Only show lands that need funding
+          .where((land) => land.isActive == true)
           .toList();
 
       _applyFilters();
@@ -479,7 +477,7 @@ class _LandListScreenState extends State<LandListScreen> {
                                 ),
                               ),
                               Text(
-                                '\${land.totalFulfilled.toStringAsFixed(0)} of \${land.totalNeeded.toStringAsFixed(0)}',
+                                '${land.totalFulfilled.toStringAsFixed(0)} of ${land.totalNeeded.toStringAsFixed(0)}',
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: Colors.grey[600],
                                 ),
