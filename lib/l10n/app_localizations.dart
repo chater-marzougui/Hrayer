@@ -97,6 +97,156 @@ abstract class AppLocalizations {
     Locale('fr')
   ];
 
+  /// No description provided for @dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboard;
+
+  /// No description provided for @lands.
+  ///
+  /// In en, this message translates to:
+  /// **'Lands'**
+  String get lands;
+
+  /// No description provided for @chats.
+  ///
+  /// In en, this message translates to:
+  /// **'Chats'**
+  String get chats;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @proofs.
+  ///
+  /// In en, this message translates to:
+  /// **'Proofs'**
+  String get proofs;
+
+  /// No description provided for @sponsors.
+  ///
+  /// In en, this message translates to:
+  /// **'Sponsors'**
+  String get sponsors;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @plantDiseaseId.
+  ///
+  /// In en, this message translates to:
+  /// **'Plant Disease ID'**
+  String get plantDiseaseId;
+
+  /// No description provided for @takePhotosOfSickPlants.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photos of sick plants'**
+  String get takePhotosOfSickPlants;
+
+  /// No description provided for @irrigationAdvice.
+  ///
+  /// In en, this message translates to:
+  /// **'Irrigation Advice'**
+  String get irrigationAdvice;
+
+  /// No description provided for @wateringSchedulesAndTechniques.
+  ///
+  /// In en, this message translates to:
+  /// **'Watering schedules and techniques'**
+  String get wateringSchedulesAndTechniques;
+
+  /// No description provided for @cropCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop Care'**
+  String get cropCare;
+
+  /// No description provided for @fertilizersSoilNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Fertilizers, soil, and nutrition'**
+  String get fertilizersSoilNutrition;
+
+  /// No description provided for @pestControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Pest Control'**
+  String get pestControl;
+
+  /// No description provided for @identifyAndTreatPlantPests.
+  ///
+  /// In en, this message translates to:
+  /// **'Identify and treat plant pests'**
+  String get identifyAndTreatPlantPests;
+
+  /// No description provided for @weatherTips.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather Tips'**
+  String get weatherTips;
+
+  /// No description provided for @weatherBasedFarmingGuidance.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather-based farming guidance'**
+  String get weatherBasedFarmingGuidance;
+
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// No description provided for @size.
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get size;
+
+  /// No description provided for @crop.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop'**
+  String get crop;
+
+  /// No description provided for @location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// No description provided for @progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get progress;
+
+  /// No description provided for @voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get voice;
+
+  /// No description provided for @text.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get text;
+
   /// No description provided for @anUnexpectedErrorOccurred.
   ///
   /// In en, this message translates to:

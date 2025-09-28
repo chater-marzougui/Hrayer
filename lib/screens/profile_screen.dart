@@ -51,19 +51,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text("Logout"),
+        title: Text(loc.logout),
         content: Text(loc.areYouSureYouWantToLogout),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Cancel"),
+            child: Text(loc.cancel),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
               _signOut(context);
             },
-            child: const Text("Logout"),
+            child: Text(loc.logout),
           ),
         ],
       ),
@@ -122,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         ListTile(
           leading: Icon(Icons.exit_to_app, color: theme.primaryColor),
-          title: Text("Logout", style: theme.textTheme.titleSmall),
+          title: Text(loc.logout, style: theme.textTheme.titleSmall),
           onTap: () => _handleLogout(context, loc),
         ),
       ],

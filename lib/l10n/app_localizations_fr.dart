@@ -9,6 +9,81 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get dashboard => 'Tableau de bord';
+
+  @override
+  String get lands => 'Terrains';
+
+  @override
+  String get chats => 'Discussions';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get proofs => 'Preuves';
+
+  @override
+  String get sponsors => 'Sponsors';
+
+  @override
+  String get logout => 'Se déconnecter';
+
+  @override
+  String get cancel => 'Annuler';
+
+  @override
+  String get plantDiseaseId => 'Identification des maladies des plantes';
+
+  @override
+  String get takePhotosOfSickPlants => 'Prenez des photos des plantes malades';
+
+  @override
+  String get irrigationAdvice => 'Conseils d’irrigation';
+
+  @override
+  String get wateringSchedulesAndTechniques => 'Horaires et techniques d’arrosage';
+
+  @override
+  String get cropCare => 'Soins des cultures';
+
+  @override
+  String get fertilizersSoilNutrition => 'Engrais, sol et nutrition';
+
+  @override
+  String get pestControl => 'Lutte contre les parasites';
+
+  @override
+  String get identifyAndTreatPlantPests => 'Identifier et traiter les parasites';
+
+  @override
+  String get weatherTips => 'Conseils météo';
+
+  @override
+  String get weatherBasedFarmingGuidance => 'Guidage agricole basé sur la météo';
+
+  @override
+  String get title => 'Titre';
+
+  @override
+  String get size => 'Superficie';
+
+  @override
+  String get crop => 'Culture';
+
+  @override
+  String get location => 'Emplacement';
+
+  @override
+  String get progress => 'Progression';
+
+  @override
+  String get voice => 'Voix';
+
+  @override
+  String get text => 'Texte';
+
+  @override
   String get anUnexpectedErrorOccurred => 'Une erreur inattendue s\'est produite';
 
   @override

@@ -9,6 +9,81 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get dashboard => 'التحكم';
+
+  @override
+  String get lands => 'الأراضي';
+
+  @override
+  String get chats => 'المحادثات';
+
+  @override
+  String get profile => 'الملف الشخصي';
+
+  @override
+  String get proofs => 'إثباتات';
+
+  @override
+  String get sponsors => 'الرعاة';
+
+  @override
+  String get logout => 'تسجيل الخروج';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get plantDiseaseId => 'تشخيص أمراض النباتات';
+
+  @override
+  String get takePhotosOfSickPlants => 'التقط صورًا للنباتات المريضة';
+
+  @override
+  String get irrigationAdvice => 'نصائح الري';
+
+  @override
+  String get wateringSchedulesAndTechniques => 'جداول وتقنيات الري';
+
+  @override
+  String get cropCare => 'العناية بالمحاصيل';
+
+  @override
+  String get fertilizersSoilNutrition => 'الأسمدة والتربة والتغذية';
+
+  @override
+  String get pestControl => 'مكافحة الآفات';
+
+  @override
+  String get identifyAndTreatPlantPests => 'تحديد ومعالجة آفات النباتات';
+
+  @override
+  String get weatherTips => 'نصائح الطقس';
+
+  @override
+  String get weatherBasedFarmingGuidance => 'إرشادات زراعية مبنية على الطقس';
+
+  @override
+  String get title => 'العنوان';
+
+  @override
+  String get size => 'الحجم';
+
+  @override
+  String get crop => 'المحصول';
+
+  @override
+  String get location => 'الموقع';
+
+  @override
+  String get progress => 'التقدم';
+
+  @override
+  String get voice => 'صوت';
+
+  @override
+  String get text => 'نص';
+
+  @override
   String get anUnexpectedErrorOccurred => 'حدث خطأ غير متوقع';
 
   @override

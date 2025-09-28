@@ -9,6 +9,81 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get lands => 'Lands';
+
+  @override
+  String get chats => 'Chats';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get proofs => 'Proofs';
+
+  @override
+  String get sponsors => 'Sponsors';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get plantDiseaseId => 'Plant Disease ID';
+
+  @override
+  String get takePhotosOfSickPlants => 'Take photos of sick plants';
+
+  @override
+  String get irrigationAdvice => 'Irrigation Advice';
+
+  @override
+  String get wateringSchedulesAndTechniques => 'Watering schedules and techniques';
+
+  @override
+  String get cropCare => 'Crop Care';
+
+  @override
+  String get fertilizersSoilNutrition => 'Fertilizers, soil, and nutrition';
+
+  @override
+  String get pestControl => 'Pest Control';
+
+  @override
+  String get identifyAndTreatPlantPests => 'Identify and treat plant pests';
+
+  @override
+  String get weatherTips => 'Weather Tips';
+
+  @override
+  String get weatherBasedFarmingGuidance => 'Weather-based farming guidance';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get size => 'Size';
+
+  @override
+  String get crop => 'Crop';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get progress => 'Progress';
+
+  @override
+  String get voice => 'Voice';
+
+  @override
+  String get text => 'Text';
+
+  @override
   String get anUnexpectedErrorOccurred => 'An unexpected error occurred';
 
   @override

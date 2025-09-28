@@ -1,10 +1,11 @@
-
+﻿
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 import 'dart:math';
 
+import '../../l10n/app_localizations.dart';
 import '../../widgets/widgets.dart';
 
 class ChatAIScreen extends StatefulWidget {
@@ -555,6 +556,7 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
 
   void _showHelpDialog() {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -574,11 +576,11 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            _buildHelpItem(Icons.camera_alt, 'Plant Disease ID', 'Take photos of sick plants'),
-            _buildHelpItem(Icons.water_drop, 'Irrigation Advice', 'Watering schedules and techniques'),
-            _buildHelpItem(Icons.grass, 'Crop Care', 'Fertilizers, soil, and nutrition'),
-            _buildHelpItem(Icons.bug_report, 'Pest Control', 'Identify and treat plant pests'),
-            _buildHelpItem(Icons.wb_sunny, 'Weather Tips', 'Weather-based farming guidance'),
+            _buildHelpItem(Icons.camera_alt, loc.plantDiseaseId, loc.takePhotosOfSickPlants),
+            _buildHelpItem(Icons.water_drop, loc.irrigationAdvice, loc.wateringSchedulesAndTechniques),
+            _buildHelpItem(Icons.grass, loc.cropCare, loc.fertilizersSoilNutrition),
+            _buildHelpItem(Icons.bug_report, loc.pestControl, loc.identifyAndTreatPlantPests),
+            _buildHelpItem(Icons.wb_sunny, loc.weatherTips, loc.weatherBasedFarmingGuidance),
             const SizedBox(height: 12),
             Text(
               'Tips for better results:',

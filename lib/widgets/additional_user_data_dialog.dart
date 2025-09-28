@@ -63,7 +63,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
       firstDate: hundredYearsAgo,
       lastDate: eighteenYearsAgo,
       helpText: loc.selectYourBirthdate,
-      cancelText: 'Cancel',
+      cancelText: loc.cancel,
       confirmText: 'Select',
       builder: (context, child) {
         return Theme(
@@ -533,7 +533,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                         ),
                       ),
                       child: Text(
-                        'Cancel',
+                        loc.cancel,
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w500,
                         ),

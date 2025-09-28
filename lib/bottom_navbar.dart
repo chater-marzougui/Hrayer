@@ -98,18 +98,18 @@ class _HomePageState extends State<BottomNavbar> {
       ];
 
       _navItems = [
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard), label: "Dashboard"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard), label: loc.dashboard),
         BottomNavigationBarItem(
             icon: const Icon(Icons.add_photo_alternate), label: loc.addLand),
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.upload_file), label: "Proofs"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.upload_file), label: loc.proofs),
         BottomNavigationBarItem(
             icon: const Icon(Icons.psychology), label: loc.aiChat),
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.group), label: "Sponsors"),
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.person), label: "Profile"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.group), label: loc.sponsors),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person), label: loc.profile),
       ];
     } else {
       // sponsor
@@ -121,14 +121,14 @@ class _HomePageState extends State<BottomNavbar> {
       ];
 
       _navItems = [
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard), label: "Dashboard"),
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt), label: "Lands"),
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.chat), label: "Chats"),
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.person), label: "Profile"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard), label: loc.dashboard),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.list_alt), label: loc.lands),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.chat), label: loc.chats),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person), label: loc.profile),
       ];
     }
 

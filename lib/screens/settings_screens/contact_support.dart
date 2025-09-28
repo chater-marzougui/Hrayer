@@ -142,7 +142,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                     buildDetailRow(
                       context,
                       Icons.location_on_outlined,
-                      "Location",
+                      loc.location,
                       loc.supcomAddress,
                       wrapText: true,
                     ),

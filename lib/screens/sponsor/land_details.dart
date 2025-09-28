@@ -207,7 +207,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(loc.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -276,17 +276,17 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
 
           Row(
             children: [
-              _buildInfoItem(Icons.location_on, 'Location', currentLand.location),
+              _buildInfoItem(Icons.location_on, loc.location, currentLand.location),
               const SizedBox(width: 20),
-              _buildInfoItem(Icons.landscape, 'Size', '${currentLand.size} hectares'),
+              _buildInfoItem(Icons.landscape, loc.size, '${currentLand.size} hectares'),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              _buildInfoItem(Icons.grass, 'Crop', currentLand.intendedCrop),
+              _buildInfoItem(Icons.grass, loc.crop, currentLand.intendedCrop),
               const SizedBox(width: 20),
-              _buildInfoItem(Icons.people, 'Sponsors', '${currentLand.sponsors.length}'),
+              _buildInfoItem(Icons.people, loc.sponsors, '${currentLand.sponsors.length}'),
             ],
           ),
           const SizedBox(height: 16),
