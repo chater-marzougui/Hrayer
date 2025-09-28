@@ -48,7 +48,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future<void> _updateProfile(AppLocalizations loc) async {
     bool reauthenticated = await _reauthenticateUser();
     if (!reauthenticated) {
-      if (mounted) showSnackBar(context, loc.wrongPassword);
+      if (mounted) showCustomSnackBar(context, loc.wrongPassword);
       return;
     }
 
@@ -75,9 +75,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         user = _auth.currentUser;
       });
 
-      if (mounted) showSnackBar(context, loc.profileUpdatedSuccessfully);
+      if (mounted) showCustomSnackBar(context, loc.profileUpdatedSuccessfully);
     } catch (e) {
-      if (mounted) showSnackBar(context, "Error updating profile: $e");
+      if (mounted) showCustomSnackBar(context, loc.errorUpdatingProfile(e));
     }
   }
 
@@ -85,15 +85,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     bool reauthenticated = await _reauthenticateUser();
 
     if (!reauthenticated) {
-      if (mounted) showSnackBar(context, loc.wrongPassword);
+      if (mounted) showCustomSnackBar(context, loc.wrongPassword);
       return;
     }
 
     try {
       await user!.updatePassword(_newPasswordController.text);
-      if (mounted) showSnackBar(context, loc.passwordUpdatedSuccessfully);
+      if (mounted) showCustomSnackBar(context, loc.passwordUpdatedSuccessfully);
     } catch (e) {
-      if (mounted) showSnackBar(context, "Error updating password: $e");
+      if (mounted) showCustomSnackBar(context, loc.errorUpdatingPassword(e));
     }
   }
 
@@ -144,7 +144,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     context,
                     _emailController,
                     "Email",
-                    validator: _emailValidator,
+                    validator: (str) => _emailValidator(str, loc),
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -271,7 +271,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       await user!.reauthenticateWithCredential(credential);
       return true;
     } catch (e) {
-      if (mounted) showSnackBar(context, "Error reauthenticating user: $e");
+      final loc = AppLocalizations.of(context)!;
+      if (mounted) showCustomSnackBar(context, loc.errorReauthenticatingUser(e));
       return false;
     }
   }
@@ -318,15 +319,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       // Validate the passwords
                       if (_newPasswordController.text !=
                           _confirmPasswordController.text) {
-                        showSnackBar(context, loc.passwordsDoNotMatch);
+                        showCustomSnackBar(context, loc.passwordsDoNotMatch);
                         return;
                       }
                       try {
                         _updatePassword(loc);
                         Navigator.of(context).pop();
-                        showSnackBar(context, loc.passwordUpdatedSuccessfully);
+                        showCustomSnackBar(context, loc.passwordUpdatedSuccessfully);
                       } catch (e) {
-                        showSnackBar(context, "Error updating password: $e");
+                        if (mounted) showCustomSnackBar(context, loc.errorUpdatingPassword(e));
                       }
                     },
                     child: Text(loc.applyChanges),
@@ -375,16 +376,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                         if (mounted) {
                           Navigator.of(dialogContext).pop();
-                          showSnackBar(
+                          showCustomSnackBar(
                             context,
                             'Password recovery email sent to ${_emailController.text}',
                           );
                         }
                       } catch (e) {
                         if (mounted) {
-                          showSnackBar(
+                          showCustomSnackBar(
                             context,
-                            'Error sending password recovery email: $e',
+                            loc.errorSendingPasswordRecoveryEmail(e),
                           );
                         }
                       }
@@ -398,9 +399,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
   );
 
-  String? _emailValidator(String? value) {
+  String? _emailValidator(String? value, AppLocalizations loc) {
     if (value == null || !value.contains('@')) {
-      return "Please enter a valid email address";
+      return loc.pleaseEnterAValidEmailAddress;
     }
     return null;
   }

@@ -106,7 +106,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 title: Text(loc.themeMode),
-                subtitle: Text('Current: $_selectedThemeMode'), // Localized 'Current:'
+                subtitle: Text(loc.currentSelectedThemeMode(_selectedThemeMode)),
                 trailing: DropdownButton<String>(
                   value: _selectedThemeMode,
                   onChanged: (String? newValue) {

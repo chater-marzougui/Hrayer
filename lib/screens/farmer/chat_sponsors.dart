@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
 
 class ChatSponsorsScreen extends StatefulWidget {
@@ -64,6 +66,7 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
+    final loc = AppLocalizations.of(context)!;
 
     setState(() {
       isLoading = true;
@@ -84,9 +87,7 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
       _scrollToBottom();
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to send message: $e')),
-        );
+        showCustomSnackBar(context, loc.failedToSendMessage(e));
       }
     } finally {
       if (mounted) {
@@ -248,6 +249,7 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -328,7 +330,7 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(
-                    child: Text('Error loading messages: ${snapshot.error}'),
+                    child: Text(loc.errorLoadingMessages),
                   );
                 }
 
@@ -352,14 +354,14 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No messages yet',
+                          loc.noMessagesYet,
                           style: theme.textTheme.titleMedium?.copyWith(
                             color: Colors.grey[600],
                           ),
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Start a conversation with your sponsors',
+                          loc.startConversationWithSponsors,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: Colors.grey[500],
                           ),
@@ -408,7 +410,7 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
                     maxLines: null,
                     textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
-                      hintText: 'Type a message...',
+                      hintText: loc.typeAMessage,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
@@ -453,6 +455,8 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
 
   void _showLandInfo(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
+
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -465,7 +469,7 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Land Information',
+              loc.landInformation,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -476,8 +480,8 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
             _buildInfoRow('Crop', widget.land.intendedCrop),
             _buildInfoRow('Location', widget.land.location),
             _buildInfoRow('Progress', '${widget.land.progressPercentage.toStringAsFixed(1)}%'),
-            _buildInfoRow('Total Needed', '\${widget.land.totalNeeded.toStringAsFixed(0)}'),
-            _buildInfoRow('Total Raised', '\${widget.land.totalFulfilled.toStringAsFixed(0)}'),
+            _buildInfoRow(loc.totalNeeded, '\${widget.land.totalNeeded.toStringAsFixed(0)}'),
+            _buildInfoRow(loc.totalRaised, '\${widget.land.totalFulfilled.toStringAsFixed(0)}'),
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,

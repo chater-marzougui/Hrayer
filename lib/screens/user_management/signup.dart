@@ -37,7 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
     if (_passwordController.text != _confirmPasswordController.text) {
-      showSnackBar(context, loc.passwordsDoNotMatchExclamation);
+      showCustomSnackBar(context, loc.passwordsDoNotMatchExclamation);
       return;
     }
     setState(() {
@@ -75,7 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
         );
       }
     } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message ?? loc.errorOccurredDuringSignup);
+      showCustomSnackBar(context, e.message ?? loc.errorOccurredDuringSignup);
     }
   }
 

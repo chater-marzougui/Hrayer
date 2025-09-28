@@ -1,3 +1,5 @@
+﻿import 'package:base_template/l10n/app_localizations.dart';
+import 'package:base_template/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,14 +58,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
     }
   }
 
-  Future<void> _addUser() async {
+  Future<void> _addUser(AppLocalizations loc) async {
     if (!_formKey.currentState!.validate()) return;
 
     // Check if current user is farmer (admin)
     if (!_isCurrentUserFarmer) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Only farmers (admins) can add new users'),
+        SnackBar(
+          content: Text(loc.onlyAdminsCanAddUsers),
           backgroundColor: Colors.red,
         ),
       );
@@ -77,7 +79,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
     try {
       final currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser == null) {
-        throw Exception('No authenticated user');
+        throw Exception(loc.noAuthenticatedUser);
       }
 
       // Check if phone number already exists
@@ -87,7 +89,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
           .get();
 
       if (existingUserQuery.docs.isNotEmpty) {
-        throw Exception('A user with this phone number already exists');
+        throw Exception(loc.userWithPhoneNumberExists);
       }
 
       // Create user invitation document
@@ -140,12 +142,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        showCustomSnackBar(context, loc.errorGeneric(e), type: SnackBarType.error);
       }
     } finally {
       if (mounted) {
@@ -159,11 +156,12 @@ class _AddUserScreenState extends State<AddUserScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Add New User'),
+        title: Text(loc.addNewUser),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -198,8 +196,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     Expanded(
                       child: Text(
                         _isCurrentUserFarmer 
-                            ? 'As a farmer (admin), you can invite new users to join the platform'
-                            : 'Only farmers (admins) can add new users to the platform',
+                            ? loc.asAFarmerYouCanInvite
+                            : loc.onlyAdminsCanAddUsersPlatform,
                         style: TextStyle(
                           color: _isCurrentUserFarmer ? Colors.blue[700] : Colors.orange[700],
                           fontSize: 14,
@@ -214,7 +212,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
               const SizedBox(height: 24),
 
               Text(
-                'User Information',
+                loc.userInformation,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -228,7 +226,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 enabled: !_isLoading && _isCurrentUserFarmer,
                 textCapitalization: TextCapitalization.words,
                 decoration: InputDecoration(
-                  labelText: 'Full Name',
+                  labelText: loc.fullName,
                   prefixIcon: const Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -238,10 +236,10 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter the user\'s full name';
+                    return loc.pleaseEnterTheUser;
                   }
                   if (value.trim().length < 2) {
-                    return 'Name must be at least 2 characters long';
+                    return loc.nameMustBeAtLeast2Chars;
                   }
                   return null;
                 },
@@ -255,7 +253,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 enabled: !_isLoading && _isCurrentUserFarmer,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  labelText: 'Phone Number',
+                  labelText: loc.phoneNumber,
                   prefixIcon: const Icon(Icons.phone_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -266,12 +264,12 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a phone number';
+                    return loc.pleaseEnterPhoneNumber;
                   }
                   // Basic phone validation
                   final phoneRegex = RegExp(r'^\+?[\d\s\-\(\)]{8,}$');
                   if (!phoneRegex.hasMatch(value.trim())) {
-                    return 'Please enter a valid phone number';
+                    return loc.pleaseEnterAValidPhoneNumber;
                   }
                   return null;
                 },
@@ -285,7 +283,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 enabled: !_isLoading && _isCurrentUserFarmer,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  labelText: 'Email (Optional)',
+                  labelText: loc.emailOptional,
                   prefixIcon: const Icon(Icons.email_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -297,7 +295,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   if (value != null && value.trim().isNotEmpty) {
                     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                     if (!emailRegex.hasMatch(value.trim())) {
-                      return 'Please enter a valid email address';
+                      return loc.pleaseEnterAValidEmailAddress;
                     }
                   }
                   return null;
@@ -347,7 +345,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _selectedRole == 'Farmer' ? 'Farmer Role:' : 'Sponsor Role:',
+                      _selectedRole == 'Farmer' ? loc.farmerRole : loc.sponsorRole,
                       style: TextStyle(
                         color: theme.primaryColor,
                         fontWeight: FontWeight.bold,
@@ -357,8 +355,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     const SizedBox(height: 4),
                     Text(
                       _selectedRole == 'Farmer' 
-                          ? '• Can add and manage lands\n• Can upload progress proofs\n• Can chat with sponsors\n• Can add new users (admin privileges)'
-                          : '• Can browse and sponsor projects\n• Can chat with farmers\n• Can view progress updates',
+                          ? loc.farmerRoleDescription
+                          : loc.sponsorRoleDescription,
                       style: TextStyle(
                         color: theme.primaryColor,
                         fontSize: 12,
@@ -375,7 +373,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton.icon(
-                  onPressed: (_isLoading || !_isCurrentUserFarmer) ? null : _addUser,
+                  onPressed: (_isLoading || !_isCurrentUserFarmer) ? null : () => _addUser(loc),
                   icon: _isLoading 
                       ? const SizedBox(
                           width: 20,
@@ -387,7 +385,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         )
                       : const Icon(Icons.person_add),
                   label: Text(
-                    _isLoading ? 'Sending Invitation...' : 'Send Invitation',
+                    _isLoading ? loc.sendingInvitation : loc.sendInvitation,
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -415,7 +413,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'You need farmer (admin) privileges to add new users',
+                          loc.youNeedAdminPrivileges,
                           style: TextStyle(
                             color: Colors.red[700],
                             fontSize: 12,

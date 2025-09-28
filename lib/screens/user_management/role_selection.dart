@@ -1,6 +1,9 @@
+﻿import 'package:base_template/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../l10n/app_localizations.dart';
 
 class RoleSelectionScreen extends StatefulWidget {
   const RoleSelectionScreen({super.key});
@@ -35,16 +38,8 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Failed to update role: ${e.toString()}',
-              style: const TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.error,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        final loc = AppLocalizations.of(context)!;
+        showCustomSnackBar(context, loc.failedToUpdateRole(e), type: SnackBarType.error);
       }
     } finally {
       if (mounted) {
@@ -57,6 +52,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     return PopScope(
       canPop: false,
@@ -76,7 +72,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                 const SizedBox(height: 12),
                 // Subtitle
                 Text(
-                  'Connecting women farmers with investors for sustainable agriculture',
+                  loc.appTagline,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.textTheme.bodyMedium?.color?.withAlpha(180),
@@ -124,7 +120,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          "I'm a Farmer",
+                          loc.imAFarmer,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: theme.textTheme.titleMedium?.color,
@@ -132,7 +128,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Share your land opportunities and connect with investors to grow your farming business',
+                          loc.shareLandOpportunities,
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.textTheme.bodySmall?.color?.withAlpha(180),
@@ -184,7 +180,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          "I'm an Investor",
+                          loc.imAnInvestor,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: theme.textTheme.titleMedium?.color,
@@ -192,7 +188,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Discover farming opportunities and support sustainable agriculture',
+                          loc.discoverFarmingOpportunities,
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.textTheme.bodySmall?.color?.withAlpha(180),
@@ -226,8 +222,8 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         strokeWidth: 2,
                       ),
                     )
-                        : const Text(
-                      'Continue as User',
+                        : Text(
+                      loc.continueAsUser,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,

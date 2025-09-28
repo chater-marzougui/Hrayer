@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
 import 'chat_farmers.dart';
 import 'image_viewer.dart';
@@ -53,7 +55,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
     }
   }
 
-  Future<void> _sponsorProject(double amount) async {
+  Future<void> _sponsorProject(AppLocalizations loc, double amount) async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
 
@@ -80,7 +82,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
         'senderId': 'system',
         'senderName': 'System',
         'senderRole': 'system',
-        'text': '🎉 New sponsor joined! A generous contribution of \$${amount.toStringAsFixed(0)} has been made to support this project.',
+        'text': loc.newSponsorJoinedTnd(amount.toStringAsFixed(0)),
         'timestamp': FieldValue.serverTimestamp(),
       });
 
@@ -94,17 +96,15 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Thank you for your sponsorship!'),
+          SnackBar(
+            content: Text(loc.thankYouForSponsorship),
             backgroundColor: Colors.green,
           ),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error processing sponsorship: $e')),
-        );
+        showCustomSnackBar(context, loc.errorProcessingSponsorship(e));
       }
     } finally {
       if (mounted) {
@@ -117,18 +117,19 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
 
   void _showSponsorDialog() {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     final TextEditingController amountController = TextEditingController();
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Sponsor ${currentLand.title}'),
+        title: Text(loc.sponsorLandTitle(currentLand.title)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Help this project reach its funding goal!',
+              loc.helpProjectReachFundingGoal,
               style: theme.textTheme.bodyMedium,
             ),
             const SizedBox(height: 16),
@@ -142,7 +143,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Funding Progress',
+                    loc.fundingProgress,
                     style: theme.textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -155,7 +156,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Remaining: \$${(currentLand.totalNeeded - currentLand.totalFulfilled).toStringAsFixed(0)}',
+                    loc.remainingNeeded((currentLand.totalNeeded - currentLand.totalFulfilled).toStringAsFixed(0)),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.grey[600],
                     ),
@@ -168,7 +169,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
               controller: amountController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Sponsorship Amount (\$)',
+                labelText: loc.sponsorshipAmountTnd,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -178,7 +179,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
             const SizedBox(height: 16),
             // Quick amount buttons
             Text(
-              'Quick amounts:',
+              loc.quickAmounts,
               style: theme.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -213,10 +214,10 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
               final amount = double.tryParse(amountController.text);
               if (amount != null && amount > 0) {
                 Navigator.pop(context);
-                _sponsorProject(amount);
+                _sponsorProject(loc, amount);
               }
             },
-            child: const Text('Sponsor Now'),
+            child: Text(loc.sponsorNow),
           ),
         ],
       ),
@@ -225,6 +226,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
 
   Widget _buildInfoSection() {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -260,7 +262,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
-                  currentLand.isFullyFunded ? 'FULLY FUNDED' : 'SEEKING FUNDING',
+                  currentLand.isFullyFunded ? loc.fullyFunded : loc.seekingFunding,
                   style: TextStyle(
                     color: currentLand.isFullyFunded ? Colors.green : theme.primaryColor,
                     fontSize: 10,
@@ -337,6 +339,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
 
   Widget _buildFundingSection() {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -354,7 +357,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Funding Progress',
+            loc.fundingProgress,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -393,7 +396,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
 
           if (currentLand.needs.isNotEmpty) ...[
             Text(
-              'Funding Breakdown',
+              loc.fundingBreakdown,
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -539,13 +542,14 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     final currentUser = FirebaseAuth.instance.currentUser;
     final isAlreadySponsored = currentLand.sponsors.contains(currentUser?.uid);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Project Details'),
+        title: Text(loc.projectDetails),
         actions: [
           IconButton(
             icon: const Icon(Icons.chat),
@@ -585,7 +589,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'No photos available',
+                      loc.noPhotosAvailable,
                       style: TextStyle(
                         color: theme.primaryColor.withAlpha(128),
                         fontSize: 14,
@@ -595,7 +599,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
                 )
                 : Stack(
                   children: [
-                    // PageView for swipeable images
+                    // PageView for swipe-able images
                     PageView.builder(
                       controller: _pageController,
                       onPageChanged: (index) {
@@ -695,7 +699,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
             Row(
               children: [
                 Text(
-                  'Project Updates',
+                  loc.projectUpdates,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -731,13 +735,13 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'No updates yet',
+                      loc.noUpdatesYet,
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: Colors.grey[600],
                       ),
                     ),
                     Text(
-                      'The farmer will post progress updates here',
+                      loc.farmerWillPostUpdatesHere,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.grey[500],
                       ),
@@ -764,7 +768,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
               );
             },
             icon: const Icon(Icons.chat),
-            label: const Text('Join Chat'),
+            label: Text(loc.joinChat),
             backgroundColor: theme.primaryColor,
           )
               : FloatingActionButton.extended(
@@ -776,7 +780,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
                     : const Icon(Icons.volunteer_activism),
-                    label: Text(isSponsoring ? 'Processing...' : 'Sponsor Project'),
+                    label: Text(isSponsoring ? 'Processing...' : loc.sponsorProject),
                     backgroundColor: isSponsoring ? Colors.grey : theme.primaryColor,
               ),
         );

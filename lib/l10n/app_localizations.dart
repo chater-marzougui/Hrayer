@@ -166,8 +166,8 @@ abstract class AppLocalizations {
   /// No description provided for @currentSelectedThemeMode.
   ///
   /// In en, this message translates to:
-  /// **'Current: {mode}'**
-  String currentSelectedThemeMode(Object mode);
+  /// **'Current: {_selectedThemeMode}'**
+  String currentSelectedThemeMode(Object _selectedThemeMode);
 
   /// No description provided for @dartTemplate.
   ///
@@ -298,8 +298,8 @@ abstract class AppLocalizations {
   /// No description provided for @failedToCreateProfile.
   ///
   /// In en, this message translates to:
-  /// **'Failed to create profile: {e}'**
-  String failedToCreateProfile(Object e);
+  /// **'Failed to create profile: {toString}'**
+  String failedToCreateProfile(Object toString);
 
   /// No description provided for @failedToUploadImage.
   ///
@@ -684,6 +684,1074 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Gallery'**
   String get gallery;
+
+  /// No description provided for @farmerRoleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'• Can add and manage lands\n• Can upload progress proofs\n• Can chat with sponsors\n• Can add new users (admin privileges)'**
+  String get farmerRoleDescription;
+
+  /// No description provided for @sponsorRoleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'• Can browse and sponsor projects\n• Can chat with farmers\n• Can view progress updates'**
+  String get sponsorRoleDescription;
+
+  /// No description provided for @userWithPhoneNumberExists.
+  ///
+  /// In en, this message translates to:
+  /// **'A user with this phone number already exists'**
+  String get userWithPhoneNumberExists;
+
+  /// No description provided for @activeLands.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Lands'**
+  String get activeLands;
+
+  /// No description provided for @activeProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Projects'**
+  String get activeProjects;
+
+  /// No description provided for @activeSponsor.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Sponsor'**
+  String get activeSponsor;
+
+  /// No description provided for @addLand.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Land'**
+  String get addLand;
+
+  /// No description provided for @addNewUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New User'**
+  String get addNewUser;
+
+  /// No description provided for @addPhotosMax8.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Photos (Max 8)'**
+  String get addPhotosMax8;
+
+  /// No description provided for @addProgressPhotosMax3.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Progress Photos (Max 3)'**
+  String get addProgressPhotosMax3;
+
+  /// No description provided for @addUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Add User'**
+  String get addUser;
+
+  /// No description provided for @addYourFirstFarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Your First Farm'**
+  String get addYourFirstFarm;
+
+  /// No description provided for @addYourFirstLand.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Your First Land'**
+  String get addYourFirstLand;
+
+  /// No description provided for @addYourFirstLandToStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first land to start seeking sponsorship'**
+  String get addYourFirstLandToStart;
+
+  /// No description provided for @aiAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant'**
+  String get aiAssistant;
+
+  /// No description provided for @aiChat.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Chat'**
+  String get aiChat;
+
+  /// No description provided for @almostComplete75_99.
+  ///
+  /// In en, this message translates to:
+  /// **'Almost Complete (75-99%)'**
+  String get almostComplete75_99;
+
+  /// No description provided for @almostThere.
+  ///
+  /// In en, this message translates to:
+  /// **'ALMOST THERE'**
+  String get almostThere;
+
+  /// No description provided for @amountMustBeGreaterThan0.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount must be greater than 0'**
+  String get amountMustBeGreaterThan0;
+
+  /// No description provided for @amountRaised.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount Raised'**
+  String get amountRaised;
+
+  /// No description provided for @applyFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Filters'**
+  String get applyFilters;
+
+  /// No description provided for @asAFarmerYouCanInvite.
+  ///
+  /// In en, this message translates to:
+  /// **'As a farmer (admin), you can invite new users to join the platform'**
+  String get asAFarmerYouCanInvite;
+
+  /// No description provided for @basicInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Information'**
+  String get basicInformation;
+
+  /// No description provided for @browseProjectsAndMakeADifference.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse available projects and start making a difference in rural farming communities'**
+  String get browseProjectsAndMakeADifference;
+
+  /// No description provided for @browseProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Projects'**
+  String get browseProjects;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Filters'**
+  String get clearFilters;
+
+  /// No description provided for @appTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting women farmers with investors for sustainable agriculture'**
+  String get appTagline;
+
+  /// No description provided for @continueAsUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as User'**
+  String get continueAsUser;
+
+  /// No description provided for @describeCurrentProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the current progress, any challenges, achievements, or observations...'**
+  String get describeCurrentProgress;
+
+  /// No description provided for @describeYourLand.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your land, soil type, current condition...'**
+  String get describeYourLand;
+
+  /// No description provided for @descriptionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Description *'**
+  String get descriptionRequired;
+
+  /// No description provided for @discoverFarmingOpportunities.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover farming opportunities and support sustainable agriculture'**
+  String get discoverFarmingOpportunities;
+
+  /// No description provided for @dueSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Soon'**
+  String get dueSoon;
+
+  /// No description provided for @emailOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Email (Optional)'**
+  String get emailOptional;
+
+  /// No description provided for @enterSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter size'**
+  String get enterSize;
+
+  /// No description provided for @enterValidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid amount'**
+  String get enterValidAmount;
+
+  /// No description provided for @errorLoadingLands.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading lands: {e}'**
+  String errorLoadingLands(Object e);
+
+  /// No description provided for @errorLoadingMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading messages'**
+  String get errorLoadingMessages;
+
+  /// No description provided for @errorLoadingMessagesWithDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading messages: {error}'**
+  String errorLoadingMessagesWithDetails(Object error);
+
+  /// No description provided for @errorLoadingProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading projects: {e}'**
+  String errorLoadingProjects(Object e);
+
+  /// No description provided for @errorLoadingSponsoredLands.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading sponsored lands: {e}'**
+  String errorLoadingSponsoredLands(Object e);
+
+  /// No description provided for @errorLoadingSponsorships.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading sponsorships: {e}'**
+  String errorLoadingSponsorships(Object e);
+
+  /// No description provided for @errorLoadingUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading updates: {e}'**
+  String errorLoadingUpdates(Object e);
+
+  /// No description provided for @errorLoadingYourLands.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading your lands: {e}'**
+  String errorLoadingYourLands(Object e);
+
+  /// No description provided for @errorOccurredWhileUploadingImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error occurred while uploading the image: {e}'**
+  String errorOccurredWhileUploadingImage(Object e);
+
+  /// No description provided for @errorPickingImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Error picking images: {e}'**
+  String errorPickingImages(Object e);
+
+  /// No description provided for @errorProcessingSponsorship.
+  ///
+  /// In en, this message translates to:
+  /// **'Error processing sponsorship: {e}'**
+  String errorProcessingSponsorship(Object e);
+
+  /// No description provided for @errorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {e}'**
+  String errorGeneric(Object e);
+
+  /// No description provided for @failedToLoadImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load image'**
+  String get failedToLoadImage;
+
+  /// No description provided for @failedToSendMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send message: {e}'**
+  String failedToSendMessage(Object e);
+
+  /// No description provided for @failedToUpdateRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update role: {toString}'**
+  String failedToUpdateRole(Object toString);
+
+  /// No description provided for @failedToUploadImageAfterMultipleAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload image after multiple attempts'**
+  String get failedToUploadImageAfterMultipleAttempts;
+
+  /// No description provided for @farmerRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer Role:'**
+  String get farmerRole;
+
+  /// No description provided for @farmersHelped.
+  ///
+  /// In en, this message translates to:
+  /// **'Farmers Helped'**
+  String get farmersHelped;
+
+  /// No description provided for @filterByCrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by Crop'**
+  String get filterByCrop;
+
+  /// No description provided for @filterByFundingStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by Funding Status'**
+  String get filterByFundingStatus;
+
+  /// No description provided for @filterProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter Projects'**
+  String get filterProjects;
+
+  /// No description provided for @findProjectsToSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Projects to Support'**
+  String get findProjectsToSupport;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullName;
+
+  /// No description provided for @fullyFunded.
+  ///
+  /// In en, this message translates to:
+  /// **'Fully Funded'**
+  String get fullyFunded;
+
+  /// No description provided for @fundingBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Funding Breakdown'**
+  String get fundingBreakdown;
+
+  /// No description provided for @fundingNeedsTnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Funding Needs (TND)'**
+  String get fundingNeedsTnd;
+
+  /// No description provided for @fundingProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Funding Progress'**
+  String get fundingProgress;
+
+  /// No description provided for @helpLandReachFundingGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Help {title} reach its funding goal!'**
+  String helpLandReachFundingGoal(Object title);
+
+  /// No description provided for @helpProjectReachFundingGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Help this project reach its funding goal!'**
+  String get helpProjectReachFundingGoal;
+
+  /// No description provided for @imAFarmer.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m a Farmer'**
+  String get imAFarmer;
+
+  /// No description provided for @imAnInvestor.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m an Investor'**
+  String get imAnInvestor;
+
+  /// No description provided for @inProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'IN PROGRESS'**
+  String get inProgress;
+
+  /// No description provided for @inProgress25_75.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress (25-75%)'**
+  String get inProgress25_75;
+
+  /// No description provided for @intendedCropRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Intended Crop *'**
+  String get intendedCropRequired;
+
+  /// No description provided for @invalidNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid number'**
+  String get invalidNumber;
+
+  /// No description provided for @joinChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Chat'**
+  String get joinChat;
+
+  /// No description provided for @justStarted0_25.
+  ///
+  /// In en, this message translates to:
+  /// **'Just Started (0-25%)'**
+  String get justStarted0_25;
+
+  /// No description provided for @landImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Land Images'**
+  String get landImages;
+
+  /// No description provided for @landInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Land Information'**
+  String get landInformation;
+
+  /// No description provided for @landRegisteredSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Land registered successfully!'**
+  String get landRegisteredSuccessfully;
+
+  /// No description provided for @landTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Land Title *'**
+  String get landTitleRequired;
+
+  /// No description provided for @loadedLandsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Loaded {length} lands'**
+  String loadedLandsCount(Object length);
+
+  /// No description provided for @locationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Location *'**
+  String get locationRequired;
+
+  /// No description provided for @maximum3ImagesAllowedForUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum 3 images allowed for updates'**
+  String get maximum3ImagesAllowedForUpdates;
+
+  /// No description provided for @maximum8ImagesAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum 8 images allowed'**
+  String get maximum8ImagesAllowed;
+
+  /// No description provided for @myFarmDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'My Farm Dashboard'**
+  String get myFarmDashboard;
+
+  /// No description provided for @myLands.
+  ///
+  /// In en, this message translates to:
+  /// **'My Lands'**
+  String get myLands;
+
+  /// No description provided for @mySponsorships.
+  ///
+  /// In en, this message translates to:
+  /// **'My Sponsorships'**
+  String get mySponsorships;
+
+  /// No description provided for @nameMustBeAtLeast2Chars.
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be at least 2 characters long'**
+  String get nameMustBeAtLeast2Chars;
+
+  /// No description provided for @noActiveConversations.
+  ///
+  /// In en, this message translates to:
+  /// **'No Active Conversations'**
+  String get noActiveConversations;
+
+  /// No description provided for @noAuthenticatedUser.
+  ///
+  /// In en, this message translates to:
+  /// **'No authenticated user'**
+  String get noAuthenticatedUser;
+
+  /// No description provided for @noConversationsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No Conversations Available'**
+  String get noConversationsAvailable;
+
+  /// No description provided for @noFarmsToUploadProof.
+  ///
+  /// In en, this message translates to:
+  /// **'No Farms to Upload Proof'**
+  String get noFarmsToUploadProof;
+
+  /// No description provided for @noLandsRegisteredYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No lands registered yet'**
+  String get noLandsRegisteredYet;
+
+  /// No description provided for @noMessagesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get noMessagesYet;
+
+  /// No description provided for @noPhotosAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No photos available'**
+  String get noPhotosAvailable;
+
+  /// No description provided for @noProjectsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No projects found'**
+  String get noProjectsFound;
+
+  /// No description provided for @noSponsorshipsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No sponsorships yet'**
+  String get noSponsorshipsYet;
+
+  /// No description provided for @noUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'No updates'**
+  String get noUpdates;
+
+  /// No description provided for @noUpdatesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No updates yet'**
+  String get noUpdatesYet;
+
+  /// No description provided for @onlyAdminsCanAddUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Only farmers (admins) can add new users'**
+  String get onlyAdminsCanAddUsers;
+
+  /// No description provided for @onlyAdminsCanAddUsersPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Only farmers (admins) can add new users to the platform'**
+  String get onlyAdminsCanAddUsersPlatform;
+
+  /// No description provided for @pleaseAddAtLeastOneImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add at least one image'**
+  String get pleaseAddAtLeastOneImage;
+
+  /// No description provided for @pleaseAddAtLeastOnePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add at least one photo'**
+  String get pleaseAddAtLeastOnePhoto;
+
+  /// No description provided for @pleaseEnterDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a description'**
+  String get pleaseEnterDescription;
+
+  /// No description provided for @pleaseEnterPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a phone number'**
+  String get pleaseEnterPhoneNumber;
+
+  /// No description provided for @pleaseEnterLandTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a title for your land'**
+  String get pleaseEnterLandTitle;
+
+  /// No description provided for @pleaseEnterLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter location'**
+  String get pleaseEnterLocation;
+
+  /// No description provided for @pleaseEnterTheUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the user\'s name'**
+  String get pleaseEnterTheUser;
+
+  /// No description provided for @pleaseProvideDetailedUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide a more detailed update (at least 10 characters)'**
+  String get pleaseProvideDetailedUpdate;
+
+  /// No description provided for @pleaseProvideProgressUpdateNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide a progress update note'**
+  String get pleaseProvideProgressUpdateNote;
+
+  /// No description provided for @pleaseSpecifyFundingNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please specify at least one funding need'**
+  String get pleaseSpecifyFundingNeed;
+
+  /// No description provided for @pleaseSpecifyCrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Please specify the crop you plan to grow'**
+  String get pleaseSpecifyCrop;
+
+  /// No description provided for @progressNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress Note'**
+  String get progressNote;
+
+  /// No description provided for @progressPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress Photos'**
+  String get progressPhotos;
+
+  /// No description provided for @projectChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Chat'**
+  String get projectChat;
+
+  /// No description provided for @projectDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Details'**
+  String get projectDetails;
+
+  /// No description provided for @projectInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Information'**
+  String get projectInformation;
+
+  /// No description provided for @projectName.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Name'**
+  String get projectName;
+
+  /// No description provided for @projectUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Updates'**
+  String get projectUpdates;
+
+  /// No description provided for @projectsCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects Completed'**
+  String get projectsCompleted;
+
+  /// No description provided for @projectsYouSupportCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects You Support ({length})'**
+  String projectsYouSupportCount(Object length);
+
+  /// No description provided for @quickActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get quickActions;
+
+  /// No description provided for @quickAmounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick amounts:'**
+  String get quickAmounts;
+
+  /// No description provided for @recentUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Updates'**
+  String get recentUpdates;
+
+  /// No description provided for @registerLand.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Land'**
+  String get registerLand;
+
+  /// No description provided for @registerNewLand.
+  ///
+  /// In en, this message translates to:
+  /// **'Register New Land'**
+  String get registerNewLand;
+
+  /// No description provided for @remainingNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining needed: TND {remainingAmount}'**
+  String remainingNeeded(Object remainingAmount);
+
+  /// No description provided for @searchProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Search projects by name, location, or crop...'**
+  String get searchProjects;
+
+  /// No description provided for @seekingFunding.
+  ///
+  /// In en, this message translates to:
+  /// **'SEEKING FUNDING'**
+  String get seekingFunding;
+
+  /// No description provided for @selectFarmToUploadProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a farm to upload progress proof and keep your sponsors updated'**
+  String get selectFarmToUploadProof;
+
+  /// No description provided for @selectProjectToChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a project to start or continue conversation with the farmer and other sponsors'**
+  String get selectProjectToChat;
+
+  /// No description provided for @selectConversation.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Conversation'**
+  String get selectConversation;
+
+  /// No description provided for @selectFarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Farm'**
+  String get selectFarm;
+
+  /// No description provided for @sendEncouragementOrAskQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Send encouragement or ask questions...'**
+  String get sendEncouragementOrAskQuestions;
+
+  /// No description provided for @sendInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Invitation'**
+  String get sendInvitation;
+
+  /// No description provided for @sendingInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending Invitation...'**
+  String get sendingInvitation;
+
+  /// No description provided for @shareAnUpdateWithSponsors.
+  ///
+  /// In en, this message translates to:
+  /// **'Share an update with your sponsors...'**
+  String get shareAnUpdateWithSponsors;
+
+  /// No description provided for @shareLandOpportunities.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your land opportunities and connect with investors to grow your farming business'**
+  String get shareLandOpportunities;
+
+  /// No description provided for @sizeInHectaresRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Size (hectares) *'**
+  String get sizeInHectaresRequired;
+
+  /// No description provided for @specifyFundingNeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Specify how much funding you need for each category'**
+  String get specifyFundingNeeds;
+
+  /// No description provided for @sponsorLandTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sponsor {title}'**
+  String sponsorLandTitle(Object title);
+
+  /// No description provided for @sponsorDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Sponsor Dashboard'**
+  String get sponsorDashboard;
+
+  /// No description provided for @sponsorNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sponsor Now'**
+  String get sponsorNow;
+
+  /// No description provided for @sponsorProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Sponsor Project'**
+  String get sponsorProject;
+
+  /// No description provided for @sponsorRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Sponsor Role:'**
+  String get sponsorRole;
+
+  /// No description provided for @sponsorshipAmountUsd.
+  ///
+  /// In en, this message translates to:
+  /// **'Sponsorship Amount (\$)'**
+  String get sponsorshipAmountUsd;
+
+  /// No description provided for @sponsorshipAmountTnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Sponsorship Amount (TND)'**
+  String get sponsorshipAmountTnd;
+
+  /// No description provided for @startConversationWithSponsors.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a conversation with your sponsors'**
+  String get startConversationWithSponsors;
+
+  /// No description provided for @startTheConversation.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the conversation! Share updates, ask questions, or offer support.'**
+  String get startTheConversation;
+
+  /// No description provided for @submitUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Update'**
+  String get submitUpdate;
+
+  /// No description provided for @supcomAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Sup\'Com Raoued Km 3,5 - 2083, Ariana Tunisie'**
+  String get supcomAddress;
+
+  /// No description provided for @tapToChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to chat'**
+  String get tapToChat;
+
+  /// No description provided for @tapToUploadProgressProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to upload progress proof'**
+  String get tapToUploadProgressProof;
+
+  /// No description provided for @thankYouForSupporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for supporting sustainable agriculture and empowering rural farmers! 🌱'**
+  String get thankYouForSupporting;
+
+  /// No description provided for @thankYouForSponsorship.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your sponsorship!'**
+  String get thankYouForSponsorship;
+
+  /// No description provided for @farmerWillPostUpdatesHere.
+  ///
+  /// In en, this message translates to:
+  /// **'The farmer will post progress updates here'**
+  String get farmerWillPostUpdatesHere;
+
+  /// No description provided for @transparentGroupChatDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a transparent group chat. All messages are visible to project participants for safety and accountability.'**
+  String get transparentGroupChatDisclaimer;
+
+  /// No description provided for @tipShareProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Share progress photos and updates to keep everyone engaged!'**
+  String get tipShareProgress;
+
+  /// No description provided for @totalContributed.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Contributed'**
+  String get totalContributed;
+
+  /// No description provided for @totalFunding.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Funding'**
+  String get totalFunding;
+
+  /// No description provided for @totalHectares.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Hectares'**
+  String get totalHectares;
+
+  /// No description provided for @totalLands.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Lands'**
+  String get totalLands;
+
+  /// No description provided for @totalNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Needed'**
+  String get totalNeeded;
+
+  /// No description provided for @totalRaised.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Raised'**
+  String get totalRaised;
+
+  /// No description provided for @tryAdjustingSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting your search criteria'**
+  String get tryAdjustingSearch;
+
+  /// No description provided for @typeAMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message...'**
+  String get typeAMessage;
+
+  /// No description provided for @unknownFarmer.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown Farmer'**
+  String get unknownFarmer;
+
+  /// No description provided for @updateSubmittedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Update submitted successfully!'**
+  String get updateSubmittedSuccessfully;
+
+  /// No description provided for @updateType.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Type'**
+  String get updateType;
+
+  /// No description provided for @userInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'User Information'**
+  String get userInformation;
+
+  /// No description provided for @viewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetails;
+
+  /// No description provided for @weatherFeatureComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather feature coming soon!'**
+  String get weatherFeatureComingSoon;
+
+  /// No description provided for @weeklyUpdatesRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly updates recommended'**
+  String get weeklyUpdatesRecommended;
+
+  /// No description provided for @youNeedAdminPrivileges.
+  ///
+  /// In en, this message translates to:
+  /// **'You need farmer (admin) privileges to add new users'**
+  String get youNeedAdminPrivileges;
+
+  /// No description provided for @youNeedActiveFarmsToUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to have active farms to upload progress proofs.'**
+  String get youNeedActiveFarmsToUpload;
+
+  /// No description provided for @youNeedActiveLandsToChat.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to have active lands with sponsors to start conversations.'**
+  String get youNeedActiveLandsToChat;
+
+  /// No description provided for @youNeedToSponsorToChat.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to sponsor projects to start conversations with farmers.'**
+  String get youNeedToSponsorToChat;
+
+  /// No description provided for @yourFarmsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Farms ({length})'**
+  String yourFarmsCount(Object length);
+
+  /// No description provided for @yourImpact.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Impact'**
+  String get yourImpact;
+
+  /// No description provided for @newSponsorJoinedUsd.
+  ///
+  /// In en, this message translates to:
+  /// **'🎉 New sponsor joined! A generous contribution of \${amount} has been made to support this project.'**
+  String newSponsorJoinedUsd(Object amount);
+
+  /// No description provided for @newSponsorJoinedTnd.
+  ///
+  /// In en, this message translates to:
+  /// **'🎉 New sponsor joined! A generous contribution of TND{amount} has been made to support this project.'**
+  String newSponsorJoinedTnd(Object amount);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

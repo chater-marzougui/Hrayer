@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../Widgets/widgets.dart';
+import '../widgets/widgets.dart';
 import '../l10n/app_localizations.dart';
 
 
@@ -45,7 +45,7 @@ Future<String?> uploadImage(BuildContext context, File? selectedImage) async {
 
     return imageUrl;
   } catch (e) {
-    showSnackBar(context, 'Error occurred while uploading the image: $e');
+    showCustomSnackBar(context, loc.errorOccurredWhileUploadingImage(e));
   }
   return null;
 }

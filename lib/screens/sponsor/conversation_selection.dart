@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
 import 'chat_farmers.dart';
 
@@ -44,14 +46,13 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
         isLoading = false;
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading sponsored lands: $e')),
-        );
+        final loc = AppLocalizations.of(context)!;
+        showCustomSnackBar(context, loc.errorLoadingSponsoredLands(e));
       }
     }
   }
 
-  Future<String> _getFarmerName(String farmerId) async {
+  Future<String> _getFarmerName(AppLocalizations loc, String farmerId) async {
     try {
       final userDoc = await FirebaseFirestore.instance
           .collection('users')
@@ -59,11 +60,11 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
           .get();
       
       if (userDoc.exists) {
-        return userDoc.data()?['name'] ?? 'Unknown Farmer';
+        return userDoc.data()?['name'] ?? loc.unknownFarmer;
       }
-      return 'Unknown Farmer';
+      return loc.unknownFarmer;
     } catch (e) {
-      return 'Unknown Farmer';
+      return loc.unknownFarmer;
     }
   }
 
@@ -82,6 +83,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
 
   Widget _buildLandCard(LandModel land) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -133,7 +135,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
                         ),
                         const SizedBox(height: 4),
                         FutureBuilder<String>(
-                          future: _getFarmerName(land.ownerId),
+                          future: _getFarmerName(loc, land.ownerId),
                           builder: (context, snapshot) {
                             return Text(
                               'By ${snapshot.data ?? 'Loading...'} • ${land.location}',
@@ -298,7 +300,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          'Tap to chat',
+                          loc.tapToChat,
                           style: TextStyle(
                             color: Colors.blue[700],
                             fontSize: 11,
@@ -320,11 +322,12 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Select Conversation'),
+        title: Text(loc.selectConversation),
         centerTitle: true,
       ),
       body: isLoading
@@ -355,7 +358,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Text(
-                                    'Select a project to start or continue conversation with the farmer and other sponsors',
+                                    loc.selectProjectToChat,
                                     style: TextStyle(
                                       color: theme.primaryColor,
                                       fontSize: 14,
@@ -373,7 +376,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Projects You Support (${sponsoredLands.length})',
+                                loc.projectsYouSupportCount(sponsoredLands.length),
                                 style: theme.textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -394,7 +397,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
-                                      'Active Sponsor',
+                                      loc.activeSponsor,
                                       style: TextStyle(
                                         color: Colors.orange[700],
                                         fontSize: 11,
@@ -426,7 +429,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
 
   Widget _buildEmptyState() {
     final theme = Theme.of(context);
-    
+    final loc = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -439,7 +442,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
           ),
           const SizedBox(height: 16),
           Text(
-            'No Active Conversations',
+            loc.noActiveConversations,
             style: theme.textTheme.titleLarge?.copyWith(
               color: Colors.grey[600],
               fontWeight: FontWeight.bold,
@@ -447,7 +450,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
           ),
           const SizedBox(height: 8),
           Text(
-            'You need to sponsor projects to start conversations with farmers.',
+            loc.youNeedToSponsorToChat,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: Colors.grey[500],
             ),
@@ -462,7 +465,7 @@ class _SponsorConversationSelectionScreenState extends State<SponsorConversation
               // This will be handled by the navigation bar
             },
             icon: const Icon(Icons.volunteer_activism),
-            label: const Text('Find Projects to Support'),
+            label: Text(loc.findProjectsToSupport),
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.primaryColor,
               foregroundColor: Colors.white,

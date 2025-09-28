@@ -72,6 +72,12 @@ class MyAppState extends State<MyApp> {
       theme: _lightTheme(),
       darkTheme: _darkTheme(),
       initialRoute: "auth",
+      builder: (context, child) {
+        return Directionality(
+          textDirection: TextDirection.ltr,
+          child: child!,
+        );
+      },
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

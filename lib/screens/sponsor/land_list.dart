@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
 import 'land_details.dart';
 
@@ -17,7 +19,7 @@ class _LandListScreenState extends State<LandListScreen> {
   bool isLoading = true;
   String searchQuery = '';
   String selectedCrop = 'All';
-  String selectedFundingStatus = 'All';
+  int selectedFundingStatus = 0;
   final TextEditingController _searchController = TextEditingController();
 
   final List<String> cropTypes = [
@@ -25,9 +27,7 @@ class _LandListScreenState extends State<LandListScreen> {
     'Beans', 'Carrots', 'Onions', 'Lettuce', 'Other'
   ];
 
-  final List<String> fundingStatuses = [
-    'All', 'Just Started (0-25%)', 'In Progress (25-75%)', 'Almost Complete (75-99%)'
-  ];
+  final List<int> fundingStatusesIndexes = [0, 1, 2, 3];
 
   @override
   void initState() {
@@ -52,7 +52,6 @@ class _LandListScreenState extends State<LandListScreen> {
           .where((land) => land.isActive == true)
           .toList();
 
-      print("Loaded ${availableLands.length} lands");
       _applyFilters();
       setState(() {
         isLoading = false;
@@ -62,9 +61,8 @@ class _LandListScreenState extends State<LandListScreen> {
         isLoading = false;
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading projects: $e')),
-        );
+        final loc = AppLocalizations.of(context)!;
+        showCustomSnackBar(context, loc.errorLoadingProjects(e));
       }
     }
   }
@@ -85,16 +83,16 @@ class _LandListScreenState extends State<LandListScreen> {
 
       // Funding status filter
       bool matchesFunding = true;
-      if (selectedFundingStatus != 'All') {
+      if (selectedFundingStatus != 0) {
         double progress = land.progressPercentage;
         switch (selectedFundingStatus) {
-          case 'Just Started (0-25%)':
+          case 1:
             matchesFunding = progress <= 25;
             break;
-          case 'In Progress (25-75%)':
+          case 2:
             matchesFunding = progress > 25 && progress <= 75;
             break;
-          case 'Almost Complete (75-99%)':
+          case 3:
             matchesFunding = progress > 75 && progress < 100;
             break;
         }
@@ -106,7 +104,7 @@ class _LandListScreenState extends State<LandListScreen> {
     setState(() {});
   }
 
-  Future<void> _sponsorLand(LandModel land, double amount) async {
+  Future<void> _sponsorLand(AppLocalizations loc, LandModel land, double amount) async {
     if (amount <= 0) return;
 
     final currentUser = FirebaseAuth.instance.currentUser;
@@ -131,14 +129,14 @@ class _LandListScreenState extends State<LandListScreen> {
         'senderId': 'system',
         'senderName': 'System',
         'senderRole': 'system',
-        'text': '🎉 New sponsor joined! A generous contribution of TND${amount.toStringAsFixed(0)} has been made to support this project.',
+        'text': loc.newSponsorJoinedTnd(amount.toStringAsFixed(0)),
         'timestamp': FieldValue.serverTimestamp(),
       });
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Thank you for your sponsorship!'),
+          SnackBar(
+            content: Text(loc.thankYouForSponsorship),
             backgroundColor: Colors.green,
           ),
         );
@@ -146,32 +144,31 @@ class _LandListScreenState extends State<LandListScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error processing sponsorship: $e')),
-        );
+        showCustomSnackBar(context, loc.errorProcessingSponsorship(e));
       }
     }
   }
 
   void _showSponsorDialog(LandModel land) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     final TextEditingController amountController = TextEditingController();
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Sponsor ${land.title}'),
+        title: Text(loc.sponsorLandTitle(land.title)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Help ${land.title} reach its funding goal!',
+              loc.helpLandReachFundingGoal(land.title),
               style: theme.textTheme.bodyMedium,
             ),
             const SizedBox(height: 16),
             Text(
-              'Remaining needed: TND ${(land.totalNeeded - land.totalFulfilled).toStringAsFixed(0)}',
+              loc.remainingNeeded((land.totalNeeded - land.totalFulfilled).toStringAsFixed(0)),
               style: theme.textTheme.bodySmall?.copyWith(
                 color: Colors.grey[600],
               ),
@@ -182,7 +179,7 @@ class _LandListScreenState extends State<LandListScreen> {
               keyboardType: TextInputType.number,
               style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
-                labelText: 'Sponsorship Amount (TND)',
+                labelText: loc.sponsorshipAmountTnd,
                 hintStyle: theme.textTheme.bodySmall,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -221,10 +218,10 @@ class _LandListScreenState extends State<LandListScreen> {
               final amount = double.tryParse(amountController.text);
               if (amount != null && amount > 0) {
                 Navigator.pop(context);
-                _sponsorLand(land, amount);
+                _sponsorLand(loc, land, amount);
               }
             },
-            child: const Text('Sponsor Now'),
+            child: Text(loc.sponsorNow),
           ),
         ],
       ),
@@ -233,12 +230,18 @@ class _LandListScreenState extends State<LandListScreen> {
 
   Widget _buildFilterChips() {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
+
+    final List<String> fundingStatuses = [
+      'All', loc.justStarted0_25, loc.inProgress25_75, loc.almostComplete75_99
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Crop filter
         Text(
-          'Filter by Crop',
+          loc.filterByCrop,
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -266,7 +269,7 @@ class _LandListScreenState extends State<LandListScreen> {
 
         // Funding status filter
         Text(
-          'Filter by Funding Status',
+          loc.filterByFundingStatus,
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -275,7 +278,7 @@ class _LandListScreenState extends State<LandListScreen> {
         Wrap(
           spacing: 8,
           children: fundingStatuses.map((status) {
-            bool isSelected = selectedFundingStatus == status;
+            bool isSelected = fundingStatuses[selectedFundingStatus] == status;
             return FilterChip(
               label: Text(
                 status,
@@ -284,7 +287,7 @@ class _LandListScreenState extends State<LandListScreen> {
               selected: isSelected,
               onSelected: (selected) {
                 setState(() {
-                  selectedFundingStatus = status;
+                  selectedFundingStatus = fundingStatuses.indexOf(status);
                 });
                 _applyFilters();
               },
@@ -299,6 +302,7 @@ class _LandListScreenState extends State<LandListScreen> {
 
   Widget _buildLandCard(LandModel land) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     final currentUser = FirebaseAuth.instance.currentUser;
     final isAlreadySponsored = land.sponsors.contains(currentUser?.uid);
 
@@ -340,7 +344,7 @@ class _LandListScreenState extends State<LandListScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      _getUrgencyText(land.progressPercentage),
+                      _getUrgencyText(loc, land.progressPercentage),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 10,
@@ -508,7 +512,7 @@ class _LandListScreenState extends State<LandListScreen> {
                           );
                         },
                         icon: const Icon(Icons.visibility, size: 16),
-                        label: const Text('View Details'),
+                        label: Text(loc.viewDetails),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
@@ -525,7 +529,7 @@ class _LandListScreenState extends State<LandListScreen> {
                           size: 16,
                         ),
                         label: Text(
-                          isAlreadySponsored ? 'Sponsored' : 'Sponsor Now',
+                          isAlreadySponsored ? 'Sponsored' : loc.sponsorNow,
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -551,20 +555,21 @@ class _LandListScreenState extends State<LandListScreen> {
     return Colors.green;
   }
 
-  String _getUrgencyText(double progress) {
+  String _getUrgencyText(AppLocalizations loc, double progress) {
     if (progress < 25) return 'URGENT';
-    if (progress < 75) return 'IN PROGRESS';
-    return 'ALMOST THERE';
+    if (progress < 75) return loc.inProgress;
+    return loc.almostThere;
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Browse Projects'),
+        title: Text(loc.browseProjects),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list),
@@ -581,7 +586,7 @@ class _LandListScreenState extends State<LandListScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Filter Projects',
+                        loc.filterProjects,
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -593,7 +598,7 @@ class _LandListScreenState extends State<LandListScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text('Apply Filters'),
+                          child: Text(loc.applyFilters),
                         ),
                       ),
                     ],
@@ -612,7 +617,7 @@ class _LandListScreenState extends State<LandListScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Search projects by name, location, or crop...',
+                hintText: loc.searchProjects,
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -639,18 +644,18 @@ class _LandListScreenState extends State<LandListScreen> {
                   ),
                 ),
                 const Spacer(),
-                if (searchQuery.isNotEmpty || selectedCrop != 'All' || selectedFundingStatus != 'All')
+                if (searchQuery.isNotEmpty || selectedCrop != 'All' || selectedFundingStatus != 0)
                   TextButton(
                     onPressed: () {
                       setState(() {
                         searchQuery = '';
                         selectedCrop = 'All';
-                        selectedFundingStatus = 'All';
+                        selectedFundingStatus = 0;
                         _searchController.clear();
                       });
                       _applyFilters();
                     },
-                    child: const Text('Clear Filters'),
+                    child: Text(loc.clearFilters),
                   ),
               ],
             ),
@@ -674,14 +679,14 @@ class _LandListScreenState extends State<LandListScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'No projects found',
+                      loc.noProjectsFound,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: Colors.grey[600],
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Try adjusting your search criteria',
+                      loc.tryAdjustingSearch,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.grey[500],
                       ),

@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
 import 'proof_upload.dart';
 
@@ -44,9 +46,9 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
         isLoading = false;
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading your lands: $e')),
-        );
+
+        final loc = AppLocalizations.of(context)!;
+        showCustomSnackBar(context, loc.errorLoadingLands(e));
       }
     }
   }
@@ -71,6 +73,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
 
   Widget _buildLandCard(LandModel land) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -228,7 +231,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      'Tap to upload progress proof',
+                      loc.tapToUploadProgressProof,
                       style: TextStyle(
                         color: Colors.green[700],
                         fontSize: 12,
@@ -246,6 +249,8 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
   }
 
   Widget _buildUpdateStatus(LandModel land) {
+    final loc = AppLocalizations.of(context)!;
+
     return FutureBuilder<DateTime?>(
       future: _loadRecentUpdates(land.id).then((value) => value as DateTime?),
       builder: (context, snapshot) {
@@ -257,7 +262,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              'No updates',
+              loc.noUpdates,
               style: TextStyle(
                 color: Colors.orange[700],
                 fontSize: 10,
@@ -278,7 +283,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
           statusText = 'Recent';
         } else if (daysSinceUpdate <= 14) {
           statusColor = Colors.orange.shade700;
-          statusText = 'Due Soon';
+          statusText = loc.dueSoon;
         } else {
           statusColor = Colors.red.shade700;
           statusText = 'Overdue';
@@ -306,11 +311,12 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Select Farm'),
+        title: Text(loc.selectFarm),
         centerTitle: true,
       ),
       body: isLoading
@@ -341,7 +347,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Text(
-                                    'Select a farm to upload progress proof and keep your sponsors updated',
+                                    loc.selectFarmToUploadProof,
                                     style: TextStyle(
                                       color: theme.primaryColor,
                                       fontSize: 14,
@@ -359,7 +365,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Your Farms (${userLands.length})',
+                                loc.yourFarmsCount(userLands.length),
                                 style: theme.textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -380,7 +386,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
-                                      'Weekly updates recommended',
+                                      loc.weeklyUpdatesRecommended,
                                       style: TextStyle(
                                         color: Colors.blue[700],
                                         fontSize: 11,
@@ -412,7 +418,8 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
 
   Widget _buildEmptyState() {
     final theme = Theme.of(context);
-    
+    final loc = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -425,7 +432,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'No Farms to Upload Proof',
+            loc.noFarmsToUploadProof,
             style: theme.textTheme.titleLarge?.copyWith(
               color: Colors.grey[600],
               fontWeight: FontWeight.bold,
@@ -433,7 +440,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'You need to have active farms to upload progress proofs.',
+            loc.youNeedActiveFarmsToUpload,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: Colors.grey[500],
             ),
@@ -448,7 +455,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
               // This will be handled by the navigation bar
             },
             icon: const Icon(Icons.add),
-            label: const Text('Add Your First Farm'),
+            label: Text(loc.addYourFirstFarm),
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.primaryColor,
               foregroundColor: Colors.white,

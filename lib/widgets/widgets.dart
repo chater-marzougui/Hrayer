@@ -42,6 +42,7 @@ Widget buildTextField(
     BuildContext context, TextEditingController controller, String label,
     {bool obscureText = false, String? Function(String?)? validator}) {
   final theme = Theme.of(context);
+  final loc = AppLocalizations.of(context)!;
   return TextFormField(
     controller: controller,
     decoration: InputDecoration(
@@ -55,7 +56,7 @@ Widget buildTextField(
     validator: validator ??
             (value) {
           if (value == null || value.isEmpty) {
-            return "Please enter $label";
+            return loc.pleaseEnterLabel(label);
           }
           return null;
         },

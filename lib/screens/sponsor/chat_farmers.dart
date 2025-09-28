@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
 
 class ChatFarmersScreen extends StatefulWidget {
@@ -88,9 +90,8 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
       _scrollToBottom();
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to send message: $e')),
-        );
+        final loc = AppLocalizations.of(context)!;
+        showCustomSnackBar(context, loc.failedToSendMessage(e));
       }
     } finally {
       if (mounted) {
@@ -344,6 +345,7 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
 
   void _showProjectInfo() {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -360,7 +362,7 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
                 Icon(Icons.agriculture, color: theme.primaryColor),
                 const SizedBox(width: 8),
                 Text(
-                  'Project Information',
+                  loc.projectInformation,
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -368,12 +370,12 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
               ],
             ),
             const SizedBox(height: 20),
-            _buildInfoRow('Project Name', widget.land.title),
+            _buildInfoRow(loc.projectName, widget.land.title),
             _buildInfoRow('Location', widget.land.location),
             _buildInfoRow('Size', '${widget.land.size} hectares'),
             _buildInfoRow('Crop', widget.land.intendedCrop),
-            _buildInfoRow('Total Needed', '\${widget.land.totalNeeded.toStringAsFixed(0)}'),
-            _buildInfoRow('Amount Raised', '\${widget.land.totalFulfilled.toStringAsFixed(0)}'),
+            _buildInfoRow(loc.totalNeeded, '\${widget.land.totalNeeded.toStringAsFixed(0)}'),
+            _buildInfoRow(loc.amountRaised, '\${widget.land.totalFulfilled.toStringAsFixed(0)}'),
             _buildInfoRow('Progress', '${widget.land.progressPercentage.toStringAsFixed(1)}%'),
             _buildInfoRow('Sponsors', '${widget.land.sponsors.length}'),
             const SizedBox(height: 16),
@@ -427,7 +429,7 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
@@ -435,7 +437,7 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Project Chat',
+              loc.projectChat,
               style: const TextStyle(fontSize: 16),
             ),
             Text(
@@ -466,7 +468,7 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'This is a transparent group chat. All messages are visible to project participants for safety and accountability.',
+                    loc.transparentGroupChatDisclaimer,
                     style: TextStyle(
                       color: Colors.blue[700],
                       fontSize: 11,
@@ -493,7 +495,7 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
                         Icon(Icons.error_outline, size: 48, color: Colors.grey[400]),
                         const SizedBox(height: 16),
                         Text(
-                          'Error loading messages',
+                          loc.errorLoadingMessages,
                           style: theme.textTheme.titleMedium?.copyWith(
                             color: Colors.grey[600],
                           ),
@@ -530,14 +532,14 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No messages yet',
+                          loc.noMessagesYet,
                           style: theme.textTheme.titleMedium?.copyWith(
                             color: Colors.grey[600],
                           ),
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Start the conversation! Share updates, ask questions, or offer support.',
+                          loc.startTheConversation,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: Colors.grey[500],
                           ),
@@ -557,7 +559,7 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
                               Icon(Icons.lightbulb_outline, color: theme.primaryColor, size: 16),
                               const SizedBox(width: 8),
                               Text(
-                                'Tip: Share progress photos and updates to keep everyone engaged!',
+                                loc.tipShareProgress,
                                 style: TextStyle(
                                   color: theme.primaryColor,
                                   fontSize: 12,
@@ -653,8 +655,8 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
                     textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                       hintText: currentUserRole == 'farmer'
-                          ? 'Share an update with your sponsors...'
-                          : 'Send encouragement or ask questions...',
+                          ? loc.shareAnUpdateWithSponsors
+                          : loc.sendEncouragementOrAskQuestions,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,

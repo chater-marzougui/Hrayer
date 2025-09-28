@@ -1,6 +1,8 @@
+﻿import 'package:base_template/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/widgets.dart';
 import '../../structures/land_models.dart';
 import 'land_list.dart';
 import 'land_details.dart';
@@ -62,9 +64,8 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
         isLoading = false;
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading sponsorships: $e')),
-        );
+        final loc = AppLocalizations.of(context)!;
+        showCustomSnackBar(context, loc.errorLoadingSponsorships(e));
       }
     }
   }
@@ -107,6 +108,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
 
   Widget _buildSponsoredLandCard(LandModel land) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -206,7 +208,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                       );
                     },
                     icon: const Icon(Icons.visibility, size: 16),
-                    label: const Text('View Details'),
+                    label: Text(loc.viewDetails),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                     ),
@@ -239,9 +241,11 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
   }
 
   Widget _buildImpactSection() {
-    final theme = Theme.of(context);
-
     if (sponsoredLands.isEmpty) return const SizedBox.shrink();
+
+    final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
+
 
     final completedProjects = sponsoredLands.where((land) => land.isFullyFunded).length;
     final totalHectares = sponsoredLands.fold(0.0, (sum, land) => sum + land.size);
@@ -273,7 +277,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
               ),
               const SizedBox(width: 8),
               Text(
-                'Your Impact',
+                loc.yourImpact,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: theme.primaryColor,
@@ -286,14 +290,14 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
             children: [
               Expanded(
                 child: _buildImpactItem(
-                  'Projects Completed',
+                  loc.projectsCompleted,
                   completedProjects.toString(),
                   Icons.check_circle,
                 ),
               ),
               Expanded(
                 child: _buildImpactItem(
-                  'Total Hectares',
+                  loc.totalHectares,
                   totalHectares.toStringAsFixed(1),
                   Icons.landscape,
                 ),
@@ -302,7 +306,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Thank you for supporting sustainable agriculture and empowering rural farmers! 🌱',
+            loc.thankYouForSupporting,
             style: theme.textTheme.bodySmall?.copyWith(
               fontStyle: FontStyle.italic,
               color: theme.primaryColor,
@@ -346,11 +350,12 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Sponsor Dashboard'),
+        title: Text(loc.sponsorDashboard),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -377,7 +382,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                 children: [
                   Expanded(
                     child: _buildStatsCard(
-                      'Active Projects',
+                      loc.activeProjects,
                       activeSponsorships.toString(),
                       Icons.agriculture,
                       theme.primaryColor,
@@ -386,7 +391,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildStatsCard(
-                      'Total Contributed',
+                      loc.totalContributed,
                       totalSponsored.toStringAsFixed(0),
                       Icons.monetization_on,
                       Colors.green,
@@ -395,7 +400,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildStatsCard(
-                      'Farmers Helped',
+                      loc.farmersHelped,
                       farmersBenefited.toString(),
                       Icons.people,
                       Colors.orange,
@@ -408,7 +413,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
 
               // Quick Actions
               Text(
-                'Quick Actions',
+                loc.quickActions,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -421,7 +426,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
 
               // My Sponsorships Section
               Text(
-                'My Sponsorships',
+                loc.mySponsorships,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -446,14 +451,14 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'No sponsorships yet',
+                        loc.noSponsorshipsYet,
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: Colors.grey[600],
                         ),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Browse available projects and start making a difference in rural farming communities',
+                        loc.browseProjectsAndMakeADifference,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: Colors.grey[500],
                         ),
@@ -470,7 +475,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                           ).then((_) => _loadSponsoredLands());
                         },
                         icon: const Icon(Icons.search),
-                        label: const Text('Browse Projects'),
+                        label: Text(loc.browseProjects),
                       ),
                     ],
                   ),

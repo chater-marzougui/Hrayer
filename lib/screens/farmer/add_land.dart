@@ -1,10 +1,12 @@
-import 'package:base_template/Widgets/widgets.dart';
-import 'package:base_template/helpers/image_upload.dart';
+﻿import 'package:base_template/helpers/image_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import '../../l10n/app_localizations.dart';
+import '../../widgets/widgets.dart';
 
 class AddLandScreen extends StatefulWidget {
   const AddLandScreen({super.key});
@@ -47,6 +49,8 @@ class _AddLandScreenState extends State<AddLandScreen> {
   }
 
   Future<void> _pickImages() async {
+
+    final loc = AppLocalizations.of(context)!;
     try {
       final List<XFile> images = await _picker.pickMultiImage();
       if (images.isNotEmpty && images.length <= 8) {
@@ -54,23 +58,19 @@ class _AddLandScreenState extends State<AddLandScreen> {
           selectedImages = images.map((xFile) => File(xFile.path)).toList();
         });
       } else if (images.length > 8) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Maximum 8 images allowed')),
-        );
+        showCustomSnackBar(context, loc.maximum8ImagesAllowed);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking images: $e')),
-      );
+      showCustomSnackBar(context, (loc.errorPickingImages(e)));
     }
   }
 
   Future<void> _submitLand() async {
+    final loc = AppLocalizations.of(context)!;
+
     if (!_formKey.currentState!.validate()) return;
     if (selectedImages.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please add at least one image')),
-      );
+      showCustomSnackBar(context, (loc.pleaseAddAtLeastOneImage));
       return;
     }
 
@@ -95,9 +95,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
       });
 
       if (needs.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please specify at least one funding need')),
-        );
+        showCustomSnackBar(context, loc.pleaseSpecifyFundingNeed);
         setState(() {
           isLoading = false;
         });
@@ -113,7 +111,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
             break;
           }
           if (i == 2) {
-            showSnackBar(context, 'Failed to upload image after multiple attempts');
+            showCustomSnackBar(context, loc.failedToUploadImageAfterMultipleAttempts);
           }
         }
       }
@@ -137,16 +135,12 @@ class _AddLandScreenState extends State<AddLandScreen> {
       await FirebaseFirestore.instance.collection('lands').add(landData);
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Land registered successfully!')),
-        );
+        showCustomSnackBar(context, loc.landRegisteredSuccessfully);
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        showCustomSnackBar(context, loc.errorGeneric(e));
       }
     } finally {
       if (mounted) {
@@ -159,6 +153,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
 
   Widget _buildNeedsSection() {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -170,14 +165,14 @@ class _AddLandScreenState extends State<AddLandScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Funding Needs (TND)',
+            loc.fundingNeedsTnd,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Specify how much funding you need for each category',
+            loc.specifyFundingNeeds,
             style: theme.textTheme.bodySmall?.copyWith(
               color: Colors.grey[600],
             ),
@@ -203,10 +198,10 @@ class _AddLandScreenState extends State<AddLandScreen> {
                 validator: (value) {
                   if (value != null && value.isNotEmpty) {
                     if (double.tryParse(value) == null) {
-                      return 'Enter valid amount';
+                      return loc.enterValidAmount;
                     }
                     if (double.parse(value) <= 0) {
-                      return 'Amount must be greater than 0';
+                      return loc.amountMustBeGreaterThan0;
                     }
                   }
                   return null;
@@ -222,11 +217,12 @@ class _AddLandScreenState extends State<AddLandScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Register New Land'),
+        title: Text(loc.registerNewLand),
         actions: [
           if (isLoading)
             const Padding(
@@ -248,7 +244,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
             children: [
               // Basic Information
               Text(
-                'Basic Information',
+                loc.basicInformation,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -258,14 +254,14 @@ class _AddLandScreenState extends State<AddLandScreen> {
               TextFormField(
                 controller: _titleController,
                 decoration: InputDecoration(
-                  labelText: 'Land Title *',
+                  labelText: loc.landTitleRequired,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a title for your land';
+                    return loc.pleaseEnterLandTitle;
                   }
                   return null;
                 },
@@ -276,15 +272,15 @@ class _AddLandScreenState extends State<AddLandScreen> {
                 controller: _descriptionController,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  labelText: 'Description *',
-                  hintText: 'Describe your land, soil type, current condition...',
+                  labelText: loc.descriptionRequired,
+                  hintText: loc.describeYourLand,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a description';
+                    return loc.pleaseEnterDescription;
                   }
                   return null;
                 },
@@ -297,14 +293,14 @@ class _AddLandScreenState extends State<AddLandScreen> {
                     child: TextFormField(
                       controller: _locationController,
                       decoration: InputDecoration(
-                        labelText: 'Location *',
+                        labelText: loc.locationRequired,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'Please enter location';
+                          return loc.pleaseEnterLocation;
                         }
                         return null;
                       },
@@ -316,17 +312,17 @@ class _AddLandScreenState extends State<AddLandScreen> {
                       controller: _sizeController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        labelText: 'Size (hectares) *',
+                        labelText: loc.sizeInHectaresRequired,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'Enter size';
+                          return loc.enterSize;
                         }
                         if (double.tryParse(value) == null) {
-                          return 'Invalid number';
+                          return loc.invalidNumber;
                         }
                         return null;
                       },
@@ -339,7 +335,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
               TextFormField(
                 controller: _cropController,
                 decoration: InputDecoration(
-                  labelText: 'Intended Crop *',
+                  labelText: loc.intendedCropRequired,
                   hintText: 'e.g., Tomatoes, Wheat, Corn...',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -347,7 +343,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please specify the crop you plan to grow';
+                    return loc.pleaseSpecifyCrop;
                   }
                   return null;
                 },
@@ -357,7 +353,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
 
               // Images Section
               Text(
-                'Land Images',
+                loc.landImages,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -388,7 +384,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Add Photos (Max 8)',
+                        loc.addPhotosMax8,
                         style: TextStyle(color: theme.primaryColor),
                       ),
                     ],
@@ -448,8 +444,8 @@ class _AddLandScreenState extends State<AddLandScreen> {
                   ),
                   child: isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text(
-                    'Register Land',
+                      : Text(
+                    loc.registerLand,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),

@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
 import 'chat_sponsors.dart';
 
@@ -24,7 +26,9 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
   Future<void> _loadUserLands() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
-
+    setState(() {
+      isLoading = true;
+    });
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('lands')
@@ -44,9 +48,8 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
         isLoading = false;
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading your lands: $e')),
-        );
+        final loc = AppLocalizations.of(context)!;
+        showCustomSnackBar(context, loc.errorLoadingLands(e));
       }
     }
   }
@@ -183,11 +186,12 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Select Conversation'),
+        title: Text(loc.selectConversation),
         centerTitle: true,
       ),
       body: isLoading
@@ -227,7 +231,8 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
 
   Widget _buildEmptyState() {
     final theme = Theme.of(context);
-    
+    final loc = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -240,7 +245,7 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
           ),
           const SizedBox(height: 16),
           Text(
-            'No Conversations Available',
+            loc.noConversationsAvailable,
             style: theme.textTheme.titleLarge?.copyWith(
               color: Colors.grey[600],
               fontWeight: FontWeight.bold,
@@ -248,7 +253,7 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
           ),
           const SizedBox(height: 8),
           Text(
-            'You need to have active lands with sponsors to start conversations.',
+            loc.youNeedActiveLandsToChat,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: Colors.grey[500],
             ),
@@ -263,7 +268,7 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
               // This will be handled by the navigation bar
             },
             icon: const Icon(Icons.add),
-            label: const Text('Add Your First Land'),
+            label: Text(loc.addYourFirstLand),
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.primaryColor,
               foregroundColor: Colors.white,

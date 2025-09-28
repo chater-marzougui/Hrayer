@@ -70,7 +70,7 @@ Widget buildWelcomeMessage(AppLocalizations loc) {
                     children: [
                       _buildFeatureItem(Icons.mic, "Voice"),
                       const SizedBox(width: 30),
-                      _buildFeatureItem(Icons.camera_alt, "Camera"),
+                      _buildFeatureItem(Icons.camera_alt, loc.camera),
                       const SizedBox(width: 30),
                       _buildFeatureItem(Icons.message, "Text"),
                     ],

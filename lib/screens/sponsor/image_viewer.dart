@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+
+import '../../l10n/app_localizations.dart';
 
 class ImageViewerScreen extends StatefulWidget {
   final List<String> images;
@@ -33,6 +35,7 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -68,18 +71,18 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     color: Colors.grey[800],
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.error,
                           size: 64,
                           color: Colors.white70,
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         Text(
-                          'Failed to load image',
-                          style: TextStyle(
+                          loc.failedToLoadImage,
+                          style: const TextStyle(
                             color: Colors.white70,
                             fontSize: 16,
                           ),

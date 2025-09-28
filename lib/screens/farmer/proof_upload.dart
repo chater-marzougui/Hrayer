@@ -1,9 +1,11 @@
+﻿import 'package:base_template/widgets/widgets.dart';
 import 'package:base_template/helpers/image_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
 
 class ProofUploadScreen extends StatefulWidget {
@@ -59,11 +61,13 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
 
       setState(() {});
     } catch (e) {
-      print('Error loading updates: $e');
+      final loc = AppLocalizations.of(context)!;
+      showCustomSnackBar(context, loc.errorLoadingUpdates(e));
     }
   }
 
   Future<void> _pickImages() async {
+    final loc = AppLocalizations.of(context)!;
     try {
       final List<XFile> images = await _picker.pickMultiImage();
       if (images.isNotEmpty && images.length <= 3) {
@@ -71,23 +75,19 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
           selectedImages = images.map((xFile) => File(xFile.path)).toList();
         });
       } else if (images.length > 3) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Maximum 3 images allowed for updates')),
-        );
+          showCustomSnackBar(context, loc.maximum3ImagesAllowedForUpdates);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking images: $e')),
-      );
+        showCustomSnackBar(context, loc.errorPickingImages(e));
     }
   }
 
   Future<void> _submitUpdate() async {
     if (!_formKey.currentState!.validate()) return;
+
+    final loc = AppLocalizations.of(context)!;
     if (selectedImages.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please add at least one photo')),
-      );
+      showCustomSnackBar(context, (loc.pleaseAddAtLeastOnePhoto));
       return;
     }
 
@@ -142,16 +142,12 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
           .add(chatMessage);
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Update submitted successfully!')),
-        );
+        showCustomSnackBar(context, loc.updateSubmittedSuccessfully);
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+          showCustomSnackBar(context, loc.errorGeneric(e));
       }
     } finally {
       if (mounted) {
@@ -164,6 +160,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
 
   Widget _buildUpdateTypeSelector() {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -175,7 +172,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Update Type',
+            loc.updateType,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -284,6 +281,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -357,7 +355,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
 
               // Photo Upload
               Text(
-                'Progress Photos',
+                loc.progressPhotos,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -388,7 +386,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Add Progress Photos (Max 3)',
+                        loc.addProgressPhotosMax3,
                         style: TextStyle(color: theme.primaryColor),
                       ),
                     ],
@@ -430,7 +428,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
 
               // Progress Note
               Text(
-                'Progress Note',
+                loc.progressNote,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -441,7 +439,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
                 controller: _noteController,
                 maxLines: 4,
                 decoration: InputDecoration(
-                  hintText: 'Describe the current progress, any challenges, achievements, or observations...',
+                  hintText: loc.describeCurrentProgress,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -449,10 +447,10 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please provide a progress update note';
+                    return loc.pleaseProvideProgressUpdateNote;
                   }
                   if (value.trim().length < 10) {
-                    return 'Please provide a more detailed update (at least 10 characters)';
+                    return loc.pleaseProvideDetailedUpdate;
                   }
                   return null;
                 },
@@ -463,7 +461,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
               // Previous Updates
               if (previousUpdates.isNotEmpty) ...[
                 Text(
-                  'Recent Updates',
+                  loc.recentUpdates,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -481,7 +479,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
                   onPressed: isLoading ? null : _submitUpdate,
                   icon: const Icon(Icons.upload),
                   label: Text(
-                    isLoading ? 'Submitting...' : 'Submit Update',
+                    isLoading ? 'Submitting...' : loc.submitUpdate,
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   style: ElevatedButton.styleFrom(

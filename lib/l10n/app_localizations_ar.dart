@@ -42,8 +42,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get createAnAccount => 'إنشاء حساب';
 
   @override
-  String currentSelectedThemeMode(Object mode) {
-    return 'الحالي: $mode';
+  String currentSelectedThemeMode(Object _selectedThemeMode) {
+    return 'الحالي: $_selectedThemeMode';
   }
 
   @override
@@ -94,7 +94,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String errorReauthenticatingUser(Object e) {
-    return 'خطأ في إعادة مصادقة المستخدم: $e';
+    return 'خطأ في إعادة توثيق المستخدم: $e';
   }
 
   @override
@@ -124,8 +124,8 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String failedToCreateProfile(Object e) {
-    return 'فشل في إنشاء الملف الشخصي: $e';
+  String failedToCreateProfile(Object toString) {
+    return 'فشل إنشاء الملف الشخصي: $toString';
   }
 
   @override
@@ -323,4 +323,580 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get gallery => 'المعرض';
+
+  @override
+  String get farmerRoleDescription => '• يمكنه إضافة وإدارة الأراضي\n• يمكنه تحميل إثباتات التقدم\n• يمكنه الدردشة مع الرعاة\n• يمكنه إضافة مستخدمين جدد (صلاحيات المسؤول)';
+
+  @override
+  String get sponsorRoleDescription => '• يمكنه تصفح ورعاية المشاريع\n• يمكنه الدردشة مع المزارعين\n• يمكنه عرض تحديثات التقدم';
+
+  @override
+  String get userWithPhoneNumberExists => 'يوجد مستخدم بهذا الرقم الهاتفي بالفعل';
+
+  @override
+  String get activeLands => 'الأراضي النشطة';
+
+  @override
+  String get activeProjects => 'المشاريع النشطة';
+
+  @override
+  String get activeSponsor => 'الراعي النشط';
+
+  @override
+  String get addLand => 'إضافة أرض';
+
+  @override
+  String get addNewUser => 'إضافة مستخدم جديد';
+
+  @override
+  String get addPhotosMax8 => 'إضافة صور (8 كحد أقصى)';
+
+  @override
+  String get addProgressPhotosMax3 => 'إضافة صور التقدم (3 كحد أقصى)';
+
+  @override
+  String get addUser => 'إضافة مستخدم';
+
+  @override
+  String get addYourFirstFarm => 'أضف مزرعتك الأولى';
+
+  @override
+  String get addYourFirstLand => 'أضف أرضك الأولى';
+
+  @override
+  String get addYourFirstLandToStart => 'أضف أرضك الأولى لبدء البحث عن رعاية';
+
+  @override
+  String get aiAssistant => 'مساعد الذكاء الاصطناعي';
+
+  @override
+  String get aiChat => 'الذكاء الاصطناعي';
+
+  @override
+  String get almostComplete75_99 => 'أوشك على الانتهاء (75-99%)';
+
+  @override
+  String get almostThere => 'اقتربنا من النهاية';
+
+  @override
+  String get amountMustBeGreaterThan0 => 'يجب أن يكون المبلغ أكبر من 0';
+
+  @override
+  String get amountRaised => 'المبلغ المجمع';
+
+  @override
+  String get applyFilters => 'تطبيق المرشحات';
+
+  @override
+  String get asAFarmerYouCanInvite => 'كمزارع (مسؤول)، يمكنك دعوة مستخدمين جدد للانضمام إلى المنصة';
+
+  @override
+  String get basicInformation => 'معلومات أساسية';
+
+  @override
+  String get browseProjectsAndMakeADifference => 'تصفح المشاريع المتاحة وابدأ في إحداث فرق في المجتمعات الزراعية الريفية';
+
+  @override
+  String get browseProjects => 'تصفح المشاريع';
+
+  @override
+  String get clearFilters => 'مسح المرشحات';
+
+  @override
+  String get appTagline => 'ربط المزارعات بالمستثمرين من أجل زراعة مستدامة';
+
+  @override
+  String get continueAsUser => 'المتابعة كمستخدم';
+
+  @override
+  String get describeCurrentProgress => 'صف التقدم الحالي، وأي تحديات، وإنجازات، أو ملاحظات...';
+
+  @override
+  String get describeYourLand => 'صف أرضك، نوع التربة، حالتها الراهنة...';
+
+  @override
+  String get descriptionRequired => 'الوصف *';
+
+  @override
+  String get discoverFarmingOpportunities => 'اكتشف فرص الزراعة وادعم الزراعة المستدامة';
+
+  @override
+  String get dueSoon => 'قريب الاستحقاق';
+
+  @override
+  String get emailOptional => 'البريد الإلكتروني (اختياري)';
+
+  @override
+  String get enterSize => 'أدخل الحجم';
+
+  @override
+  String get enterValidAmount => 'أدخل مبلغًا صالحًا';
+
+  @override
+  String errorLoadingLands(Object e) {
+    return 'خطأ في تحميل الأراضي: $e';
+  }
+
+  @override
+  String get errorLoadingMessages => 'خطأ في تحميل الرسائل';
+
+  @override
+  String errorLoadingMessagesWithDetails(Object error) {
+    return 'خطأ في تحميل الرسائل: $error';
+  }
+
+  @override
+  String errorLoadingProjects(Object e) {
+    return 'خطأ في تحميل المشاريع: $e';
+  }
+
+  @override
+  String errorLoadingSponsoredLands(Object e) {
+    return 'خطأ في تحميل الأراضي المكفولة: $e';
+  }
+
+  @override
+  String errorLoadingSponsorships(Object e) {
+    return 'خطأ في تحميل الرعايات: $e';
+  }
+
+  @override
+  String errorLoadingUpdates(Object e) {
+    return 'خطأ في تحميل التحديثات: $e';
+  }
+
+  @override
+  String errorLoadingYourLands(Object e) {
+    return 'خطأ في تحميل أراضيك: $e';
+  }
+
+  @override
+  String errorOccurredWhileUploadingImage(Object e) {
+    return 'حدث خطأ أثناء تحميل الصورة: $e';
+  }
+
+  @override
+  String errorPickingImages(Object e) {
+    return 'خطأ في اختيار الصور: $e';
+  }
+
+  @override
+  String errorProcessingSponsorship(Object e) {
+    return 'خطأ في معالجة الرعاية: $e';
+  }
+
+  @override
+  String errorGeneric(Object e) {
+    return 'خطأ: $e';
+  }
+
+  @override
+  String get failedToLoadImage => 'فشل تحميل الصورة';
+
+  @override
+  String failedToSendMessage(Object e) {
+    return 'فشل إرسال الرسالة: $e';
+  }
+
+  @override
+  String failedToUpdateRole(Object toString) {
+    return 'فشل تحديث الدور: $toString';
+  }
+
+  @override
+  String get failedToUploadImageAfterMultipleAttempts => 'فشل تحميل الصورة بعد عدة محاولات';
+
+  @override
+  String get farmerRole => 'دور المزارع:';
+
+  @override
+  String get farmersHelped => 'المزارعون الذين تمت مساعدتهم';
+
+  @override
+  String get filterByCrop => 'التصفية حسب المحصول';
+
+  @override
+  String get filterByFundingStatus => 'التصفية حسب حالة التمويل';
+
+  @override
+  String get filterProjects => 'تصفية المشاريع';
+
+  @override
+  String get findProjectsToSupport => 'ابحث عن مشاريع لدعمها';
+
+  @override
+  String get fullName => 'الاسم الكامل';
+
+  @override
+  String get fullyFunded => 'ممولة بالكامل';
+
+  @override
+  String get fundingBreakdown => 'تفاصيل التمويل';
+
+  @override
+  String get fundingNeedsTnd => 'الاحتياجات التمويلية (دينار تونسي)';
+
+  @override
+  String get fundingProgress => 'تقدم التمويل';
+
+  @override
+  String helpLandReachFundingGoal(Object title) {
+    return 'ساعد $title في الوصول إلى هدفها التمويلي!';
+  }
+
+  @override
+  String get helpProjectReachFundingGoal => 'ساعد هذا المشروع في الوصول إلى هدفه التمويلي!';
+
+  @override
+  String get imAFarmer => 'أنا مزارع';
+
+  @override
+  String get imAnInvestor => 'أنا مستثمر';
+
+  @override
+  String get inProgress => 'قيد التنفيذ';
+
+  @override
+  String get inProgress25_75 => 'قيد التنفيذ (25-75%)';
+
+  @override
+  String get intendedCropRequired => 'المحصول المستهدف *';
+
+  @override
+  String get invalidNumber => 'رقم غير صالح';
+
+  @override
+  String get joinChat => 'الانضمام للدردشة';
+
+  @override
+  String get justStarted0_25 => 'بدأ للتو (0-25%)';
+
+  @override
+  String get landImages => 'صور الأرض';
+
+  @override
+  String get landInformation => 'معلومات الأرض';
+
+  @override
+  String get landRegisteredSuccessfully => 'تم تسجيل الأرض بنجاح!';
+
+  @override
+  String get landTitleRequired => 'عنوان الأرض *';
+
+  @override
+  String loadedLandsCount(Object length) {
+    return 'تم تحميل $length أراضٍ';
+  }
+
+  @override
+  String get locationRequired => 'الموقع *';
+
+  @override
+  String get maximum3ImagesAllowedForUpdates => 'الحد الأقصى 3 صور للتحديثات';
+
+  @override
+  String get maximum8ImagesAllowed => 'الحد الأقصى 8 صور';
+
+  @override
+  String get myFarmDashboard => 'لوحة تحكم مزرعتي';
+
+  @override
+  String get myLands => 'أراضيّ';
+
+  @override
+  String get mySponsorships => 'رعاياتي';
+
+  @override
+  String get nameMustBeAtLeast2Chars => 'يجب أن يتكون الاسم من حرفين على الأقل';
+
+  @override
+  String get noActiveConversations => 'لا توجد محادثات نشطة';
+
+  @override
+  String get noAuthenticatedUser => 'لا يوجد مستخدم موثق';
+
+  @override
+  String get noConversationsAvailable => 'لا توجد محادثات متاحة';
+
+  @override
+  String get noFarmsToUploadProof => 'لا توجد مزارع لتحميل إثبات';
+
+  @override
+  String get noLandsRegisteredYet => 'لم يتم تسجيل أي أراضٍ بعد';
+
+  @override
+  String get noMessagesYet => 'لا توجد رسائل بعد';
+
+  @override
+  String get noPhotosAvailable => 'لا توجد صور متاحة';
+
+  @override
+  String get noProjectsFound => 'لم يتم العثور على مشاريع';
+
+  @override
+  String get noSponsorshipsYet => 'لا توجد رعايات بعد';
+
+  @override
+  String get noUpdates => 'لا توجد تحديثات';
+
+  @override
+  String get noUpdatesYet => 'لا توجد تحديثات بعد';
+
+  @override
+  String get onlyAdminsCanAddUsers => 'فقط المزارعون (المسؤولون) يمكنهم إضافة مستخدمين جدد';
+
+  @override
+  String get onlyAdminsCanAddUsersPlatform => 'فقط المزارعون (المسؤولون) يمكنهم إضافة مستخدمين جدد إلى المنصة';
+
+  @override
+  String get pleaseAddAtLeastOneImage => 'الرجاء إضافة صورة واحدة على الأقل';
+
+  @override
+  String get pleaseAddAtLeastOnePhoto => 'الرجاء إضافة صورة واحدة على الأقل';
+
+  @override
+  String get pleaseEnterDescription => 'الرجاء إدخال وصف';
+
+  @override
+  String get pleaseEnterPhoneNumber => 'الرجاء إدخال رقم هاتف';
+
+  @override
+  String get pleaseEnterLandTitle => 'الرجاء إدخال عنوان لأرضك';
+
+  @override
+  String get pleaseEnterLocation => 'الرجاء إدخال الموقع';
+
+  @override
+  String get pleaseEnterTheUser => 'الرجاء إدخال اسم المستخدم';
+
+  @override
+  String get pleaseProvideDetailedUpdate => 'الرجاء تقديم تحديث أكثر تفصيلاً (10 أحرف على الأقل)';
+
+  @override
+  String get pleaseProvideProgressUpdateNote => 'الرجاء تقديم ملاحظة حول التقدم';
+
+  @override
+  String get pleaseSpecifyFundingNeed => 'الرجاء تحديد حاجة تمويلية واحدة على الأقل';
+
+  @override
+  String get pleaseSpecifyCrop => 'الرجاء تحديد المحصول الذي تخطط لزراعته';
+
+  @override
+  String get progressNote => 'ملاحظة التقدم';
+
+  @override
+  String get progressPhotos => 'صور التقدم';
+
+  @override
+  String get projectChat => 'دردشة المشروع';
+
+  @override
+  String get projectDetails => 'تفاصيل المشروع';
+
+  @override
+  String get projectInformation => 'معلومات المشروع';
+
+  @override
+  String get projectName => 'اسم المشروع';
+
+  @override
+  String get projectUpdates => 'تحديثات المشروع';
+
+  @override
+  String get projectsCompleted => 'المشاريع المكتملة';
+
+  @override
+  String projectsYouSupportCount(Object length) {
+    return 'المشاريع التي تدعمها ($length)';
+  }
+
+  @override
+  String get quickActions => 'إجراءات سريعة';
+
+  @override
+  String get quickAmounts => 'مبالغ سريعة:';
+
+  @override
+  String get recentUpdates => 'آخر التحديثات';
+
+  @override
+  String get registerLand => 'تسجيل أرض';
+
+  @override
+  String get registerNewLand => 'تسجيل أرض جديدة';
+
+  @override
+  String remainingNeeded(Object remainingAmount) {
+    return 'المتبقي المطلوب: $remainingAmount دينار تونسي';
+  }
+
+  @override
+  String get searchProjects => 'ابحث عن المشاريع بالاسم أو الموقع أو المحصول...';
+
+  @override
+  String get seekingFunding => 'بحاجة إلى تمويل';
+
+  @override
+  String get selectFarmToUploadProof => 'اختر مزرعة لتحميل إثبات التقدم وإبقاء رعاتك على اطلاع';
+
+  @override
+  String get selectProjectToChat => 'اختر مشروعًا لبدء أو متابعة المحادثة مع المزارع والرعاة الآخرين';
+
+  @override
+  String get selectConversation => 'اختر محادثة';
+
+  @override
+  String get selectFarm => 'اختر مزرعة';
+
+  @override
+  String get sendEncouragementOrAskQuestions => 'أرسل تشجيعًا أو اطرح أسئلة...';
+
+  @override
+  String get sendInvitation => 'إرسال دعوة';
+
+  @override
+  String get sendingInvitation => 'جارٍ إرسال الدعوة...';
+
+  @override
+  String get shareAnUpdateWithSponsors => 'شارك تحديثًا مع رعاتك...';
+
+  @override
+  String get shareLandOpportunities => 'شارك فرص أرضك وتواصل مع المستثمرين لتنمية أعمالك الزراعية';
+
+  @override
+  String get sizeInHectaresRequired => 'المساحة (هكتار) *';
+
+  @override
+  String get specifyFundingNeeds => 'حدد مقدار التمويل الذي تحتاجه لكل فئة';
+
+  @override
+  String sponsorLandTitle(Object title) {
+    return 'رعاية $title';
+  }
+
+  @override
+  String get sponsorDashboard => 'لوحة تحكم الراعي';
+
+  @override
+  String get sponsorNow => 'ارعى الآن';
+
+  @override
+  String get sponsorProject => 'رعاية المشروع';
+
+  @override
+  String get sponsorRole => 'دور الراعي:';
+
+  @override
+  String get sponsorshipAmountUsd => 'مبلغ الرعاية (\$)';
+
+  @override
+  String get sponsorshipAmountTnd => 'مبلغ الرعاية (دينار تونسي)';
+
+  @override
+  String get startConversationWithSponsors => 'ابدأ محادثة مع رعاتك';
+
+  @override
+  String get startTheConversation => 'ابدأ المحادثة! شارك التحديثات، اطرح الأسئلة، أو قدم الدعم.';
+
+  @override
+  String get submitUpdate => 'إرسال التحديث';
+
+  @override
+  String get supcomAddress => 'سوبكوم رواد كلم 3.5 - 2083، أريانة تونس';
+
+  @override
+  String get tapToChat => 'انقر للدردشة';
+
+  @override
+  String get tapToUploadProgressProof => 'انقر لتحميل إثبات التقدم';
+
+  @override
+  String get thankYouForSupporting => 'شكرًا لدعمكم للزراعة المستدامة وتمكين المزارعين في المناطق الريفية! 🌱';
+
+  @override
+  String get thankYouForSponsorship => 'شكرًا لرعايتكم!';
+
+  @override
+  String get farmerWillPostUpdatesHere => 'سينشر المزارع تحديثات التقدم هنا';
+
+  @override
+  String get transparentGroupChatDisclaimer => 'هذه دردشة جماعية شفافة. جميع الرسائل مرئية للمشاركين في المشروع من أجل السلامة والمساءلة.';
+
+  @override
+  String get tipShareProgress => 'نصيحة: شارك صورًا وتحديثات للتقدم لإبقاء الجميع متفاعلاً!';
+
+  @override
+  String get totalContributed => 'إجمالي المساهمات';
+
+  @override
+  String get totalFunding => 'إجمالي التمويل';
+
+  @override
+  String get totalHectares => 'إجمالي الهكتارات';
+
+  @override
+  String get totalLands => 'إجمالي الأراضي';
+
+  @override
+  String get totalNeeded => 'الإجمالي المطلوب';
+
+  @override
+  String get totalRaised => 'إجمالي المجمع';
+
+  @override
+  String get tryAdjustingSearch => 'حاول تعديل معايير البحث';
+
+  @override
+  String get typeAMessage => 'اكتب رسالة...';
+
+  @override
+  String get unknownFarmer => 'مزارع غير معروف';
+
+  @override
+  String get updateSubmittedSuccessfully => 'تم إرسال التحديث بنجاح!';
+
+  @override
+  String get updateType => 'نوع التحديث';
+
+  @override
+  String get userInformation => 'معلومات المستخدم';
+
+  @override
+  String get viewDetails => 'عرض التفاصيل';
+
+  @override
+  String get weatherFeatureComingSoon => 'ميزة الطقس قادمة قريبًا!';
+
+  @override
+  String get weeklyUpdatesRecommended => 'يوصى بالتحديثات الأسبوعية';
+
+  @override
+  String get youNeedAdminPrivileges => 'تحتاج إلى صلاحيات المزارع (المسؤول) لإضافة مستخدمين جدد';
+
+  @override
+  String get youNeedActiveFarmsToUpload => 'يجب أن تكون لديك مزارع نشطة لتحميل إثباتات التقدم.';
+
+  @override
+  String get youNeedActiveLandsToChat => 'يجب أن تكون لديك أراضٍ نشطة مع رعاة لبدء المحادثات.';
+
+  @override
+  String get youNeedToSponsorToChat => 'تحتاج إلى رعاية مشاريع لبدء المحادثات مع المزارعين.';
+
+  @override
+  String yourFarmsCount(Object length) {
+    return 'مزارعك ($length)';
+  }
+
+  @override
+  String get yourImpact => 'تأثيرك';
+
+  @override
+  String newSponsorJoinedUsd(Object amount) {
+    return '🎉 انضم راعٍ جديد! تم تقديم مساهمة سخية بقيمة \$$amount لدعم هذا المشروع.';
+  }
+
+  @override
+  String newSponsorJoinedTnd(Object amount) {
+    return '🎉 انضم راعٍ جديد! تم تقديم مساهمة سخية بقيمة $amount دينار تونسي لدعم هذا المشروع.';
+  }
 }

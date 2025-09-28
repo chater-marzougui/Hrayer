@@ -1,6 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../Widgets/widgets.dart';
+import '../../widgets/widgets.dart';
 import '../../controllers/user_controller.dart';
 import '../../l10n/app_localizations.dart';
 import '../../structures/structs.dart';
@@ -50,14 +50,14 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
       }, SetOptions(merge: true));
 
       if (mounted) {
-        showSnackBar(context, loc.supportRequestSubmittedSuccessfully);
+        showCustomSnackBar(context, loc.supportRequestSubmittedSuccessfully);
       }
 
       _subjectController.clear();
       _messageController.clear();
     } catch (e) {
       if (mounted) {
-        showSnackBar(context, loc.errorSubmittingSupportRequest);
+        showCustomSnackBar(context, loc.errorSubmittingSupportRequest);
       }
     } finally {
       setState(() {
@@ -143,7 +143,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                       context,
                       Icons.location_on_outlined,
                       "Location",
-                      "Sup'Com Raoued Km 3,5 - 2083, Ariana Tunisie",
+                      loc.supcomAddress,
                       wrapText: true,
                     ),
                     buildDetailRow(
@@ -190,7 +190,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
         maxLines: maxLines,
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return "Please enter $label";
+            return loc.pleaseEnterLabel(label);
           }
           if (email && !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
             return loc.pleaseEnterAValidEmailAddress;

@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'dart:io';
 import 'dart:math';
 
+import '../../widgets/widgets.dart';
+
 class ChatAIScreen extends StatefulWidget {
   const ChatAIScreen({super.key});
 
@@ -57,9 +59,7 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking image: $e')),
-      );
+      showCustomSnackBar(context, ('Error picking image: $e'));
     }
   }
 

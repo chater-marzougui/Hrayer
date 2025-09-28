@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
         errorMessage = "Google Sign-In failed: ${e.toString()}";
       });
       if (mounted) {
-        showSnackBar(context, "Google Sign-In failed: ${e.toString()}");
+        showCustomSnackBar(context, "Google Sign-In failed: ${e.toString()}");
       }
     } finally {
       setState(() {
@@ -213,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
           message = loc.tooManyFailedAttempts;
           break;
         default:
-          message = "Login failed: ${e.message}";
+          message = loc.loginFailedWithMessage(message);
       }
 
       setState(() {
@@ -221,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       if (mounted) {
-        showSnackBar(context, message);
+        showCustomSnackBar(context, message);
       }
     } catch (e) {
       setState(() {
@@ -229,7 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       if (mounted) {
-        showSnackBar(context, loc.anUnexpectedErrorOccurred);
+        showCustomSnackBar(context, loc.anUnexpectedErrorOccurred);
       }
     } finally {
       setState(() {
@@ -243,19 +243,19 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      showSnackBar(context, loc.pleaseFillInAllFields);
+      showCustomSnackBar(context, loc.pleaseFillInAllFields);
       return false;
     }
 
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(email)) {
-      showSnackBar(context, loc.pleaseEnterAValidEmailAddress);
+      showCustomSnackBar(context, loc.pleaseEnterAValidEmailAddress);
       return false;
     }
 
     final passwordRegex = RegExp(r'^(?=.*\d).{8,}$');
     if (!passwordRegex.hasMatch(password)) {
-      showSnackBar(
+      showCustomSnackBar(
         context,
         loc.passwordRequirements,
       );

@@ -1,8 +1,17 @@
-part of "widgets.dart";
+part of 'widgets.dart';
 
-void showSnackBar(BuildContext context, String content) {
+enum SnackBarType { success, error, warning, info }
+
+void showCustomSnackBar(
+    BuildContext context,
+    String content, {
+      SnackBarType type = SnackBarType.info,
+      Duration duration = const Duration(seconds: 3),
+    }) {
   final overlay = Overlay.of(context);
-  final overlayEntry = OverlayEntry(
+  late OverlayEntry overlayEntry;
+
+  overlayEntry = OverlayEntry(
     builder: (context) {
       return Positioned(
         top: 0,
@@ -11,6 +20,10 @@ void showSnackBar(BuildContext context, String content) {
         child: SafeArea(
           child: SlideTransitionSnackBar(
             content: content,
+            type: type,
+            onDismiss: () {
+              overlayEntry.remove();
+            },
           ),
         ),
       );
@@ -19,17 +32,23 @@ void showSnackBar(BuildContext context, String content) {
 
   overlay.insert(overlayEntry);
 
-  Future.delayed(const Duration(seconds: 3), () {
-    overlayEntry.remove();
+  Future.delayed(duration, () {
+    if (overlayEntry.mounted) {
+      overlayEntry.remove();
+    }
   });
 }
 
 class SlideTransitionSnackBar extends StatefulWidget {
   final String content;
+  final SnackBarType type;
+  final VoidCallback onDismiss;
 
   const SlideTransitionSnackBar({
     super.key,
     required this.content,
+    required this.type,
+    required this.onDismiss,
   });
 
   @override
@@ -37,67 +56,162 @@ class SlideTransitionSnackBar extends StatefulWidget {
 }
 
 class _SlideTransitionSnackBarState extends State<SlideTransitionSnackBar>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<Offset> _offsetAnimation;
+    with TickerProviderStateMixin {
+  late AnimationController _slideController;
+  late AnimationController _fadeController;
+  late Animation<Offset> _slideAnimation;
+  late Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 700),
+    _slideController = AnimationController(
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, -2.0),
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, -1),
       end: Offset.zero,
     ).animate(CurvedAnimation(
-      parent: _controller,
+      parent: _slideController,
+      curve: Curves.easeOutBack,
+    ));
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _fadeController,
       curve: Curves.easeInOut,
     ));
 
-    _controller.forward();
+    // Start animations
+    _slideController.forward();
+    _fadeController.forward();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _slideController.dispose();
+    _fadeController.dispose();
     super.dispose();
+  }
+
+  void _dismiss() {
+    _slideController.reverse().then((_) {
+      widget.onDismiss();
+    });
+  }
+
+  Color _getBackgroundColor(BuildContext context) {
+    final theme = Theme.of(context);
+    switch (widget.type) {
+      case SnackBarType.success:
+        return theme.primaryColor;
+      case SnackBarType.error:
+        return theme.colorScheme.error;
+      case SnackBarType.warning:
+        return Colors.orange.shade600;
+      case SnackBarType.info:
+        return theme.colorScheme.secondary;
+    }
+  }
+
+  IconData _getIcon() {
+    switch (widget.type) {
+      case SnackBarType.success:
+        return Icons.check_circle;
+      case SnackBarType.error:
+        return Icons.error;
+      case SnackBarType.warning:
+        return Icons.warning;
+      case SnackBarType.info:
+        return Icons.info;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: _offsetAnimation,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Material(
-          color: Colors.blue,
-          elevation: 10.0,
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    widget.content,
-                    style: const TextStyle(color: Colors.white),
-                  ),
+    final theme = Theme.of(context);
+
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: GestureDetector(
+            onPanUpdate: (details) {
+              // If swiping up
+              if (details.delta.dy < -2) {
+                _dismiss();
+              }
+            },
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _getBackgroundColor(context),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: () {
-                    _controller.reverse();
-                  },
-                  child: const Text(
-                    "Dismiss",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        _getIcon(),
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        widget.content,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: _dismiss,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

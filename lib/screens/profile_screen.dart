@@ -43,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       }
     } catch (e) {
-      if (context.mounted) showSnackBar(context, AppLocalizations.of(context)!.errorSigningOut);
+      if (context.mounted) showCustomSnackBar(context, AppLocalizations.of(context)!.errorSigningOut);
     }
   }
 

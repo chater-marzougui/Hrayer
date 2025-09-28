@@ -42,8 +42,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createAnAccount => 'Create an Account';
 
   @override
-  String currentSelectedThemeMode(Object mode) {
-    return 'Current: $mode';
+  String currentSelectedThemeMode(Object _selectedThemeMode) {
+    return 'Current: $_selectedThemeMode';
   }
 
   @override
@@ -124,8 +124,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String failedToCreateProfile(Object e) {
-    return 'Failed to create profile: $e';
+  String failedToCreateProfile(Object toString) {
+    return 'Failed to create profile: $toString';
   }
 
   @override
@@ -323,4 +323,580 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gallery => 'Gallery';
+
+  @override
+  String get farmerRoleDescription => '• Can add and manage lands\n• Can upload progress proofs\n• Can chat with sponsors\n• Can add new users (admin privileges)';
+
+  @override
+  String get sponsorRoleDescription => '• Can browse and sponsor projects\n• Can chat with farmers\n• Can view progress updates';
+
+  @override
+  String get userWithPhoneNumberExists => 'A user with this phone number already exists';
+
+  @override
+  String get activeLands => 'Active Lands';
+
+  @override
+  String get activeProjects => 'Active Projects';
+
+  @override
+  String get activeSponsor => 'Active Sponsor';
+
+  @override
+  String get addLand => 'Add Land';
+
+  @override
+  String get addNewUser => 'Add New User';
+
+  @override
+  String get addPhotosMax8 => 'Add Photos (Max 8)';
+
+  @override
+  String get addProgressPhotosMax3 => 'Add Progress Photos (Max 3)';
+
+  @override
+  String get addUser => 'Add User';
+
+  @override
+  String get addYourFirstFarm => 'Add Your First Farm';
+
+  @override
+  String get addYourFirstLand => 'Add Your First Land';
+
+  @override
+  String get addYourFirstLandToStart => 'Add your first land to start seeking sponsorship';
+
+  @override
+  String get aiAssistant => 'AI Assistant';
+
+  @override
+  String get aiChat => 'AI Chat';
+
+  @override
+  String get almostComplete75_99 => 'Almost Complete (75-99%)';
+
+  @override
+  String get almostThere => 'ALMOST THERE';
+
+  @override
+  String get amountMustBeGreaterThan0 => 'Amount must be greater than 0';
+
+  @override
+  String get amountRaised => 'Amount Raised';
+
+  @override
+  String get applyFilters => 'Apply Filters';
+
+  @override
+  String get asAFarmerYouCanInvite => 'As a farmer (admin), you can invite new users to join the platform';
+
+  @override
+  String get basicInformation => 'Basic Information';
+
+  @override
+  String get browseProjectsAndMakeADifference => 'Browse available projects and start making a difference in rural farming communities';
+
+  @override
+  String get browseProjects => 'Browse Projects';
+
+  @override
+  String get clearFilters => 'Clear Filters';
+
+  @override
+  String get appTagline => 'Connecting women farmers with investors for sustainable agriculture';
+
+  @override
+  String get continueAsUser => 'Continue as User';
+
+  @override
+  String get describeCurrentProgress => 'Describe the current progress, any challenges, achievements, or observations...';
+
+  @override
+  String get describeYourLand => 'Describe your land, soil type, current condition...';
+
+  @override
+  String get descriptionRequired => 'Description *';
+
+  @override
+  String get discoverFarmingOpportunities => 'Discover farming opportunities and support sustainable agriculture';
+
+  @override
+  String get dueSoon => 'Due Soon';
+
+  @override
+  String get emailOptional => 'Email (Optional)';
+
+  @override
+  String get enterSize => 'Enter size';
+
+  @override
+  String get enterValidAmount => 'Enter valid amount';
+
+  @override
+  String errorLoadingLands(Object e) {
+    return 'Error loading lands: $e';
+  }
+
+  @override
+  String get errorLoadingMessages => 'Error loading messages';
+
+  @override
+  String errorLoadingMessagesWithDetails(Object error) {
+    return 'Error loading messages: $error';
+  }
+
+  @override
+  String errorLoadingProjects(Object e) {
+    return 'Error loading projects: $e';
+  }
+
+  @override
+  String errorLoadingSponsoredLands(Object e) {
+    return 'Error loading sponsored lands: $e';
+  }
+
+  @override
+  String errorLoadingSponsorships(Object e) {
+    return 'Error loading sponsorships: $e';
+  }
+
+  @override
+  String errorLoadingUpdates(Object e) {
+    return 'Error loading updates: $e';
+  }
+
+  @override
+  String errorLoadingYourLands(Object e) {
+    return 'Error loading your lands: $e';
+  }
+
+  @override
+  String errorOccurredWhileUploadingImage(Object e) {
+    return 'Error occurred while uploading the image: $e';
+  }
+
+  @override
+  String errorPickingImages(Object e) {
+    return 'Error picking images: $e';
+  }
+
+  @override
+  String errorProcessingSponsorship(Object e) {
+    return 'Error processing sponsorship: $e';
+  }
+
+  @override
+  String errorGeneric(Object e) {
+    return 'Error: $e';
+  }
+
+  @override
+  String get failedToLoadImage => 'Failed to load image';
+
+  @override
+  String failedToSendMessage(Object e) {
+    return 'Failed to send message: $e';
+  }
+
+  @override
+  String failedToUpdateRole(Object toString) {
+    return 'Failed to update role: $toString';
+  }
+
+  @override
+  String get failedToUploadImageAfterMultipleAttempts => 'Failed to upload image after multiple attempts';
+
+  @override
+  String get farmerRole => 'Farmer Role:';
+
+  @override
+  String get farmersHelped => 'Farmers Helped';
+
+  @override
+  String get filterByCrop => 'Filter by Crop';
+
+  @override
+  String get filterByFundingStatus => 'Filter by Funding Status';
+
+  @override
+  String get filterProjects => 'Filter Projects';
+
+  @override
+  String get findProjectsToSupport => 'Find Projects to Support';
+
+  @override
+  String get fullName => 'Full Name';
+
+  @override
+  String get fullyFunded => 'Fully Funded';
+
+  @override
+  String get fundingBreakdown => 'Funding Breakdown';
+
+  @override
+  String get fundingNeedsTnd => 'Funding Needs (TND)';
+
+  @override
+  String get fundingProgress => 'Funding Progress';
+
+  @override
+  String helpLandReachFundingGoal(Object title) {
+    return 'Help $title reach its funding goal!';
+  }
+
+  @override
+  String get helpProjectReachFundingGoal => 'Help this project reach its funding goal!';
+
+  @override
+  String get imAFarmer => 'I\'m a Farmer';
+
+  @override
+  String get imAnInvestor => 'I\'m an Investor';
+
+  @override
+  String get inProgress => 'IN PROGRESS';
+
+  @override
+  String get inProgress25_75 => 'In Progress (25-75%)';
+
+  @override
+  String get intendedCropRequired => 'Intended Crop *';
+
+  @override
+  String get invalidNumber => 'Invalid number';
+
+  @override
+  String get joinChat => 'Join Chat';
+
+  @override
+  String get justStarted0_25 => 'Just Started (0-25%)';
+
+  @override
+  String get landImages => 'Land Images';
+
+  @override
+  String get landInformation => 'Land Information';
+
+  @override
+  String get landRegisteredSuccessfully => 'Land registered successfully!';
+
+  @override
+  String get landTitleRequired => 'Land Title *';
+
+  @override
+  String loadedLandsCount(Object length) {
+    return 'Loaded $length lands';
+  }
+
+  @override
+  String get locationRequired => 'Location *';
+
+  @override
+  String get maximum3ImagesAllowedForUpdates => 'Maximum 3 images allowed for updates';
+
+  @override
+  String get maximum8ImagesAllowed => 'Maximum 8 images allowed';
+
+  @override
+  String get myFarmDashboard => 'My Farm Dashboard';
+
+  @override
+  String get myLands => 'My Lands';
+
+  @override
+  String get mySponsorships => 'My Sponsorships';
+
+  @override
+  String get nameMustBeAtLeast2Chars => 'Name must be at least 2 characters long';
+
+  @override
+  String get noActiveConversations => 'No Active Conversations';
+
+  @override
+  String get noAuthenticatedUser => 'No authenticated user';
+
+  @override
+  String get noConversationsAvailable => 'No Conversations Available';
+
+  @override
+  String get noFarmsToUploadProof => 'No Farms to Upload Proof';
+
+  @override
+  String get noLandsRegisteredYet => 'No lands registered yet';
+
+  @override
+  String get noMessagesYet => 'No messages yet';
+
+  @override
+  String get noPhotosAvailable => 'No photos available';
+
+  @override
+  String get noProjectsFound => 'No projects found';
+
+  @override
+  String get noSponsorshipsYet => 'No sponsorships yet';
+
+  @override
+  String get noUpdates => 'No updates';
+
+  @override
+  String get noUpdatesYet => 'No updates yet';
+
+  @override
+  String get onlyAdminsCanAddUsers => 'Only farmers (admins) can add new users';
+
+  @override
+  String get onlyAdminsCanAddUsersPlatform => 'Only farmers (admins) can add new users to the platform';
+
+  @override
+  String get pleaseAddAtLeastOneImage => 'Please add at least one image';
+
+  @override
+  String get pleaseAddAtLeastOnePhoto => 'Please add at least one photo';
+
+  @override
+  String get pleaseEnterDescription => 'Please enter a description';
+
+  @override
+  String get pleaseEnterPhoneNumber => 'Please enter a phone number';
+
+  @override
+  String get pleaseEnterLandTitle => 'Please enter a title for your land';
+
+  @override
+  String get pleaseEnterLocation => 'Please enter location';
+
+  @override
+  String get pleaseEnterTheUser => 'Please enter the user\'s name';
+
+  @override
+  String get pleaseProvideDetailedUpdate => 'Please provide a more detailed update (at least 10 characters)';
+
+  @override
+  String get pleaseProvideProgressUpdateNote => 'Please provide a progress update note';
+
+  @override
+  String get pleaseSpecifyFundingNeed => 'Please specify at least one funding need';
+
+  @override
+  String get pleaseSpecifyCrop => 'Please specify the crop you plan to grow';
+
+  @override
+  String get progressNote => 'Progress Note';
+
+  @override
+  String get progressPhotos => 'Progress Photos';
+
+  @override
+  String get projectChat => 'Project Chat';
+
+  @override
+  String get projectDetails => 'Project Details';
+
+  @override
+  String get projectInformation => 'Project Information';
+
+  @override
+  String get projectName => 'Project Name';
+
+  @override
+  String get projectUpdates => 'Project Updates';
+
+  @override
+  String get projectsCompleted => 'Projects Completed';
+
+  @override
+  String projectsYouSupportCount(Object length) {
+    return 'Projects You Support ($length)';
+  }
+
+  @override
+  String get quickActions => 'Quick Actions';
+
+  @override
+  String get quickAmounts => 'Quick amounts:';
+
+  @override
+  String get recentUpdates => 'Recent Updates';
+
+  @override
+  String get registerLand => 'Register Land';
+
+  @override
+  String get registerNewLand => 'Register New Land';
+
+  @override
+  String remainingNeeded(Object remainingAmount) {
+    return 'Remaining needed: TND $remainingAmount';
+  }
+
+  @override
+  String get searchProjects => 'Search projects by name, location, or crop...';
+
+  @override
+  String get seekingFunding => 'SEEKING FUNDING';
+
+  @override
+  String get selectFarmToUploadProof => 'Select a farm to upload progress proof and keep your sponsors updated';
+
+  @override
+  String get selectProjectToChat => 'Select a project to start or continue conversation with the farmer and other sponsors';
+
+  @override
+  String get selectConversation => 'Select Conversation';
+
+  @override
+  String get selectFarm => 'Select Farm';
+
+  @override
+  String get sendEncouragementOrAskQuestions => 'Send encouragement or ask questions...';
+
+  @override
+  String get sendInvitation => 'Send Invitation';
+
+  @override
+  String get sendingInvitation => 'Sending Invitation...';
+
+  @override
+  String get shareAnUpdateWithSponsors => 'Share an update with your sponsors...';
+
+  @override
+  String get shareLandOpportunities => 'Share your land opportunities and connect with investors to grow your farming business';
+
+  @override
+  String get sizeInHectaresRequired => 'Size (hectares) *';
+
+  @override
+  String get specifyFundingNeeds => 'Specify how much funding you need for each category';
+
+  @override
+  String sponsorLandTitle(Object title) {
+    return 'Sponsor $title';
+  }
+
+  @override
+  String get sponsorDashboard => 'Sponsor Dashboard';
+
+  @override
+  String get sponsorNow => 'Sponsor Now';
+
+  @override
+  String get sponsorProject => 'Sponsor Project';
+
+  @override
+  String get sponsorRole => 'Sponsor Role:';
+
+  @override
+  String get sponsorshipAmountUsd => 'Sponsorship Amount (\$)';
+
+  @override
+  String get sponsorshipAmountTnd => 'Sponsorship Amount (TND)';
+
+  @override
+  String get startConversationWithSponsors => 'Start a conversation with your sponsors';
+
+  @override
+  String get startTheConversation => 'Start the conversation! Share updates, ask questions, or offer support.';
+
+  @override
+  String get submitUpdate => 'Submit Update';
+
+  @override
+  String get supcomAddress => 'Sup\'Com Raoued Km 3,5 - 2083, Ariana Tunisie';
+
+  @override
+  String get tapToChat => 'Tap to chat';
+
+  @override
+  String get tapToUploadProgressProof => 'Tap to upload progress proof';
+
+  @override
+  String get thankYouForSupporting => 'Thank you for supporting sustainable agriculture and empowering rural farmers! 🌱';
+
+  @override
+  String get thankYouForSponsorship => 'Thank you for your sponsorship!';
+
+  @override
+  String get farmerWillPostUpdatesHere => 'The farmer will post progress updates here';
+
+  @override
+  String get transparentGroupChatDisclaimer => 'This is a transparent group chat. All messages are visible to project participants for safety and accountability.';
+
+  @override
+  String get tipShareProgress => 'Tip: Share progress photos and updates to keep everyone engaged!';
+
+  @override
+  String get totalContributed => 'Total Contributed';
+
+  @override
+  String get totalFunding => 'Total Funding';
+
+  @override
+  String get totalHectares => 'Total Hectares';
+
+  @override
+  String get totalLands => 'Total Lands';
+
+  @override
+  String get totalNeeded => 'Total Needed';
+
+  @override
+  String get totalRaised => 'Total Raised';
+
+  @override
+  String get tryAdjustingSearch => 'Try adjusting your search criteria';
+
+  @override
+  String get typeAMessage => 'Type a message...';
+
+  @override
+  String get unknownFarmer => 'Unknown Farmer';
+
+  @override
+  String get updateSubmittedSuccessfully => 'Update submitted successfully!';
+
+  @override
+  String get updateType => 'Update Type';
+
+  @override
+  String get userInformation => 'User Information';
+
+  @override
+  String get viewDetails => 'View Details';
+
+  @override
+  String get weatherFeatureComingSoon => 'Weather feature coming soon!';
+
+  @override
+  String get weeklyUpdatesRecommended => 'Weekly updates recommended';
+
+  @override
+  String get youNeedAdminPrivileges => 'You need farmer (admin) privileges to add new users';
+
+  @override
+  String get youNeedActiveFarmsToUpload => 'You need to have active farms to upload progress proofs.';
+
+  @override
+  String get youNeedActiveLandsToChat => 'You need to have active lands with sponsors to start conversations.';
+
+  @override
+  String get youNeedToSponsorToChat => 'You need to sponsor projects to start conversations with farmers.';
+
+  @override
+  String yourFarmsCount(Object length) {
+    return 'Your Farms ($length)';
+  }
+
+  @override
+  String get yourImpact => 'Your Impact';
+
+  @override
+  String newSponsorJoinedUsd(Object amount) {
+    return '🎉 New sponsor joined! A generous contribution of \$$amount has been made to support this project.';
+  }
+
+  @override
+  String newSponsorJoinedTnd(Object amount) {
+    return '🎉 New sponsor joined! A generous contribution of TND$amount has been made to support this project.';
+  }
 }

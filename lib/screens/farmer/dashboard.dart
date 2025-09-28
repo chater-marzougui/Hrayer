@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../widgets/widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
 import 'add_land.dart';
 import 'proof_upload.dart';
@@ -30,6 +32,9 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
 
   Future<void> _loadUserLands() async {
     if (currentUser == null) return;
+    setState(() {
+      isLoading = true;
+    });
 
     try {
       final querySnapshot = await FirebaseFirestore.instance
@@ -52,9 +57,8 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
         isLoading = false;
       });
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading lands: $e')),
-        );
+        final loc = AppLocalizations.of(context)!;
+        showCustomSnackBar(context, loc.errorLoadingLands(e));
       }
     }
   }
@@ -136,6 +140,8 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
 
   Widget _buildLandCard(LandModel land) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
+
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -183,7 +189,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        land.isFullyFunded ? 'Fully Funded' : '${land.progressPercentage.toStringAsFixed(0)}% Funded',
+                        land.isFullyFunded ? loc.fullyFunded : '${land.progressPercentage.toStringAsFixed(0)}% Funded',
                         style: TextStyle(
                           color: land.isFullyFunded ? Colors.green : theme.primaryColor,
                           fontSize: 10,
@@ -261,11 +267,12 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('My Farm Dashboard'),
+        title: Text(loc.myFarmDashboard),
         actions: [
           IconButton(
             icon: const Icon(Icons.person_add),
@@ -275,7 +282,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                 MaterialPageRoute(builder: (context) => const AddUserScreen()),
               );
             },
-            tooltip: 'Add User',
+            tooltip: loc.addUser,
           ),
           IconButton(
             icon: const Icon(Icons.psychology),
@@ -302,7 +309,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                 children: [
                   Expanded(
                     child: _buildStatsCard(
-                      'Active Lands',
+                      loc.activeLands,
                       activeLands.toString(),
                       Icons.terrain,
                       theme.primaryColor,
@@ -311,7 +318,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildStatsCard(
-                      'Total Funding',
+                      loc.totalFunding,
                       '\$${totalEarnings.toStringAsFixed(0)}',
                       Icons.monetization_on,
                       Colors.green,
@@ -320,7 +327,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildStatsCard(
-                      'Total Lands',
+                      loc.totalLands,
                       userLands.length.toString(),
                       Icons.landscape,
                       Colors.orange,
@@ -333,7 +340,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
 
               // Quick Actions
               Text(
-                'Quick Actions',
+                loc.quickActions,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -342,7 +349,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
               Row(
                 children: [
                   _buildQuickActionButton(
-                    'Add Land',
+                    loc.addLand,
                     Icons.add_location,
                         () {
                       Navigator.push(
@@ -354,7 +361,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                     },
                   ),
                   _buildQuickActionButton(
-                    'AI Assistant',
+                    loc.aiAssistant,
                     Icons.psychology,
                         () {
                       Navigator.push(
@@ -370,9 +377,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                     Icons.wb_sunny,
                         () {
                       // TODO: Implement weather screen
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Weather feature coming soon!')),
-                      );
+                      showCustomSnackBar(context, loc.weatherFeatureComingSoon);
                     },
                   ),
                 ],
@@ -382,7 +387,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
 
               // My Lands Section
               Text(
-                'My Lands',
+                loc.myLands,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -407,14 +412,14 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'No lands registered yet',
+                        loc.noLandsRegisteredYet,
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: Colors.grey[600],
                         ),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Add your first land to start seeking sponsorship',
+                        loc.addYourFirstLandToStart,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: Colors.grey[500],
                         ),
@@ -431,7 +436,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                           ).then((_) => _loadUserLands());
                         },
                         icon: const Icon(Icons.add),
-                        label: const Text('Add Your First Land'),
+                        label: Text(loc.addYourFirstLand),
                       ),
                     ],
                   ),

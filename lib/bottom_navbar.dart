@@ -85,6 +85,8 @@ class _HomePageState extends State<BottomNavbar> {
   }
 
   void _setupPages() {
+
+    final loc = AppLocalizations.of(context)!;
     if (role == "farmer") {
       _pages = [
         const farmer.FarmerDashboard(),
@@ -98,12 +100,12 @@ class _HomePageState extends State<BottomNavbar> {
       _navItems = [
         const BottomNavigationBarItem(
             icon: Icon(Icons.dashboard), label: "Dashboard"),
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.add_photo_alternate), label: "Add Land"),
+        BottomNavigationBarItem(
+            icon: const Icon(Icons.add_photo_alternate), label: loc.addLand),
         const BottomNavigationBarItem(
             icon: Icon(Icons.upload_file), label: "Proofs"),
-        const BottomNavigationBarItem(
-            icon: Icon(Icons.psychology), label: "AI Chat"),
+        BottomNavigationBarItem(
+            icon: const Icon(Icons.psychology), label: loc.aiChat),
         const BottomNavigationBarItem(
             icon: Icon(Icons.group), label: "Sponsors"),
         const BottomNavigationBarItem(

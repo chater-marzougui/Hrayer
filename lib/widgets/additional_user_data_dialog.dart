@@ -151,16 +151,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Failed to create profile: ${e.toString()}',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.error,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+        showCustomSnackBar(context, loc.failedToCreateProfile(e.toString()), type: SnackBarType.error);
       }
     } finally {
       if (mounted) {
