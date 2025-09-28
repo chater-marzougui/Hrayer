@@ -480,8 +480,8 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
             _buildInfoRow('Crop', widget.land.intendedCrop),
             _buildInfoRow('Location', widget.land.location),
             _buildInfoRow('Progress', '${widget.land.progressPercentage.toStringAsFixed(1)}%'),
-            _buildInfoRow(loc.totalNeeded, '\${widget.land.totalNeeded.toStringAsFixed(0)}'),
-            _buildInfoRow(loc.totalRaised, '\${widget.land.totalFulfilled.toStringAsFixed(0)}'),
+            _buildInfoRow(loc.totalNeeded, '\$${widget.land.totalNeeded.toStringAsFixed(0)}'),
+            _buildInfoRow(loc.totalRaised, '\$${widget.land.totalFulfilled.toStringAsFixed(0)}'),
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
