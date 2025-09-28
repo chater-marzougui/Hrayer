@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../bottom_navbar.dart';
 import '../../l10n/app_localizations.dart';
-import "../../structures/structs.dart" as structs;
-import "../../controllers/user_controller.dart";
+import '../../structures/structs.dart' as structs;
+import '../../controllers/user_controller.dart';
 
 import '../../widgets/widgets.dart';
 import 'signup.dart';
