@@ -11,7 +11,7 @@ class User {
   final String gender;
   final DateTime createdAt;
   final String profileImage;
-  final String role;
+  final String? role;
 
   User({
     required this.uid,
@@ -44,7 +44,7 @@ class User {
       profileImage: data['profileImage'] ?? '',
 
       // get role from data if exists, else default to 'sponsor'
-      role: data['role'] ?? 'sponsor'
+      role: data['role']
 
     );
   }

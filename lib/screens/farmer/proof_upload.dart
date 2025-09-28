@@ -1,3 +1,4 @@
+import 'package:base_template/helpers/image_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -97,11 +98,17 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
     try {
       final currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser == null) return;
-
+      List<String> imagePaths = [];
       // In production, upload images to Firebase Storage
-      List<String> imagePaths = selectedImages
-          .map((file) => file.path.split('/').last)
-          .toList();
+      for (var image in selectedImages) {
+        for (int i = 0; i < 3; i++) {
+          final path = await uploadImage(context, image);
+          if (path != null) {
+            imagePaths.add(path);
+            break;
+          }
+        }
+      }
 
       final updateData = {
         'landId': widget.land.id,

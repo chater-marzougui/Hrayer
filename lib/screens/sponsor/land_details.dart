@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../structures/land_models.dart';
 import 'chat_farmers.dart';
+import 'image_viewer.dart';
 
 class LandDetailsScreen extends StatefulWidget {
   final LandModel land;
@@ -18,11 +19,14 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
   bool isLoading = true;
   bool isSponsoring = false;
   late LandModel currentLand;
+  late PageController _pageController;
+  int _currentImageIndex = 0;
 
   @override
   void initState() {
     super.initState();
     currentLand = widget.land;
+    _pageController = PageController();
     _loadUpdates();
   }
 
@@ -432,7 +436,7 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ],
         ],
       ),
@@ -570,26 +574,111 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: theme.primaryColor.withAlpha(76)),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.agriculture,
-                    size: 64,
-                    color: theme.primaryColor.withAlpha(128),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '${currentLand.images.length} photos available',
-                    style: TextStyle(
+              child: currentLand.images.isEmpty
+                ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.agriculture,
+                      size: 64,
                       color: theme.primaryColor.withAlpha(128),
-                      fontSize: 14,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    Text(
+                      'No photos available',
+                      style: TextStyle(
+                        color: theme.primaryColor.withAlpha(128),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                )
+                : Stack(
+                  children: [
+                    // PageView for swipeable images
+                    PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        setState(() {
+                          _currentImageIndex = index;
+                        });
+                      },
+                      itemCount: currentLand.images.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () => _openImageViewer(index),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.network(
+                              currentLand.images[index],
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  color: Colors.grey[300],
+                                  child: const Icon(
+                                    Icons.error,
+                                    size: 48,
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    // Image counter indicator
+                    if (currentLand.images.length > 1)
+                      Positioned(
+                        top: 12,
+                        right: 12,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withAlpha(180),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '${_currentImageIndex + 1}/${currentLand.images.length}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    // Navigation dots (optional)
+                    if (currentLand.images.length > 1)
+                      Positioned(
+                        bottom: 12,
+                        left: 0,
+                        right: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            currentLand.images.length,
+                                (index) => Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 2),
+                              width: 6,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _currentImageIndex == index
+                                    ? Colors.white
+                                    : Colors.white.withAlpha(128),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
               ),
             ),
-
             const SizedBox(height: 20),
 
             // Basic info section
@@ -666,30 +755,47 @@ class _LandDetailsScreenState extends State<LandDetailsScreen> {
       ),
       floatingActionButton: currentLand.isFullyFunded || isAlreadySponsored
           ? FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatFarmersScreen(land: currentLand),
-            ),
-          );
-        },
-        icon: const Icon(Icons.chat),
-        label: const Text('Join Chat'),
-        backgroundColor: theme.primaryColor,
-      )
-          : FloatingActionButton.extended(
-        onPressed: isSponsoring ? null : _showSponsorDialog,
-        icon: isSponsoring
-            ? const SizedBox(
-          width: 20,
-          height: 20,
-          child: CircularProgressIndicator(strokeWidth: 2),
-        )
-            : const Icon(Icons.volunteer_activism),
-        label: Text(isSponsoring ? 'Processing...' : 'Sponsor Project'),
-        backgroundColor: isSponsoring ? Colors.grey : theme.primaryColor,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatFarmersScreen(land: currentLand),
+                ),
+              );
+            },
+            icon: const Icon(Icons.chat),
+            label: const Text('Join Chat'),
+            backgroundColor: theme.primaryColor,
+          )
+              : FloatingActionButton.extended(
+                onPressed: isSponsoring ? null : _showSponsorDialog,
+                icon: isSponsoring
+                    ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                    : const Icon(Icons.volunteer_activism),
+                    label: Text(isSponsoring ? 'Processing...' : 'Sponsor Project'),
+                    backgroundColor: isSponsoring ? Colors.grey : theme.primaryColor,
+              ),
+        );
+  }
+
+  void _openImageViewer(int initialIndex) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ImageViewerScreen(
+          images: currentLand.images,
+          initialIndex: initialIndex,
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 }

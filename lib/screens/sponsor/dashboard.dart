@@ -105,45 +105,6 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
     );
   }
 
-  Widget _buildQuickActionButton(String title, IconData icon, Color color, VoidCallback onTap) {
-    final theme = Theme.of(context);
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: color.withAlpha(76),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Icon(icon, color: Colors.white, size: 24),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildSponsoredLandCard(LandModel land) {
     final theme = Theme.of(context);
     return Card(
@@ -342,7 +303,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
           const SizedBox(height: 12),
           Text(
             'Thank you for supporting sustainable agriculture and empowering rural farmers! 🌱',
-            style: theme.textTheme.bodyMedium?.copyWith(
+            style: theme.textTheme.bodySmall?.copyWith(
               fontStyle: FontStyle.italic,
               color: theme.primaryColor,
             ),
@@ -356,15 +317,21 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
     final theme = Theme.of(context);
     return Column(
       children: [
-        Icon(icon, color: theme.primaryColor, size: 32),
-        const SizedBox(height: 8),
-        Text(
-          value,
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: theme.primaryColor,
-          ),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: theme.primaryColor, size: 32),
+            const SizedBox(width: 8),
+            Text(
+              value,
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.primaryColor,
+              ),
+            ),
+          ],
         ),
+        const SizedBox(height: 4),
         Text(
           label,
           style: theme.textTheme.bodySmall?.copyWith(
@@ -420,7 +387,7 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                   Expanded(
                     child: _buildStatsCard(
                       'Total Contributed',
-                      '\$${totalSponsored.toStringAsFixed(0)}',
+                      totalSponsored.toStringAsFixed(0),
                       Icons.monetization_on,
                       Colors.green,
                     ),
@@ -445,46 +412,6 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  _buildQuickActionButton(
-                    'Browse Projects',
-                    Icons.search,
-                    theme.primaryColor,
-                        () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LandListScreen(),
-                        ),
-                      ).then((_) => _loadSponsoredLands());
-                    },
-                  ),
-                  _buildQuickActionButton(
-                    'Impact Report',
-                    Icons.analytics,
-                    Colors.blue,
-                        () {
-                      // TODO: Implement impact report
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Impact report feature coming soon!')),
-                      );
-                    },
-                  ),
-                  _buildQuickActionButton(
-                    'Community',
-                    Icons.forum,
-                    Colors.purple,
-                        () {
-                      // TODO: Implement community features
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Community features coming soon!')),
-                      );
-                    },
-                  ),
-                ],
               ),
 
               const SizedBox(height: 24),

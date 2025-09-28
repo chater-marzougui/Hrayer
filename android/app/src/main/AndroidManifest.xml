@@ -23,7 +23,7 @@
 
 
     <application
-        android:label="base_template"
+        android:label="HRAYER"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"

@@ -30,9 +30,6 @@ class AuthWrapper extends StatelessWidget {
 
               if (userSnapshot.hasData && userSnapshot.data!.exists) {
                 final user = structs.User.fromFirestore(userSnapshot.data!);
-                if (user == null) {
-                  return const LoginScreen();
-                }
                 UserController().setUser(user); // Save user globally
                 return const BottomNavbar();
               } else {

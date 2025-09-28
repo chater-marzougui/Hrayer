@@ -1,11 +1,8 @@
-﻿import 'dart:convert';
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:http/http.dart' as http;
+import '../../helpers/image_upload.dart';
 import '../../l10n/app_localizations.dart';
 import '../../structures/structs.dart' as structs;
 
@@ -34,59 +31,6 @@ class _SignupScreenState extends State<SignupScreen> {
   DateTime? _selectedDate;
   File? _selectedImage;
   String? _selectedGender;
-  String? _selectedRole;
-
-  Future<void> _pickImage() async {
-    await _checkPermission();
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-      });
-    }
-  }
-
-  Future<void> _checkPermission() async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-  }
-
-  Future<String?> _uploadImage(AppLocalizations loc) async {
-    await _checkPermission();
-    if (_selectedImage != null) {
-      try {
-        final imageBytes = await _selectedImage!.readAsBytes();
-        final base64Image = base64Encode(imageBytes);
-
-        // Upload image to Imgur
-        final imageUploadResponse = await http.post(
-          Uri.parse('https://api.imgur.com/3/image'),
-          headers: {
-            'Authorization': 'Client-ID 9f9ec81a2a40523',
-          },
-          body: {
-            'image': base64Image,
-            'type': 'base64',
-          },
-        );
-
-        if (imageUploadResponse.statusCode != 200) {
-          throw Exception(loc.failedToUploadImage);
-        }
-
-        final imageUploadJson = jsonDecode(imageUploadResponse.body);
-        final imageUrl = imageUploadJson['data']['link'];
-
-        return imageUrl;
-      } catch (e) {
-        if(mounted) showSnackBar(context, 'Error occurred while uploading the image: $e');
-      }
-    }
-    return null;
-  }
 
   Future<void> _signup(AppLocalizations loc) async {
     if (!_formKey.currentState!.validate()) {
@@ -107,7 +51,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
       User? user = userCredential.user;
       if (user != null) {
-        String? profileImageUrl = await _uploadImage(loc);
+        String? profileImageUrl = await uploadImage(context, _selectedImage);
 
         structs.User newUser = structs.User(
           uid: user.uid,
@@ -120,7 +64,7 @@ class _SignupScreenState extends State<SignupScreen> {
           gender: _selectedGender ?? 'Other',
           createdAt: DateTime.now(),
           profileImage: profileImageUrl ?? "",
-          role: _selectedRole == 'Farmer' ? 'farmer' : 'sponsor',
+          role: null
         );
 
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set(newUser.toFirestore());
@@ -252,26 +196,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   validator: (value) => value == null ? loc.pleaseSelectYourGender : null,
                 ),
                 const SizedBox(height: 20),
-                DropdownButtonFormField<String>(
-                  initialValue: _selectedRole,
-                  decoration: const InputDecoration(
-                    labelText: 'Role',
-                    border: OutlineInputBorder(),
-                  ),
-                  items: ['Farmer', 'Sponsor'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedRole = newValue;
-                    });
-                  },
-                  validator: (value) => value == null ? loc.pleaseSelectYourGender : null,
-                ),
-                const SizedBox(height: 20),
                 TextFormField(
                   controller: _passwordController,
                   decoration: InputDecoration(
@@ -328,6 +252,13 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  void _pickImage() async {
+    final img =  await pickImage();
+    setState(() async {
+      _selectedImage = img;
+    });
   }
 }
 

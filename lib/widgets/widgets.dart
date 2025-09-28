@@ -1,19 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:timeago/timeago.dart' as timeago;
-import '../controllers/user_controller.dart';
 import '../l10n/app_localizations.dart';
 import '../structures/structs.dart' as structs;
 
-import '../structures/structs.dart';
 part 'additional_user_data_dialog.dart';
 part 'welcome_message.dart';
 part 'loading_screen.dart';
 part 'snack_bar.dart';
 part 'typing_indicator.dart';
-part 'comment/comment_list.dart';
-
 
 Widget settingScreenItem(
     BuildContext context, {

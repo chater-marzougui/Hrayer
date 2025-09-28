@@ -28,14 +28,12 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
   final _formKey = GlobalKey<FormState>();
   DateTime? _selectedDate;
   String _selectedGender = '';
-  String _selectedRole = 'Sponsor';
   bool _isSubmitting = false;
 
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final List<String> _genderOptions = ['Male', 'Female', 'Other'];
-  final List<String> _roleOptions = ['Farmer', 'Sponsor'];
 
   @override
   void initState() {
@@ -138,7 +136,7 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
         gender: _selectedGender,
         createdAt: DateTime.now(),
         profileImage: widget.profileImage,
-        role: _selectedRole.toLowerCase(),
+        role: null,
       );
 
       await FirebaseFirestore.instance
@@ -493,65 +491,6 @@ class _AdditionalUserDetailsDialogState extends State<AdditionalUserDetailsDialo
                           fillColor: theme.colorScheme.surface,
                         ),
                         items: _genderOptions.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return loc.genderIsRequired;
-                          }
-                          return null;
-                        },
-                        dropdownColor: theme.colorScheme.surface,
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-
-                      const SizedBox(height: 8),
-                      DropdownButtonFormField<String>(
-                        initialValue: _selectedRole.isEmpty ? null : _selectedRole,
-                        onChanged: _isSubmitting ? null : (String? newValue) {
-                          setState(() {
-                            _selectedRole = newValue ?? '';
-                          });
-                        },
-                        style: theme.textTheme.bodyLarge,
-                        decoration: InputDecoration(
-                          labelText: 'Role',
-                          labelStyle: TextStyle(
-                            color: theme.colorScheme.primary.withAlpha(200),
-                          ),
-                          prefixIcon: Icon(
-                            Icons.people_outline,
-                            color: theme.colorScheme.primary,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: theme.colorScheme.primary.withAlpha(76),
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: theme.colorScheme.primary.withAlpha(76),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: theme.colorScheme.primary,
-                              width: 2,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: theme.colorScheme.surface,
-                        ),
-                        items: _roleOptions.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),

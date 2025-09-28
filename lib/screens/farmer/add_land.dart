@@ -1,3 +1,5 @@
+import 'package:base_template/Widgets/widgets.dart';
+import 'package:base_template/helpers/image_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,20 +40,22 @@ class _AddLandScreenState extends State<AddLandScreen> {
     _locationController.dispose();
     _sizeController.dispose();
     _cropController.dispose();
-    _needsControllers.values.forEach((controller) => controller.dispose());
+    for (var controller in _needsControllers.values) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
   Future<void> _pickImages() async {
     try {
       final List<XFile> images = await _picker.pickMultiImage();
-      if (images.isNotEmpty && images.length <= 5) {
+      if (images.isNotEmpty && images.length <= 8) {
         setState(() {
           selectedImages = images.map((xFile) => File(xFile.path)).toList();
         });
-      } else if (images.length > 5) {
+      } else if (images.length > 8) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Maximum 5 images allowed')),
+          const SnackBar(content: Text('Maximum 8 images allowed')),
         );
       }
     } catch (e) {
@@ -80,14 +84,12 @@ class _AddLandScreenState extends State<AddLandScreen> {
 
       // Calculate total needs
       Map<String, double> needs = {};
-      double totalNeeds = 0;
 
       _needsControllers.forEach((key, controller) {
         if (controller.text.isNotEmpty) {
           double amount = double.tryParse(controller.text) ?? 0;
           if (amount > 0) {
             needs[key] = amount;
-            totalNeeds += amount;
           }
         }
       });
@@ -102,11 +104,19 @@ class _AddLandScreenState extends State<AddLandScreen> {
         return;
       }
 
-      // For demo purposes, we'll store image paths as strings
-      // In production, you'd upload to Firebase Storage
-      List<String> imagePaths = selectedImages
-          .map((file) => file.path.split('/').last)
-          .toList();
+      List<String> imagePaths = [];
+      for (var image in selectedImages) {
+        for (int i = 0; i < 3; i++) {
+          String? imageUrl = await uploadImage(context, image);
+          if (imageUrl != null) {
+            imagePaths.add(imageUrl);
+            break;
+          }
+          if (i == 2) {
+            showSnackBar(context, 'Failed to upload image after multiple attempts');
+          }
+        }
+      }
 
       // Create land document
       final landData = {
@@ -160,7 +170,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Funding Needs (\$)',
+            'Funding Needs (TND)',
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -181,7 +191,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: entry.key,
-                  prefixText: '\$ ',
+                  prefixText: 'TND ',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -378,7 +388,7 @@ class _AddLandScreenState extends State<AddLandScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Add Photos (Max 5)',
+                        'Add Photos (Max 8)',
                         style: TextStyle(color: theme.primaryColor),
                       ),
                     ],

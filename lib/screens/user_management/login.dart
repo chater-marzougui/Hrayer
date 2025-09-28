@@ -299,19 +299,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primary.withValues(alpha: 25),
-                        shape: BoxShape.circle,
-                      ),
+                      padding: const EdgeInsets.all(12),
                       child: Image.asset(
                         'assets/images/logo.png',
-                        height: 100,
-                        width: 100,
+                        height: 144,
+                        width: 144,
                         fit: BoxFit.contain,
                       ),
                     ),
-                    const SizedBox(height: 24),
                     Text(
                       loc.welcomeBack,
                       style: theme.textTheme.headlineMedium?.copyWith(

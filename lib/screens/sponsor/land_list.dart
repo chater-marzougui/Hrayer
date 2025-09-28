@@ -52,6 +52,7 @@ class _LandListScreenState extends State<LandListScreen> {
           .where((land) => land.isActive == true)
           .toList();
 
+      print("Loaded ${availableLands.length} lands");
       _applyFilters();
       setState(() {
         isLoading = false;
@@ -130,7 +131,7 @@ class _LandListScreenState extends State<LandListScreen> {
         'senderId': 'system',
         'senderName': 'System',
         'senderRole': 'system',
-        'text': '🎉 New sponsor joined! A generous contribution of \${amount.toStringAsFixed(0)} has been made to support this project.',
+        'text': '🎉 New sponsor joined! A generous contribution of TND${amount.toStringAsFixed(0)} has been made to support this project.',
         'timestamp': FieldValue.serverTimestamp(),
       });
 
@@ -170,7 +171,7 @@ class _LandListScreenState extends State<LandListScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Remaining needed: \${(land.totalNeeded - land.totalFulfilled).toStringAsFixed(0)}',
+              'Remaining needed: TND ${(land.totalNeeded - land.totalFulfilled).toStringAsFixed(0)}',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: Colors.grey[600],
               ),
@@ -179,19 +180,21 @@ class _LandListScreenState extends State<LandListScreen> {
             TextField(
               controller: amountController,
               keyboardType: TextInputType.number,
+              style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
-                labelText: 'Sponsorship Amount (\$)',
+                labelText: 'Sponsorship Amount (TND)',
+                hintStyle: theme.textTheme.bodySmall,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                prefixText: '\$ ',
+                prefixText: 'TND ',
               ),
             ),
             const SizedBox(height: 16),
             // Quick amount buttons
             Wrap(
               spacing: 8,
-              children: [25, 50, 100, 250, 500].map((amount) {
+              children: [50, 100, 250, 500, 1000, 2000].map((amount) {
                 return ElevatedButton(
                   onPressed: () {
                     amountController.text = amount.toString();
@@ -202,7 +205,7 @@ class _LandListScreenState extends State<LandListScreen> {
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   ),
-                  child: Text('\$amount'),
+                  child: Text('$amount'),
                 );
               }).toList(),
             ),
@@ -305,7 +308,6 @@ class _LandListScreenState extends State<LandListScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image placeholder or first image
           Container(
             height: 160,
             width: double.infinity,
@@ -316,23 +318,16 @@ class _LandListScreenState extends State<LandListScreen> {
             child: Stack(
               children: [
                 Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.agriculture,
-                        size: 48,
-                        color: theme.primaryColor.withAlpha(128),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        '${land.images.length} photo${land.images.length != 1 ? 's' : ''} available',
-                        style: TextStyle(
-                          color: theme.primaryColor.withAlpha(128),
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
+                  child: land.images.isNotEmpty ? Image.network(
+                    land.images[0],
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity
+                  ) :
+                  Icon(
+                    Icons.landscape,
+                    size: 64,
+                    color: theme.primaryColor.withAlpha(100),
                   ),
                 ),
                 Positioned(

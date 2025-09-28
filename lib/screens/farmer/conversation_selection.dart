@@ -85,10 +85,11 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: theme.primaryColor.withAlpha(76)),
                     ),
-                    child: Icon(
-                      Icons.agriculture,
-                      color: theme.primaryColor,
-                      size: 28,
+                    child: Image.network(
+                      land.images.isNotEmpty
+                          ? land.images[0]
+                          : 'https://via.placeholder.com/150',
+                      fit: BoxFit.cover,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -139,13 +140,6 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '${land.size} hectares',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
-                    ),
-                  ),
                   const Spacer(),
                   Icon(
                     Icons.people,
@@ -154,7 +148,7 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    '${land.sponsors.length} sponsors',
+                    '${land.sponsors.length}',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.grey[600],
                     ),
@@ -177,42 +171,7 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
                     '${land.progressPercentage.toStringAsFixed(0)}% funded',
                     style: theme.textTheme.bodySmall,
                   ),
-                  Text(
-                    '\$${land.totalFulfilled.toStringAsFixed(0)} / \$${land.totalNeeded.toStringAsFixed(0)}',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ],
-              ),
-              
-              const SizedBox(height: 12),
-              
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.blue.withAlpha(25),
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: Colors.blue.withAlpha(76)),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.chat,
-                      size: 16,
-                      color: Colors.blue[700],
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      'Tap to open conversation with sponsors',
-                      style: TextStyle(
-                        color: Colors.blue[700],
-                        fontSize: 12,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ],
           ),
@@ -242,39 +201,8 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: theme.primaryColor.withAlpha(25),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: theme.primaryColor.withAlpha(76)),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.info_outline,
-                                  color: theme.primaryColor,
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    'Select a land to start or continue conversation with your sponsors',
-                                    style: TextStyle(
-                                      color: theme.primaryColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          
-                          const SizedBox(height: 20),
-                          
                           Text(
-                            'Your Lands (${userLands.length})',
+                            'Conversations',
                             style: theme.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),

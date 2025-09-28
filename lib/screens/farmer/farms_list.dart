@@ -65,7 +65,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
           ? querySnapshot.docs.first.data()['timestamp']?.toDate()
           : null;
     } catch (e) {
-      return null;
+      return;
     }
   }
 
@@ -249,8 +249,6 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
     return FutureBuilder<DateTime?>(
       future: _loadRecentUpdates(land.id).then((value) => value as DateTime?),
       builder: (context, snapshot) {
-        final theme = Theme.of(context);
-        
         if (!snapshot.hasData) {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -276,13 +274,13 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
         String statusText;
         
         if (daysSinceUpdate <= 7) {
-          statusColor = Colors.green;
+          statusColor = Colors.green.shade700;
           statusText = 'Recent';
         } else if (daysSinceUpdate <= 14) {
-          statusColor = Colors.orange;
+          statusColor = Colors.orange.shade700;
           statusText = 'Due Soon';
         } else {
-          statusColor = Colors.red;
+          statusColor = Colors.red.shade700;
           statusText = 'Overdue';
         }
         
@@ -295,7 +293,7 @@ class _FarmsListScreenState extends State<FarmsListScreen> {
           child: Text(
             statusText,
             style: TextStyle(
-              color: statusColor[700],
+              color: statusColor,
               fontSize: 10,
               fontWeight: FontWeight.bold,
             ),

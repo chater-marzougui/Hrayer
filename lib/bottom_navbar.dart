@@ -1,4 +1,5 @@
-﻿import 'package:cloud_firestore/cloud_firestore.dart';
+﻿import 'package:base_template/screens/user_management/role_selection.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,17 +9,13 @@ import 'l10n/app_localizations.dart';
 // Farmer pages
 import 'screens/farmer/dashboard.dart' as farmer;
 import 'screens/farmer/add_land.dart';
-import 'screens/farmer/proof_upload.dart';
 import 'screens/farmer/chat_ai.dart';
-import 'screens/farmer/chat_sponsors.dart';
 import 'screens/farmer/conversation_selection.dart';
 import 'screens/farmer/farms_list.dart';
 
 // Sponsor pages
 import 'screens/sponsor/dashboard.dart' as sponsor;
 import 'screens/sponsor/land_list.dart';
-import 'screens/sponsor/land_details.dart';
-import 'screens/sponsor/chat_farmers.dart';
 import 'screens/sponsor/conversation_selection.dart' as sponsor_conv;
 
 // Shared pages
@@ -58,10 +55,31 @@ class _HomePageState extends State<BottomNavbar> {
     if (user == null) return;
 
     final doc =
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+
+    final userRole = doc.data()?['role'] as String?;
+
+    // If role is null, navigate to role selection screen
+    if (userRole == null) {
+      final result = await Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const RoleSelectionScreen(),
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+        ),
+      );
+
+      if (result == true) {
+        _loadUserRole(); // Recursively call to get updated role
+        return;
+      } else {
+        await FirebaseAuth.instance.signOut();
+        return;
+      }
+    }
 
     setState(() {
-      role = doc.data()?['role'] as String? ?? "sponsor"; // Default to "farmer" if role doesn't exist
+      role = userRole;
       _setupPages();
     });
   }

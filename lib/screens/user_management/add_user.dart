@@ -308,15 +308,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
 
               // Role Selection
               DropdownButtonFormField<String>(
-                value: _selectedRole,
-                enabled: !_isLoading && _isCurrentUserFarmer,
-                onChanged: (String? newValue) {
+                initialValue: _selectedRole,
+                onChanged: (!_isLoading && _isCurrentUserFarmer) ? (String? newValue) {
                   if (newValue != null) {
                     setState(() {
                       _selectedRole = newValue;
                     });
                   }
-                },
+                } : null,
                 decoration: InputDecoration(
                   labelText: 'Role',
                   prefixIcon: const Icon(Icons.people_outline),
