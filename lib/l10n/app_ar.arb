@@ -1,11 +1,11 @@
 {
     "@@locale": "ar",
     "dashboard": "التحكم",
-    "lands": "الأراضي",
     "chats": "المحادثات",
     "profile": "الملف الشخصي",
     "proofs": "إثباتات",
     "sponsors": "الرعاة",
+    "settings": "الإعدادات",
 
     "logout": "تسجيل الخروج",
     "cancel": "إلغاء",
@@ -28,7 +28,6 @@
     "progress": "التقدم",
 
     "voice": "صوت",
-    "text": "نص",
     "anUnexpectedErrorOccurred": "حدث خطأ غير متوقع",
     "applyChanges": "تطبيق التغييرات",
     "areYouSureYouWantToLogout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",

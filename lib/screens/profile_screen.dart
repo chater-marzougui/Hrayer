@@ -102,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         settingScreenItem(
           context,
           icon: Icons.settings,
-          itemName: "Settings",
+          itemName: loc.settings,
           page: const SettingsPage(),
         ),
         ListTile(

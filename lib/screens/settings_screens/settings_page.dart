@@ -78,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: Text(loc.settings),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

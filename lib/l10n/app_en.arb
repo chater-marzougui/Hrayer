@@ -1,11 +1,11 @@
 {
     "@@locale": "en",
     "dashboard": "Dashboard",
-    "lands": "Lands",
     "chats": "Chats",
     "profile": "Profile",
     "proofs": "Proofs",
     "sponsors": "Sponsors",
+    "settings": "Settings",
 
     "logout": "Logout",
     "cancel": "Cancel",
@@ -28,7 +28,6 @@
     "progress": "Progress",
 
     "voice": "Voice",
-    "text": "Text",
     "anUnexpectedErrorOccurred": "An unexpected error occurred",
     "applyChanges": "Apply Changes",
     "areYouSureYouWantToLogout": "Are you sure you want to logout?",

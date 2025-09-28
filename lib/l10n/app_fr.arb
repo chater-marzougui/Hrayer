@@ -1,11 +1,11 @@
 {
     "@@locale": "fr",
     "dashboard": "Tableau de bord",
-    "lands": "Terrains",
     "chats": "Discussions",
     "profile": "Profil",
     "proofs": "Preuves",
     "sponsors": "Sponsors",
+    "settings": "Paramètres",
 
     "logout": "Se déconnecter",
     "cancel": "Annuler",
@@ -28,7 +28,6 @@
     "progress": "Progression",
 
     "voice": "Voix",
-    "text": "Texte",
     "anUnexpectedErrorOccurred": "Une erreur inattendue s'est produite",
     "applyChanges": "Appliquer les changements",
     "areYouSureYouWantToLogout": "Êtes-vous sûr de vouloir vous déconnecter ?",
