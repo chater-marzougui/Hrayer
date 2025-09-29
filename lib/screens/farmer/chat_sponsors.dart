@@ -1,6 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../controllers/app_preferences.dart';
 import '../../widgets/widgets.dart';
 import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
@@ -17,6 +19,9 @@ class ChatSponsorsScreen extends StatefulWidget {
 class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
   final _messageController = TextEditingController();
   final _scrollController = ScrollController();
+
+  late AppPreferences appPreferences;
+  String _selectedLanguage = 'en';
   late CollectionReference messagesRef;
   String? currentUserName;
   bool isLoading = false;
@@ -29,6 +34,7 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
         .doc(widget.land.id)
         .collection('messages');
     _getCurrentUserName();
+    _loadPreferences();
   }
 
   @override
@@ -37,6 +43,17 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
     _scrollController.dispose();
     super.dispose();
   }
+
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    appPreferences = AppPreferences(prefs);
+
+    setState(() {
+      _selectedLanguage = appPreferences.getPreferredLanguage();
+    });
+  }
+
 
   Future<void> _getCurrentUserName() async {
     try {
@@ -462,35 +479,38 @@ class _ChatSponsorsScreenState extends State<ChatSponsorsScreen> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              loc.landInformation,
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
+      builder: (context) => Directionality(
+        textDirection: _selectedLanguage == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                loc.landInformation,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            _buildInfoRow(loc.title, widget.land.title),
-            _buildInfoRow(loc.size, '${widget.land.size} hectares'),
-            _buildInfoRow(loc.crop, widget.land.intendedCrop),
-            _buildInfoRow(loc.location, widget.land.location),
-            _buildInfoRow(loc.progress, '${widget.land.progressPercentage.toStringAsFixed(1)}%'),
-            _buildInfoRow(loc.totalNeeded, '\$${widget.land.totalNeeded.toStringAsFixed(0)}'),
-            _buildInfoRow(loc.totalRaised, '\$${widget.land.totalFulfilled.toStringAsFixed(0)}'),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
+              const SizedBox(height: 16),
+              _buildInfoRow(loc.title, widget.land.title),
+              _buildInfoRow(loc.size, '${widget.land.size} hectares'),
+              _buildInfoRow(loc.crop, widget.land.intendedCrop),
+              _buildInfoRow(loc.location, widget.land.location),
+              _buildInfoRow(loc.progress, '${widget.land.progressPercentage.toStringAsFixed(1)}%'),
+              _buildInfoRow(loc.totalNeeded, '\$${widget.land.totalNeeded.toStringAsFixed(0)}'),
+              _buildInfoRow(loc.totalRaised, '\$${widget.land.totalFulfilled.toStringAsFixed(0)}'),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(loc.close),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

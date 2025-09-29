@@ -6,10 +6,11 @@
     "proofs": "Proofs",
     "sponsors": "Sponsors",
     "settings": "Settings",
-
+    "lands": "Lands",
     "logout": "Logout",
     "cancel": "Cancel",
-
+    "close": "Close",
+    "conversations": "Conversations",
     "plantDiseaseId": "Plant Disease ID",
     "takePhotosOfSickPlants": "Take photos of sick plants",
     "irrigationAdvice": "Irrigation Advice",
@@ -20,13 +21,11 @@
     "identifyAndTreatPlantPests": "Identify and treat plant pests",
     "weatherTips": "Weather Tips",
     "weatherBasedFarmingGuidance": "Weather-based farming guidance",
-
     "title": "Title",
     "size": "Size",
     "crop": "Crop",
     "location": "Location",
     "progress": "Progress",
-
     "voice": "Voice",
     "anUnexpectedErrorOccurred": "An unexpected error occurred",
     "applyChanges": "Apply Changes",
@@ -311,5 +310,19 @@
     "yourFarmsCount": "Your Farms ({length})",
     "yourImpact": "Your Impact",
     "newSponsorJoinedUsd": "🎉 New sponsor joined! A generous contribution of ${amount} has been made to support this project.",
-    "newSponsorJoinedTnd": "🎉 New sponsor joined! A generous contribution of TND{amount} has been made to support this project."
+    "newSponsorJoinedTnd": "🎉 New sponsor joined! A generous contribution of TND{amount} has been made to support this project.",
+    "photosLength": "{length} photo(s)",
+    "fundedPercentage": "{percentage}% funded",
+    "loadingWeather": "Loading weather...",
+    "weatherError": "Unable to load weather data",
+    "retry": "Retry",
+    "currentLocation": "Current Location",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "precipitation": "Precipitation",
+    "sunrise": "Sunrise",
+    "sunset": "Sunset",
+    "windSpeedUnit": "m/s",
+    "precipitationUnit": "mm"
 }

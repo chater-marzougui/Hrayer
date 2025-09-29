@@ -1,6 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../controllers/app_preferences.dart';
 import '../../widgets/widgets.dart';
 import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
@@ -17,6 +19,9 @@ class ChatFarmersScreen extends StatefulWidget {
 class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
   final _messageController = TextEditingController();
   final _scrollController = ScrollController();
+
+  late AppPreferences appPreferences;
+  String _selectedLanguage = 'en';
   late CollectionReference messagesRef;
   String? currentUserName;
   String? currentUserRole;
@@ -30,6 +35,7 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
         .doc(widget.land.id)
         .collection('messages');
     _getCurrentUserInfo();
+    _loadPreferences();
   }
 
   @override
@@ -37,6 +43,15 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    appPreferences = AppPreferences(prefs);
+
+    setState(() {
+      _selectedLanguage = appPreferences.getPreferredLanguage();
+    });
   }
 
   Future<void> _getCurrentUserInfo() async {
@@ -346,54 +361,58 @@ class _ChatFarmersScreenState extends State<ChatFarmersScreen> {
   void _showProjectInfo() {
     final theme = Theme.of(context);
     final loc = AppLocalizations.of(context)!;
+
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.agriculture, color: theme.primaryColor),
-                const SizedBox(width: 8),
-                Text(
-                  loc.projectInformation,
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
+      builder: (context) => Directionality(
+        textDirection: _selectedLanguage == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.agriculture, color: theme.primaryColor),
+                  const SizedBox(width: 8),
+                  Text(
+                    loc.projectInformation,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            _buildInfoRow(loc.projectName, widget.land.title),
-            _buildInfoRow(loc.location, widget.land.location),
-            _buildInfoRow(loc.size, '${widget.land.size} hectares'),
-            _buildInfoRow(loc.crop, widget.land.intendedCrop),
-            _buildInfoRow(loc.totalNeeded, '\${widget.land.totalNeeded.toStringAsFixed(0)}'),
-            _buildInfoRow(loc.amountRaised, '\${widget.land.totalFulfilled.toStringAsFixed(0)}'),
-            _buildInfoRow(loc.progress, '${widget.land.progressPercentage.toStringAsFixed(1)}%'),
-            _buildInfoRow(loc.sponsors, '${widget.land.sponsors.length}'),
-            const SizedBox(height: 16),
-            LinearProgressIndicator(
-              value: widget.land.progressPercentage / 100,
-              backgroundColor: Colors.grey[300],
-              valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
-              minHeight: 8,
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              _buildInfoRow(loc.projectName, widget.land.title),
+              _buildInfoRow(loc.location, widget.land.location),
+              _buildInfoRow(loc.size, '${widget.land.size} hectares'),
+              _buildInfoRow(loc.crop, widget.land.intendedCrop),
+              _buildInfoRow(loc.totalNeeded, 'TND${widget.land.totalNeeded.toStringAsFixed(0)}'),
+              _buildInfoRow(loc.amountRaised, 'TND${widget.land.totalFulfilled.toStringAsFixed(0)}'),
+              _buildInfoRow(loc.progress, '${widget.land.progressPercentage.toStringAsFixed(1)}%'),
+              _buildInfoRow(loc.sponsors, '${widget.land.sponsors.length}'),
+              const SizedBox(height: 16),
+              LinearProgressIndicator(
+                value: widget.land.progressPercentage / 100,
+                backgroundColor: Colors.grey[300],
+                valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
+                minHeight: 8,
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(loc.close),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

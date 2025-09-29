@@ -1,6 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../helpers/current_location_service.dart';
+import '../../widgets/weather_forecast.dart';
 import '../../widgets/widgets.dart';
 import '../../l10n/app_localizations.dart';
 import '../../structures/land_models.dart';
@@ -22,12 +24,28 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
   List<LandModel> userLands = [];
   bool isLoading = true;
   double totalEarnings = 0.0;
+  double latitude = 0.0;
+  double longitude = 0.0;
+  String locationName = 'Unknown Location';
+
   int activeLands = 0;
 
   @override
   void initState() {
     super.initState();
     _loadUserLands();
+    _loadLocation();
+  }
+
+  Future<void> _loadLocation() async {
+    final position = await CurrentLocationService.getCurrentLocationWithName();
+    print(position);
+    if (position == null) return;
+    setState(() {
+      latitude = position.latitude; // Example: Tunisia latitude
+      longitude = position.longitude; // Example: Tunisia longitude
+      locationName = position.locationName;
+    });
   }
 
   Future<void> _loadUserLands() async {
@@ -232,7 +250,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                       );
                     },
                     icon: const Icon(Icons.camera_alt, size: 16),
-                    label: const Text('Update'),
+                    label: Text(loc.projectUpdates),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                     ),
@@ -250,7 +268,7 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                       );
                     },
                     icon: const Icon(Icons.chat, size: 16),
-                    label: const Text('Chat'),
+                    label: Text(loc.chats),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                     ),
@@ -336,6 +354,20 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                 ],
               ),
 
+              const SizedBox(height: 24),
+              if (latitude != 0.0 && longitude != 0.0)
+                WeatherWidget(
+                  latitude: latitude,
+                  longitude: longitude,
+                  locationName: locationName,
+                )
+              else
+                SizedBox(
+                  height: 100,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
               const SizedBox(height: 24),
 
               // Quick Actions

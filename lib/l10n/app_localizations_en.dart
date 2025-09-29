@@ -12,9 +12,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboard => 'Dashboard';
 
   @override
-  String get lands => 'Lands';
-
-  @override
   String get chats => 'Chats';
 
   @override
@@ -27,10 +24,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sponsors => 'Sponsors';
 
   @override
+  String get settings => 'Settings';
+
+  @override
+  String get lands => 'Lands';
+
+  @override
   String get logout => 'Logout';
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get conversations => 'Conversations';
 
   @override
   String get plantDiseaseId => 'Plant Disease ID';
@@ -79,9 +88,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voice => 'Voice';
-
-  @override
-  String get text => 'Text';
 
   @override
   String get anUnexpectedErrorOccurred => 'An unexpected error occurred';
@@ -974,4 +980,50 @@ class AppLocalizationsEn extends AppLocalizations {
   String newSponsorJoinedTnd(Object amount) {
     return '🎉 New sponsor joined! A generous contribution of TND$amount has been made to support this project.';
   }
+
+  @override
+  String photosLength(Object length) {
+    return '$length photo(s)';
+  }
+
+  @override
+  String fundedPercentage(Object percentage) {
+    return '$percentage% funded';
+  }
+
+  @override
+  String get loadingWeather => 'Loading weather...';
+
+  @override
+  String get weatherError => 'Unable to load weather data';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get currentLocation => 'Current Location';
+
+  @override
+  String get temperature => 'Temperature';
+
+  @override
+  String get humidity => 'Humidity';
+
+  @override
+  String get wind => 'Wind';
+
+  @override
+  String get precipitation => 'Precipitation';
+
+  @override
+  String get sunrise => 'Sunrise';
+
+  @override
+  String get sunset => 'Sunset';
+
+  @override
+  String get windSpeedUnit => 'm/s';
+
+  @override
+  String get precipitationUnit => 'mm';
 }

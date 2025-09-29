@@ -9,10 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get dashboard => 'التحكم';
-
-  @override
-  String get lands => 'الأراضي';
+  String get dashboard => 'لوحة التحكم';
 
   @override
   String get chats => 'المحادثات';
@@ -27,10 +24,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sponsors => 'الرعاة';
 
   @override
+  String get settings => 'الإعدادات';
+
+  @override
+  String get lands => 'الأراضي';
+
+  @override
   String get logout => 'تسجيل الخروج';
 
   @override
   String get cancel => 'إلغاء';
+
+  @override
+  String get close => 'إغلاق';
+
+  @override
+  String get conversations => 'المحادثات';
 
   @override
   String get plantDiseaseId => 'تشخيص أمراض النباتات';
@@ -81,9 +90,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get voice => 'صوت';
 
   @override
-  String get text => 'نص';
-
-  @override
   String get anUnexpectedErrorOccurred => 'حدث خطأ غير متوقع';
 
   @override
@@ -99,7 +105,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chooseAnImageSource => 'اختر مصدر الصورة';
 
   @override
-  String get completeProfile => 'إكمال الملف الشخصي';
+  String get completeProfile => 'أكمل الملف الشخصي';
 
   @override
   String get completeYourProfile => 'أكمل ملفك الشخصي';
@@ -159,38 +165,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String errorOccurredWhileUploadingTheImage(Object e) {
-    return 'حدث خطأ أثناء تحميل الصورة: $e';
+    return 'حدث خطأ أثناء رفع الصورة: $e';
   }
 
   @override
   String errorPostingComment(Object e) {
-    return 'خطأ في نشر التعليق: $e';
+    return 'حدث خطأ أثناء نشر التعليق: $e';
   }
 
   @override
   String errorReauthenticatingUser(Object e) {
-    return 'خطأ في إعادة توثيق المستخدم: $e';
+    return 'خطأ أثناء إعادة التحقق من المستخدم: $e';
   }
 
   @override
   String errorSendingPasswordRecoveryEmail(Object e) {
-    return 'خطأ في إرسال بريد استعادة كلمة المرور: $e';
+    return 'خطأ أثناء إرسال بريد استعادة كلمة المرور: $e';
   }
 
   @override
-  String get errorSigningOut => 'خطأ في تسجيل الخروج';
+  String get errorSigningOut => 'خطأ أثناء تسجيل الخروج';
 
   @override
-  String get errorSubmittingSupportRequest => 'خطأ في إرسال طلب الدعم';
+  String get errorSubmittingSupportRequest => 'خطأ أثناء إرسال طلب الدعم';
 
   @override
   String errorUpdatingPassword(Object e) {
-    return 'خطأ في تحديث كلمة المرور: $e';
+    return 'خطأ أثناء تحديث كلمة المرور: $e';
   }
 
   @override
   String errorUpdatingProfile(Object e) {
-    return 'خطأ في تحديث الملف الشخصي: $e';
+    return 'خطأ أثناء تحديث الملف الشخصي: $e';
   }
 
   @override
@@ -200,17 +206,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String failedToCreateProfile(Object toString) {
-    return 'فشل إنشاء الملف الشخصي: $toString';
+    return 'فشل في إنشاء الملف الشخصي: $toString';
   }
 
   @override
-  String get failedToUploadImage => 'فشل تحميل الصورة';
+  String get failedToUploadImage => 'فشل في رفع الصورة';
 
   @override
-  String get firstName => 'الاسم';
+  String get firstName => 'الاسم الأول';
 
   @override
-  String get firstNameIsRequired => 'الاسم مطلوب';
+  String get firstNameIsRequired => 'الاسم الأول مطلوب';
 
   @override
   String get forgotPassword => 'هل نسيت كلمة المرور؟';
@@ -219,16 +225,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get genderIsRequired => 'الجنس مطلوب';
 
   @override
-  String get incorrectPassword => 'كلمة مرور غير صحيحة';
+  String get incorrectPassword => 'كلمة المرور غير صحيحة';
 
   @override
-  String get invalidEmailAddress => 'عنوان بريد إلكتروني غير صالح';
+  String get invalidEmailAddress => 'عنوان البريد الإلكتروني غير صالح';
 
   @override
-  String get lastName => 'اللقب';
+  String get lastName => 'الاسم الأخير';
 
   @override
-  String get lastNameIsRequired => 'اللقب مطلوب';
+  String get lastNameIsRequired => 'الاسم الأخير مطلوب';
 
   @override
   String get loginFailed => 'فشل تسجيل الدخول';
@@ -239,10 +245,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get newPassword => 'كلمة المرور الجديدة';
+  String get newPassword => 'كلمة مرور جديدة';
 
   @override
-  String get noAccountFoundWithThisEmail => 'لم يتم العثور على حساب بهذا البريد الإلكتروني';
+  String get noAccountFoundWithThisEmail => 'لا يوجد حساب بهذا البريد الإلكتروني';
 
   @override
   String get noCommentsYet => 'لا توجد تعليقات بعد';
@@ -251,7 +257,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get oldPassword => 'كلمة المرور القديمة';
 
   @override
-  String get orContinueWith => 'أو المتابعة باستخدام';
+  String get orContinueWith => 'أو المتابعة عبر';
 
   @override
   String get passwordRequirements => 'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتحتوي على رقم';
@@ -260,10 +266,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get passwordUpdatedSuccessfully => 'تم تحديث كلمة المرور بنجاح';
 
   @override
-  String get passwordsDoNotMatch => 'كلمات المرور غير متطابقة';
+  String get passwordsDoNotMatch => 'كلمتا المرور غير متطابقتين';
 
   @override
-  String get passwordsDoNotMatchExclamation => 'كلمات المرور غير متطابقة!';
+  String get passwordsDoNotMatchExclamation => 'كلمتا المرور غير متطابقتين!';
 
   @override
   String get personalAccount => 'حساب شخصي';
@@ -275,42 +281,42 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phoneNumberIsRequired => 'رقم الهاتف مطلوب';
 
   @override
-  String get pleaseConfirmYourPassword => 'الرجاء تأكيد كلمة المرور';
+  String get pleaseConfirmYourPassword => 'يرجى تأكيد كلمة المرور';
 
   @override
   String pleaseEnterLabel(Object label) {
-    return 'الرجاء إدخال $label';
+    return 'يرجى إدخال $label';
   }
 
   @override
-  String get pleaseEnterAPassword => 'الرجاء إدخال كلمة مرور';
+  String get pleaseEnterAPassword => 'يرجى إدخال كلمة مرور';
 
   @override
-  String get pleaseEnterAValidEmailAddress => 'الرجاء إدخال عنوان بريد إلكتروني صالح';
+  String get pleaseEnterAValidEmailAddress => 'يرجى إدخال بريد إلكتروني صالح';
 
   @override
-  String get pleaseEnterAValidPhoneNumber => 'الرجاء إدخال رقم هاتف صالح';
+  String get pleaseEnterAValidPhoneNumber => 'يرجى إدخال رقم هاتف صالح';
 
   @override
-  String get pleaseEnterYourEmail => 'الرجاء إدخال بريدك الإلكتروني';
+  String get pleaseEnterYourEmail => 'يرجى إدخال بريدك الإلكتروني';
 
   @override
-  String get pleaseEnterYourFirstName => 'الرجاء إدخال اسمك الأول';
+  String get pleaseEnterYourFirstName => 'يرجى إدخال الاسم الأول';
 
   @override
-  String get pleaseEnterYourLastName => 'الرجاء إدخال اسمك الأخير';
+  String get pleaseEnterYourLastName => 'يرجى إدخال الاسم الأخير';
 
   @override
-  String get pleaseFillInAllFields => 'الرجاء ملء جميع الحقول';
+  String get pleaseFillInAllFields => 'يرجى ملء جميع الحقول';
 
   @override
-  String get pleaseSelectYourBirthdate => 'الرجاء تحديد تاريخ ميلادك';
+  String get pleaseSelectYourBirthdate => 'يرجى اختيار تاريخ الميلاد';
 
   @override
-  String get pleaseSelectYourGender => 'الرجاء تحديد جنسك';
+  String get pleaseSelectYourGender => 'يرجى اختيار الجنس';
 
   @override
-  String get postedBy => 'نشر بواسطة';
+  String get postedBy => 'تم النشر بواسطة';
 
   @override
   String get profileUpdatedSuccessfully => 'تم تحديث الملف الشخصي بنجاح';
@@ -322,7 +328,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recoverPassword => 'استعادة كلمة المرور';
 
   @override
-  String get selectYourBirthdate => 'حدد تاريخ ميلادك';
+  String get selectYourBirthdate => 'اختر تاريخ ميلادك';
 
   @override
   String get signIn => 'تسجيل الدخول';
@@ -343,7 +349,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get supportRequestSubmittedSuccessfully => 'تم إرسال طلب الدعم بنجاح';
 
   @override
-  String get tapAgainToExit => 'انقر مرة أخرى للخروج';
+  String get tapAgainToExit => 'اضغط مرة أخرى للخروج';
 
   @override
   String get textOnButton => 'نص على الزر';
@@ -355,16 +361,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get thisAccountHasBeenDisabled => 'تم تعطيل هذا الحساب';
 
   @override
-  String get thisPageIsAPlaceHolder => 'هذه الصفحة هي عنصر نائب';
+  String get thisPageIsAPlaceHolder => 'هذه الصفحة عبارة عن عنصر نائب';
 
   @override
-  String get tooManyFailedAttempts => 'محاولات فاشلة كثيرة. يرجى المحاولة مرة أخرى لاحقًا';
+  String get tooManyFailedAttempts => 'عدد كبير جدًا من المحاولات الفاشلة. يرجى المحاولة لاحقًا';
 
   @override
-  String get typeYourOldPasswordAndTheNewOneToApplyChanges => 'اكتب كلمة مرورك القديمة والجديدة لتطبيق التغييرات';
+  String get typeYourOldPasswordAndTheNewOneToApplyChanges => 'اكتب كلمة المرور القديمة والجديدة لتطبيق التغييرات';
 
   @override
-  String get typeYourPasswordToApplyChanges => 'اكتب كلمة مرورك لتطبيق التغييرات';
+  String get typeYourPasswordToApplyChanges => 'اكتب كلمة المرور لتطبيق التغييرات';
 
   @override
   String get unknownUser => 'مستخدم غير معروف';
@@ -373,10 +379,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get userNotLoggedIn => 'المستخدم لم يسجل دخوله';
 
   @override
-  String get weNeedAFewMoreDetails => 'نحتاج إلى بعض التفاصيل الإضافية لتبدأ';
+  String get weNeedAFewMoreDetails => 'نحتاج إلى بعض التفاصيل الإضافية لبدء استخدامك';
 
   @override
-  String get welcomeBack => 'مرحباً بعودتك!';
+  String get welcomeBack => 'مرحبًا بعودتك!';
 
   @override
   String get wouldYouLikeToTakeAPictureOrChooseFromGallery => 'هل ترغب في التقاط صورة أو الاختيار من المعرض؟';
@@ -391,7 +397,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get youCanInteractWithMeInMultipleWays => 'يمكنك التفاعل معي بعدة طرق:';
 
   @override
-  String get hiThereImBBot => '👋 مرحبًا! أنا بي-بوت';
+  String get hiThereImBBot => '👋 أهلاً! أنا B-BOT';
 
   @override
   String get camera => 'الكاميرا';
@@ -400,13 +406,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get gallery => 'المعرض';
 
   @override
-  String get farmerRoleDescription => '• يمكنه إضافة وإدارة الأراضي\n• يمكنه تحميل إثباتات التقدم\n• يمكنه الدردشة مع الرعاة\n• يمكنه إضافة مستخدمين جدد (صلاحيات المسؤول)';
+  String get farmerRoleDescription => '• يمكنه إضافة وإدارة الأراضي\n• يمكنه رفع إثباتات التقدم\n• يمكنه الدردشة مع الرعاة\n• يمكنه إضافة مستخدمين جدد (صلاحيات المشرف)';
 
   @override
-  String get sponsorRoleDescription => '• يمكنه تصفح ورعاية المشاريع\n• يمكنه الدردشة مع المزارعين\n• يمكنه عرض تحديثات التقدم';
+  String get sponsorRoleDescription => '• يمكنه تصفح وتمويل المشاريع\n• يمكنه الدردشة مع المزارعين\n• يمكنه الاطلاع على تحديثات التقدم';
 
   @override
-  String get userWithPhoneNumberExists => 'يوجد مستخدم بهذا الرقم الهاتفي بالفعل';
+  String get userWithPhoneNumberExists => 'يوجد مستخدم بهذا الرقم بالفعل';
 
   @override
   String get activeLands => 'الأراضي النشطة';
@@ -424,10 +430,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addNewUser => 'إضافة مستخدم جديد';
 
   @override
-  String get addPhotosMax8 => 'إضافة صور (8 كحد أقصى)';
+  String get addPhotosMax8 => 'أضف صورًا (بحد أقصى 8)';
 
   @override
-  String get addProgressPhotosMax3 => 'إضافة صور التقدم (3 كحد أقصى)';
+  String get addProgressPhotosMax3 => 'أضف صور تقدم (بحد أقصى 3)';
 
   @override
   String get addUser => 'إضافة مستخدم';
@@ -439,34 +445,34 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addYourFirstLand => 'أضف أرضك الأولى';
 
   @override
-  String get addYourFirstLandToStart => 'أضف أرضك الأولى لبدء البحث عن رعاية';
+  String get addYourFirstLandToStart => 'أضف أرضك الأولى لبدء البحث عن رعاة';
 
   @override
-  String get aiAssistant => 'مساعد الذكاء الاصطناعي';
+  String get aiAssistant => 'المساعد الذكي';
 
   @override
   String get aiChat => 'الذكاء الاصطناعي';
 
   @override
-  String get almostComplete75_99 => 'أوشك على الانتهاء (75-99%)';
+  String get almostComplete75_99 => 'على وشك الاكتمال (75-99%)';
 
   @override
-  String get almostThere => 'اقتربنا من النهاية';
+  String get almostThere => 'قاربنا على الوصول';
 
   @override
-  String get amountMustBeGreaterThan0 => 'يجب أن يكون المبلغ أكبر من 0';
+  String get amountMustBeGreaterThan0 => 'المبلغ يجب أن يكون أكبر من 0';
 
   @override
-  String get amountRaised => 'المبلغ المجمع';
+  String get amountRaised => 'المبلغ المجمّع';
 
   @override
   String get applyFilters => 'تطبيق المرشحات';
 
   @override
-  String get asAFarmerYouCanInvite => 'كمزارع (مسؤول)، يمكنك دعوة مستخدمين جدد للانضمام إلى المنصة';
+  String get asAFarmerYouCanInvite => 'بصفتك مزارعًا (مشرف)، يمكنك دعوة مستخدمين جدد للمنصة';
 
   @override
-  String get basicInformation => 'معلومات أساسية';
+  String get basicInformation => 'المعلومات الأساسية';
 
   @override
   String get browseProjectsAndMakeADifference => 'تصفح المشاريع المتاحة وابدأ في إحداث فرق في المجتمعات الزراعية الريفية';
@@ -475,7 +481,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get browseProjects => 'تصفح المشاريع';
 
   @override
-  String get clearFilters => 'مسح المرشحات';
+  String get clearFilters => 'إزالة المرشحات';
 
   @override
   String get appTagline => 'ربط المزارعات بالمستثمرين من أجل زراعة مستدامة';
@@ -484,10 +490,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get continueAsUser => 'المتابعة كمستخدم';
 
   @override
-  String get describeCurrentProgress => 'صف التقدم الحالي، وأي تحديات، وإنجازات، أو ملاحظات...';
+  String get describeCurrentProgress => 'صف التقدم الحالي، أي تحديات أو إنجازات أو ملاحظات...';
 
   @override
-  String get describeYourLand => 'صف أرضك، نوع التربة، حالتها الراهنة...';
+  String get describeYourLand => 'صف أرضك، نوع التربة، حالتها الحالية...';
 
   @override
   String get descriptionRequired => 'الوصف *';
@@ -496,7 +502,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get discoverFarmingOpportunities => 'اكتشف فرص الزراعة وادعم الزراعة المستدامة';
 
   @override
-  String get dueSoon => 'قريب الاستحقاق';
+  String get dueSoon => 'مستحق قريبًا';
 
   @override
   String get emailOptional => 'البريد الإلكتروني (اختياري)';
@@ -509,55 +515,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String errorLoadingLands(Object e) {
-    return 'خطأ في تحميل الأراضي: $e';
+    return 'خطأ أثناء تحميل الأراضي: $e';
   }
 
   @override
-  String get errorLoadingMessages => 'خطأ في تحميل الرسائل';
+  String get errorLoadingMessages => 'خطأ أثناء تحميل الرسائل';
 
   @override
   String errorLoadingMessagesWithDetails(Object error) {
-    return 'خطأ في تحميل الرسائل: $error';
+    return 'خطأ أثناء تحميل الرسائل: $error';
   }
 
   @override
   String errorLoadingProjects(Object e) {
-    return 'خطأ في تحميل المشاريع: $e';
+    return 'خطأ أثناء تحميل المشاريع: $e';
   }
 
   @override
   String errorLoadingSponsoredLands(Object e) {
-    return 'خطأ في تحميل الأراضي المكفولة: $e';
+    return 'خطأ أثناء تحميل الأراضي الممولة: $e';
   }
 
   @override
   String errorLoadingSponsorships(Object e) {
-    return 'خطأ في تحميل الرعايات: $e';
+    return 'خطأ أثناء تحميل الرعايات: $e';
   }
 
   @override
   String errorLoadingUpdates(Object e) {
-    return 'خطأ في تحميل التحديثات: $e';
+    return 'خطأ أثناء تحميل التحديثات: $e';
   }
 
   @override
   String errorLoadingYourLands(Object e) {
-    return 'خطأ في تحميل أراضيك: $e';
+    return 'خطأ أثناء تحميل أراضيك: $e';
   }
 
   @override
   String errorOccurredWhileUploadingImage(Object e) {
-    return 'حدث خطأ أثناء تحميل الصورة: $e';
+    return 'حدث خطأ أثناء رفع الصورة: $e';
   }
 
   @override
   String errorPickingImages(Object e) {
-    return 'خطأ في اختيار الصور: $e';
+    return 'خطأ أثناء اختيار الصور: $e';
   }
 
   @override
   String errorProcessingSponsorship(Object e) {
-    return 'خطأ في معالجة الرعاية: $e';
+    return 'خطأ أثناء معالجة الرعاية: $e';
   }
 
   @override
@@ -566,32 +572,32 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get failedToLoadImage => 'فشل تحميل الصورة';
+  String get failedToLoadImage => 'فشل في تحميل الصورة';
 
   @override
   String failedToSendMessage(Object e) {
-    return 'فشل إرسال الرسالة: $e';
+    return 'فشل في إرسال الرسالة: $e';
   }
 
   @override
   String failedToUpdateRole(Object toString) {
-    return 'فشل تحديث الدور: $toString';
+    return 'فشل في تحديث الدور: $toString';
   }
 
   @override
-  String get failedToUploadImageAfterMultipleAttempts => 'فشل تحميل الصورة بعد عدة محاولات';
+  String get failedToUploadImageAfterMultipleAttempts => 'فشل في رفع الصورة بعد عدة محاولات';
 
   @override
   String get farmerRole => 'دور المزارع:';
 
   @override
-  String get farmersHelped => 'المزارعون الذين تمت مساعدتهم';
+  String get farmersHelped => 'عدد المزارعين الذين تمت مساعدتهم';
 
   @override
-  String get filterByCrop => 'التصفية حسب المحصول';
+  String get filterByCrop => 'تصفية حسب المحصول';
 
   @override
-  String get filterByFundingStatus => 'التصفية حسب حالة التمويل';
+  String get filterByFundingStatus => 'تصفية حسب حالة التمويل';
 
   @override
   String get filterProjects => 'تصفية المشاريع';
@@ -603,24 +609,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get fullName => 'الاسم الكامل';
 
   @override
-  String get fullyFunded => 'ممولة بالكامل';
+  String get fullyFunded => 'ممول بالكامل';
 
   @override
   String get fundingBreakdown => 'تفاصيل التمويل';
 
   @override
-  String get fundingNeedsTnd => 'الاحتياجات التمويلية (دينار تونسي)';
+  String get fundingNeedsTnd => 'احتياجات التمويل (دينار تونسي)';
 
   @override
   String get fundingProgress => 'تقدم التمويل';
 
   @override
   String helpLandReachFundingGoal(Object title) {
-    return 'ساعد $title في الوصول إلى هدفها التمويلي!';
+    return 'ساعد $title في الوصول إلى هدف التمويل!';
   }
 
   @override
-  String get helpProjectReachFundingGoal => 'ساعد هذا المشروع في الوصول إلى هدفه التمويلي!';
+  String get helpProjectReachFundingGoal => 'ساعد هذا المشروع في الوصول إلى هدف التمويل!';
 
   @override
   String get imAFarmer => 'أنا مزارع';
@@ -635,13 +641,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get inProgress25_75 => 'قيد التنفيذ (25-75%)';
 
   @override
-  String get intendedCropRequired => 'المحصول المستهدف *';
+  String get intendedCropRequired => 'المحصول المقصود *';
 
   @override
   String get invalidNumber => 'رقم غير صالح';
 
   @override
-  String get joinChat => 'الانضمام للدردشة';
+  String get joinChat => 'انضم إلى الدردشة';
 
   @override
   String get justStarted0_25 => 'بدأ للتو (0-25%)';
@@ -660,17 +666,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String loadedLandsCount(Object length) {
-    return 'تم تحميل $length أراضٍ';
+    return 'تم تحميل $length أرضًا';
   }
 
   @override
   String get locationRequired => 'الموقع *';
 
   @override
-  String get maximum3ImagesAllowedForUpdates => 'الحد الأقصى 3 صور للتحديثات';
+  String get maximum3ImagesAllowedForUpdates => 'مسموح بثلاث صور فقط للتحديثات';
 
   @override
-  String get maximum8ImagesAllowed => 'الحد الأقصى 8 صور';
+  String get maximum8ImagesAllowed => 'مسموح بثماني صور كحد أقصى';
 
   @override
   String get myFarmDashboard => 'لوحة تحكم مزرعتي';
@@ -682,19 +688,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get mySponsorships => 'رعاياتي';
 
   @override
-  String get nameMustBeAtLeast2Chars => 'يجب أن يتكون الاسم من حرفين على الأقل';
+  String get nameMustBeAtLeast2Chars => 'يجب أن يكون الاسم مكونًا من حرفين على الأقل';
 
   @override
   String get noActiveConversations => 'لا توجد محادثات نشطة';
 
   @override
-  String get noAuthenticatedUser => 'لا يوجد مستخدم موثق';
+  String get noAuthenticatedUser => 'لا يوجد مستخدم مسجل الدخول';
 
   @override
   String get noConversationsAvailable => 'لا توجد محادثات متاحة';
 
   @override
-  String get noFarmsToUploadProof => 'لا توجد مزارع لتحميل إثبات';
+  String get noFarmsToUploadProof => 'لا توجد مزارع لرفع الإثبات';
 
   @override
   String get noLandsRegisteredYet => 'لم يتم تسجيل أي أراضٍ بعد';
@@ -718,52 +724,52 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noUpdatesYet => 'لا توجد تحديثات بعد';
 
   @override
-  String get onlyAdminsCanAddUsers => 'فقط المزارعون (المسؤولون) يمكنهم إضافة مستخدمين جدد';
+  String get onlyAdminsCanAddUsers => 'فقط المزارعون (المديرون) يمكنهم إضافة مستخدمين جدد';
 
   @override
-  String get onlyAdminsCanAddUsersPlatform => 'فقط المزارعون (المسؤولون) يمكنهم إضافة مستخدمين جدد إلى المنصة';
+  String get onlyAdminsCanAddUsersPlatform => 'فقط المزارعون (المديرون) يمكنهم إضافة مستخدمين جدد إلى المنصة';
 
   @override
-  String get pleaseAddAtLeastOneImage => 'الرجاء إضافة صورة واحدة على الأقل';
+  String get pleaseAddAtLeastOneImage => 'يرجى إضافة صورة واحدة على الأقل';
 
   @override
-  String get pleaseAddAtLeastOnePhoto => 'الرجاء إضافة صورة واحدة على الأقل';
+  String get pleaseAddAtLeastOnePhoto => 'يرجى إضافة صورة واحدة على الأقل';
 
   @override
-  String get pleaseEnterDescription => 'الرجاء إدخال وصف';
+  String get pleaseEnterDescription => 'يرجى إدخال وصف';
 
   @override
-  String get pleaseEnterPhoneNumber => 'الرجاء إدخال رقم هاتف';
+  String get pleaseEnterPhoneNumber => 'يرجى إدخال رقم هاتف';
 
   @override
-  String get pleaseEnterLandTitle => 'الرجاء إدخال عنوان لأرضك';
+  String get pleaseEnterLandTitle => 'يرجى إدخال عنوان لأرضك';
 
   @override
-  String get pleaseEnterLocation => 'الرجاء إدخال الموقع';
+  String get pleaseEnterLocation => 'يرجى إدخال الموقع';
 
   @override
-  String get pleaseEnterTheUser => 'الرجاء إدخال اسم المستخدم';
+  String get pleaseEnterTheUser => 'يرجى إدخال اسم المستخدم';
 
   @override
-  String get pleaseProvideDetailedUpdate => 'الرجاء تقديم تحديث أكثر تفصيلاً (10 أحرف على الأقل)';
+  String get pleaseProvideDetailedUpdate => 'يرجى تقديم تحديث أكثر تفصيلًا (10 أحرف على الأقل)';
 
   @override
-  String get pleaseProvideProgressUpdateNote => 'الرجاء تقديم ملاحظة حول التقدم';
+  String get pleaseProvideProgressUpdateNote => 'يرجى تقديم ملاحظة عن التقدم';
 
   @override
-  String get pleaseSpecifyFundingNeed => 'الرجاء تحديد حاجة تمويلية واحدة على الأقل';
+  String get pleaseSpecifyFundingNeed => 'يرجى تحديد حاجة تمويل واحدة على الأقل';
 
   @override
-  String get pleaseSpecifyCrop => 'الرجاء تحديد المحصول الذي تخطط لزراعته';
+  String get pleaseSpecifyCrop => 'يرجى تحديد المحصول الذي تخطط لزراعته';
 
   @override
-  String get progressNote => 'ملاحظة التقدم';
+  String get progressNote => 'ملاحظة تقدم';
 
   @override
   String get progressPhotos => 'صور التقدم';
 
   @override
-  String get projectChat => 'دردشة المشروع';
+  String get projectChat => 'محادثة المشروع';
 
   @override
   String get projectDetails => 'تفاصيل المشروع';
@@ -792,7 +798,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quickAmounts => 'مبالغ سريعة:';
 
   @override
-  String get recentUpdates => 'آخر التحديثات';
+  String get recentUpdates => 'أحدث التحديثات';
 
   @override
   String get registerLand => 'تسجيل أرض';
@@ -802,17 +808,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String remainingNeeded(Object remainingAmount) {
-    return 'المتبقي المطلوب: $remainingAmount دينار تونسي';
+    return 'المتبقي المطلوب: $remainingAmount دينار';
   }
 
   @override
-  String get searchProjects => 'ابحث عن المشاريع بالاسم أو الموقع أو المحصول...';
+  String get searchProjects => 'ابحث عن مشاريع بالاسم أو الموقع أو المحصول...';
 
   @override
-  String get seekingFunding => 'بحاجة إلى تمويل';
+  String get seekingFunding => 'يبحث عن تمويل';
 
   @override
-  String get selectFarmToUploadProof => 'اختر مزرعة لتحميل إثبات التقدم وإبقاء رعاتك على اطلاع';
+  String get selectFarmToUploadProof => 'اختر مزرعة لرفع إثبات التقدم وإبقاء الرعاة على اطلاع';
 
   @override
   String get selectProjectToChat => 'اختر مشروعًا لبدء أو متابعة المحادثة مع المزارع والرعاة الآخرين';
@@ -830,13 +836,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sendInvitation => 'إرسال دعوة';
 
   @override
-  String get sendingInvitation => 'جارٍ إرسال الدعوة...';
+  String get sendingInvitation => 'جاري إرسال الدعوة...';
 
   @override
   String get shareAnUpdateWithSponsors => 'شارك تحديثًا مع رعاتك...';
 
   @override
-  String get shareLandOpportunities => 'شارك فرص أرضك وتواصل مع المستثمرين لتنمية أعمالك الزراعية';
+  String get shareLandOpportunities => 'شارك فرص أراضيك وتواصل مع المستثمرين لتنمية عملك الزراعي';
 
   @override
   String get sizeInHectaresRequired => 'المساحة (هكتار) *';
@@ -853,7 +859,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sponsorDashboard => 'لوحة تحكم الراعي';
 
   @override
-  String get sponsorNow => 'ارعى الآن';
+  String get sponsorNow => 'قم بالرعاية الآن';
 
   @override
   String get sponsorProject => 'رعاية المشروع';
@@ -865,7 +871,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sponsorshipAmountUsd => 'مبلغ الرعاية (\$)';
 
   @override
-  String get sponsorshipAmountTnd => 'مبلغ الرعاية (دينار تونسي)';
+  String get sponsorshipAmountTnd => 'مبلغ الرعاية (دينار)';
 
   @override
   String get startConversationWithSponsors => 'ابدأ محادثة مع رعاتك';
@@ -877,28 +883,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get submitUpdate => 'إرسال التحديث';
 
   @override
-  String get supcomAddress => 'سوبكوم رواد كلم 3.5 - 2083، أريانة تونس';
+  String get supcomAddress => 'المدرسة العليا للمواصلات - رواد كم 3.5، 2083، أريانة، تونس';
 
   @override
-  String get tapToChat => 'انقر للدردشة';
+  String get tapToChat => 'اضغط للدردشة';
 
   @override
-  String get tapToUploadProgressProof => 'انقر لتحميل إثبات التقدم';
+  String get tapToUploadProgressProof => 'اضغط لرفع إثبات التقدم';
 
   @override
-  String get thankYouForSupporting => 'شكرًا لدعمكم للزراعة المستدامة وتمكين المزارعين في المناطق الريفية! 🌱';
+  String get thankYouForSupporting => 'شكرًا لدعمك الزراعة المستدامة وتمكين المزارعين الريفيين! 🌱';
 
   @override
-  String get thankYouForSponsorship => 'شكرًا لرعايتكم!';
+  String get thankYouForSponsorship => 'شكرًا على رعايتك!';
 
   @override
-  String get farmerWillPostUpdatesHere => 'سينشر المزارع تحديثات التقدم هنا';
+  String get farmerWillPostUpdatesHere => 'سيقوم المزارع بنشر تحديثات التقدم هنا';
 
   @override
-  String get transparentGroupChatDisclaimer => 'هذه دردشة جماعية شفافة. جميع الرسائل مرئية للمشاركين في المشروع من أجل السلامة والمساءلة.';
+  String get transparentGroupChatDisclaimer => 'هذه محادثة جماعية شفافة. جميع الرسائل مرئية للمشاركين في المشروع من أجل الأمان والمساءلة.';
 
   @override
-  String get tipShareProgress => 'نصيحة: شارك صورًا وتحديثات للتقدم لإبقاء الجميع متفاعلاً!';
+  String get tipShareProgress => 'نصيحة: شارك صور وتحديثات التقدم للحفاظ على تفاعل الجميع!';
 
   @override
   String get totalContributed => 'إجمالي المساهمات';
@@ -916,10 +922,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get totalNeeded => 'الإجمالي المطلوب';
 
   @override
-  String get totalRaised => 'إجمالي المجمع';
+  String get totalRaised => 'الإجمالي المجموع';
 
   @override
-  String get tryAdjustingSearch => 'حاول تعديل معايير البحث';
+  String get tryAdjustingSearch => 'جرب تعديل معايير البحث';
 
   @override
   String get typeAMessage => 'اكتب رسالة...';
@@ -943,19 +949,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get weatherFeatureComingSoon => 'ميزة الطقس قادمة قريبًا!';
 
   @override
-  String get weeklyUpdatesRecommended => 'يوصى بالتحديثات الأسبوعية';
+  String get weeklyUpdatesRecommended => 'ينصح بالتحديثات الأسبوعية';
 
   @override
-  String get youNeedAdminPrivileges => 'تحتاج إلى صلاحيات المزارع (المسؤول) لإضافة مستخدمين جدد';
+  String get youNeedAdminPrivileges => 'تحتاج إلى صلاحيات مزارع (مدير) لإضافة مستخدمين جدد';
 
   @override
-  String get youNeedActiveFarmsToUpload => 'يجب أن تكون لديك مزارع نشطة لتحميل إثباتات التقدم.';
+  String get youNeedActiveFarmsToUpload => 'تحتاج إلى وجود مزارع نشطة لرفع إثباتات التقدم.';
 
   @override
-  String get youNeedActiveLandsToChat => 'يجب أن تكون لديك أراضٍ نشطة مع رعاة لبدء المحادثات.';
+  String get youNeedActiveLandsToChat => 'تحتاج إلى وجود أراضٍ نشطة مع رعاة لبدء المحادثات.';
 
   @override
-  String get youNeedToSponsorToChat => 'تحتاج إلى رعاية مشاريع لبدء المحادثات مع المزارعين.';
+  String get youNeedToSponsorToChat => 'تحتاج إلى رعاية مشاريع لبدء محادثات مع المزارعين.';
 
   @override
   String yourFarmsCount(Object length) {
@@ -963,7 +969,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get yourImpact => 'تأثيرك';
+  String get yourImpact => 'أثرك';
 
   @override
   String newSponsorJoinedUsd(Object amount) {
@@ -972,6 +978,52 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String newSponsorJoinedTnd(Object amount) {
-    return '🎉 انضم راعٍ جديد! تم تقديم مساهمة سخية بقيمة $amount دينار تونسي لدعم هذا المشروع.';
+    return '🎉 انضم راعٍ جديد! تم تقديم مساهمة سخية بقيمة $amount دينار لدعم هذا المشروع.';
   }
+
+  @override
+  String photosLength(Object length) {
+    return '$length صورة/صور';
+  }
+
+  @override
+  String fundedPercentage(Object percentage) {
+    return '٪$percentage ممول';
+  }
+
+  @override
+  String get loadingWeather => 'جاري تحميل حالة الطقس...';
+
+  @override
+  String get weatherError => 'تعذر تحميل بيانات الطقس';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get currentLocation => 'الموقع الحالي';
+
+  @override
+  String get temperature => 'درجة الحرارة';
+
+  @override
+  String get humidity => 'الرطوبة';
+
+  @override
+  String get wind => 'الرياح';
+
+  @override
+  String get precipitation => 'الهطول';
+
+  @override
+  String get sunrise => 'شروق الشمس';
+
+  @override
+  String get sunset => 'غروب الشمس';
+
+  @override
+  String get windSpeedUnit => 'م/ث';
+
+  @override
+  String get precipitationUnit => 'مم';
 }

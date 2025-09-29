@@ -72,7 +72,7 @@ Widget buildWelcomeMessage(AppLocalizations loc) {
                       const SizedBox(width: 30),
                       _buildFeatureItem(Icons.camera_alt, loc.camera),
                       const SizedBox(width: 30),
-                      _buildFeatureItem(Icons.message, loc.text),
+                      _buildFeatureItem(Icons.message, 'Text')
                     ],
                   ),
                 ],

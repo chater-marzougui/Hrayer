@@ -103,12 +103,6 @@ abstract class AppLocalizations {
   /// **'Dashboard'**
   String get dashboard;
 
-  /// No description provided for @lands.
-  ///
-  /// In en, this message translates to:
-  /// **'Lands'**
-  String get lands;
-
   /// No description provided for @chats.
   ///
   /// In en, this message translates to:
@@ -133,6 +127,18 @@ abstract class AppLocalizations {
   /// **'Sponsors'**
   String get sponsors;
 
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @lands.
+  ///
+  /// In en, this message translates to:
+  /// **'Lands'**
+  String get lands;
+
   /// No description provided for @logout.
   ///
   /// In en, this message translates to:
@@ -144,6 +150,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @conversations.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversations'**
+  String get conversations;
 
   /// No description provided for @plantDiseaseId.
   ///
@@ -240,12 +258,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Voice'**
   String get voice;
-
-  /// No description provided for @text.
-  ///
-  /// In en, this message translates to:
-  /// **'Text'**
-  String get text;
 
   /// No description provided for @anUnexpectedErrorOccurred.
   ///
@@ -1902,6 +1914,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'🎉 New sponsor joined! A generous contribution of TND{amount} has been made to support this project.'**
   String newSponsorJoinedTnd(Object amount);
+
+  /// No description provided for @photosLength.
+  ///
+  /// In en, this message translates to:
+  /// **'{length} photo(s)'**
+  String photosLength(Object length);
+
+  /// No description provided for @fundedPercentage.
+  ///
+  /// In en, this message translates to:
+  /// **'{percentage}% funded'**
+  String fundedPercentage(Object percentage);
+
+  /// No description provided for @loadingWeather.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading weather...'**
+  String get loadingWeather;
+
+  /// No description provided for @weatherError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load weather data'**
+  String get weatherError;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @currentLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Location'**
+  String get currentLocation;
+
+  /// No description provided for @temperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature'**
+  String get temperature;
+
+  /// No description provided for @humidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Humidity'**
+  String get humidity;
+
+  /// No description provided for @wind.
+  ///
+  /// In en, this message translates to:
+  /// **'Wind'**
+  String get wind;
+
+  /// No description provided for @precipitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Precipitation'**
+  String get precipitation;
+
+  /// No description provided for @sunrise.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise'**
+  String get sunrise;
+
+  /// No description provided for @sunset.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunset'**
+  String get sunset;
+
+  /// No description provided for @windSpeedUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'m/s'**
+  String get windSpeedUnit;
+
+  /// No description provided for @precipitationUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'mm'**
+  String get precipitationUnit;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

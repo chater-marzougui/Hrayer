@@ -6,10 +6,11 @@
     "proofs": "Preuves",
     "sponsors": "Sponsors",
     "settings": "Paramètres",
-
+    "lands": "Terrains",
     "logout": "Se déconnecter",
     "cancel": "Annuler",
-
+    "close": "Fermer",
+    "conversations": "Les Conversations",
     "plantDiseaseId": "Identification des maladies des plantes",
     "takePhotosOfSickPlants": "Prenez des photos des plantes malades",
     "irrigationAdvice": "Conseils d’irrigation",
@@ -20,13 +21,11 @@
     "identifyAndTreatPlantPests": "Identifier et traiter les parasites",
     "weatherTips": "Conseils météo",
     "weatherBasedFarmingGuidance": "Guidage agricole basé sur la météo",
-
     "title": "Titre",
     "size": "Superficie",
     "crop": "Culture",
     "location": "Emplacement",
     "progress": "Progression",
-
     "voice": "Voix",
     "anUnexpectedErrorOccurred": "Une erreur inattendue s'est produite",
     "applyChanges": "Appliquer les changements",
@@ -311,5 +310,19 @@
     "yourFarmsCount": "Vos Fermes ({length})",
     "yourImpact": "Votre Impact",
     "newSponsorJoinedUsd": "🎉 Nouveau sponsor a rejoint ! Une contribution généreuse de ${amount} a été faite pour soutenir ce projet.",
-    "newSponsorJoinedTnd": "🎉 Nouveau sponsor a rejoint ! Une contribution généreuse de TND{amount} a été faite pour soutenir ce projet."
+    "newSponsorJoinedTnd": "🎉 Nouveau sponsor a rejoint ! Une contribution généreuse de TND{amount} a été faite pour soutenir ce projet",
+    "photosLength": "{length} photo(s)",
+    "fundedPercentage": "{percentage}% financé",
+    "loadingWeather": "Chargement météo...",
+    "weatherError": "Impossible de charger les données météo",
+    "retry": "Réessayer",
+    "currentLocation": "Position actuelle",
+    "temperature": "Température",
+    "humidity": "Humidité",
+    "wind": "Vent",
+    "precipitation": "Précipitations",
+    "sunrise": "Lever du soleil",
+    "sunset": "Coucher du soleil",
+    "windSpeedUnit": "m/s",
+    "precipitationUnit": "mm"
 }

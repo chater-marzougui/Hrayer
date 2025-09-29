@@ -12,9 +12,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dashboard => 'Tableau de bord';
 
   @override
-  String get lands => 'Terrains';
-
-  @override
   String get chats => 'Discussions';
 
   @override
@@ -27,10 +24,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String get sponsors => 'Sponsors';
 
   @override
+  String get settings => 'Paramètres';
+
+  @override
+  String get lands => 'Terrains';
+
+  @override
   String get logout => 'Se déconnecter';
 
   @override
   String get cancel => 'Annuler';
+
+  @override
+  String get close => 'Fermer';
+
+  @override
+  String get conversations => 'Les Conversations';
 
   @override
   String get plantDiseaseId => 'Identification des maladies des plantes';
@@ -79,9 +88,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get voice => 'Voix';
-
-  @override
-  String get text => 'Texte';
 
   @override
   String get anUnexpectedErrorOccurred => 'Une erreur inattendue s\'est produite';
@@ -972,6 +978,52 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String newSponsorJoinedTnd(Object amount) {
-    return '🎉 Nouveau sponsor a rejoint ! Une contribution généreuse de TND$amount a été faite pour soutenir ce projet.';
+    return '🎉 Nouveau sponsor a rejoint ! Une contribution généreuse de TND$amount a été faite pour soutenir ce projet';
   }
+
+  @override
+  String photosLength(Object length) {
+    return '$length photo(s)';
+  }
+
+  @override
+  String fundedPercentage(Object percentage) {
+    return '$percentage% financé';
+  }
+
+  @override
+  String get loadingWeather => 'Chargement météo...';
+
+  @override
+  String get weatherError => 'Impossible de charger les données météo';
+
+  @override
+  String get retry => 'Réessayer';
+
+  @override
+  String get currentLocation => 'Position actuelle';
+
+  @override
+  String get temperature => 'Température';
+
+  @override
+  String get humidity => 'Humidité';
+
+  @override
+  String get wind => 'Vent';
+
+  @override
+  String get precipitation => 'Précipitations';
+
+  @override
+  String get sunrise => 'Lever du soleil';
+
+  @override
+  String get sunset => 'Coucher du soleil';
+
+  @override
+  String get windSpeedUnit => 'm/s';
+
+  @override
+  String get precipitationUnit => 'mm';
 }

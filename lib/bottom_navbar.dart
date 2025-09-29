@@ -107,7 +107,7 @@ class _HomePageState extends State<BottomNavbar> {
         BottomNavigationBarItem(
             icon: const Icon(Icons.psychology), label: loc.aiChat),
         BottomNavigationBarItem(
-            icon: Icon(Icons.group), label: loc.sponsors),
+            icon: Icon(Icons.group), label: loc.conversations),
         BottomNavigationBarItem(
             icon: Icon(Icons.person), label: loc.profile),
       ];

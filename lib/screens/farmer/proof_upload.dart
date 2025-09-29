@@ -208,6 +208,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
 
   Widget _buildPreviousUpdateCard(LandUpdateModel update) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: Padding(
@@ -251,7 +252,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
             if (update.images.isNotEmpty) ...[
               const SizedBox(height: 8),
               Text(
-                '${update.images.length} photo(s)',
+                loc.photosLength(update.images.length),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: Colors.grey[600],
                 ),
@@ -286,7 +287,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: Text('Update: ${widget.land.title}'),
+        title: Text('${loc.projectUpdates}: ${widget.land.title}'),
         actions: [
           if (isLoading)
             const Padding(
@@ -339,7 +340,7 @@ class _ProofUploadScreenState extends State<ProofUploadScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${widget.land.progressPercentage.toStringAsFixed(0)}% funded',
+                      loc.fundedPercentage(widget.land.progressPercentage.toStringAsFixed(0)),
                       style: theme.textTheme.bodySmall,
                     ),
                   ],

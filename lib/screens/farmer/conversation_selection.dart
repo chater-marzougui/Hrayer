@@ -206,7 +206,7 @@ class _ConversationSelectionScreenState extends State<ConversationSelectionScree
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Conversations',
+                            loc.conversations,
                             style: theme.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
