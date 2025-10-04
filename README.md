@@ -54,6 +54,7 @@ Built with ❤️ by [Nermine Ezzine](https://github.com/nermine-ezzine) & [Chat
     <li><a href="#-license">License</a></li>
     <li><a href="#-contact">Contact</a></li>
     <li><a href="#-acknowledgments">Acknowledgments</a></li>
+    <li><a href="#-interfaces">Interfaces</a></li>
   </ol>
 </details>
 
@@ -337,3 +338,58 @@ This project is dedicated to empowering rural women farmers and contributing to 
 [license-url]: https://github.com/chater-marzougui/Hrayer/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/chater-marzougui-342125299/
+
+---
+
+## 🖥️ Interfaces
+
+### Mobile Application
+
+#### Farmer Interface
+<div align="center">
+  <img src="images/dashboard.png" alt="Farmer Dashboard" width="250">
+  <img src="images/crops.png" alt="IoT Monitoring" width="250">
+  <img src="images/iot.png" alt="Marketplace" width="250">
+  <p><em>Left to right: Farmer Dashboard, Crops Management, IoT Monitoring</em></p>
+</div>
+
+<div align="center">
+  <img src="images/projects.png" alt="Projects" width="250">
+  <img src="images/weather.png" alt="Weather" width="250">
+  <img src="images/search.png" alt="Search" width="250">
+  <p><em>Left to right: Projects, Weather Updates, Search Interface</em></p>
+</div>
+
+#### Investor Interface
+<div align="center">
+  <img src="images/login.png" alt="Login Screen" width="250">
+  <img src="images/profile.png" alt="Profile Screen" width="250">
+  <img src="images/messages.png" alt="Messages" width="250">
+  <p><em>Left to right: Login Interface, Profile Management, Messaging System</em></p>
+</div>
+
+### Web Platform
+
+#### Admin Dashboard
+<div align="center">
+  <img src="images/settings.png" alt="Settings" width="800">
+  <p><em>Platform Settings Overview</em></p>
+</div>
+
+<div align="center">
+  <img src="images/drawer.png" alt="Navigation Drawer" width="400">
+  <img src="images/notifications.png" alt="Notifications" width="400">
+  <p><em>Left: Navigation Menu, Right: Notifications Panel</em></p>
+</div>
+
+### IoT Dashboard
+<div align="center">
+  <img src="images/splash.png" alt="Welcome Screen" width="800">
+  <p><em>Platform Welcome Screen</em></p>
+</div>
+
+<div align="right">
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/Back_to_Top-⬆️-blue?style=for-the-badge" alt="Back to Top">
+  </a>
+</div>
