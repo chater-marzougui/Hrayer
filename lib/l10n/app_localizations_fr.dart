@@ -45,7 +45,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get plantDiseaseId => 'Identification des maladies des plantes';
 
   @override
-  String get takePhotosOfSickPlants => 'Prenez des photos des plantes malades';
+  String get takePhotosOfSickPlants => 'Prendre des photos de plantes malades pour diagnostic';
 
   @override
   String get irrigationAdvice => 'Conseils d’irrigation';
@@ -54,22 +54,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String get wateringSchedulesAndTechniques => 'Horaires et techniques d’arrosage';
 
   @override
-  String get cropCare => 'Soins des cultures';
+  String get cropCare => 'Entretien des cultures';
 
   @override
-  String get fertilizersSoilNutrition => 'Engrais, sol et nutrition';
+  String get fertilizersSoilNutrition => 'Engrais et nutrition du sol';
 
   @override
   String get pestControl => 'Lutte contre les parasites';
 
   @override
-  String get identifyAndTreatPlantPests => 'Identifier et traiter les parasites';
+  String get identifyAndTreatPlantPests => 'Identifier et traiter les parasites des plantes';
 
   @override
   String get weatherTips => 'Conseils météo';
 
   @override
-  String get weatherBasedFarmingGuidance => 'Guidage agricole basé sur la météo';
+  String get weatherBasedFarmingGuidance => 'Conseils agricoles basés sur la météo';
 
   @override
   String get title => 'Titre';
@@ -1026,4 +1026,58 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get precipitationUnit => 'mm';
+
+  @override
+  String get appBarTitle => 'Assistant Agricole IA';
+
+  @override
+  String get welcomeMessage => '🌱 Bonjour ! Je suis ton assistant agricole intelligent. Je peux t’aider avec :\n\n• L’identification des maladies des plantes\n• Des conseils sur l’entretien des cultures\n• Des recommandations sur le sol et les engrais\n• Des conseils d’irrigation\n• Des astuces agricoles basées sur la météo\n\nN’hésite pas à poser des questions ou à envoyer des photos de tes plantes !';
+
+  @override
+  String get aiBanner => 'Identification des maladies • Conseils agricoles • Commande vocale • Disponible 24h/24';
+
+  @override
+  String get aiAnalyzing => 'L’IA analyse...';
+
+  @override
+  String get listening => 'Écoute...';
+
+  @override
+  String get askAnything => 'Demande ce que tu veux...';
+
+  @override
+  String get errorPickingImage => 'Erreur lors du choix de l’image : ';
+
+  @override
+  String get genericError => 'Une erreur est survenue lors du traitement de ton message. Réessaie.';
+
+  @override
+  String get photoAnalysisRequest => 'Demande d’analyse de photo';
+
+  @override
+  String get takePhotoForAnalysis => 'Prendre une photo pour analyse';
+
+  @override
+  String get helpTitle => 'Aide de l’assistant IA';
+
+  @override
+  String get helpWhatCanHelp => 'Ce que l’IA peut faire pour toi :';
+
+  @override
+  String get voiceFeatures => 'Fonctionnalités vocales :';
+
+  @override
+  String get tipsForBetterResults => 'Conseils pour de meilleurs résultats :';
+
+  @override
+  String get gotIt => 'Compris !';
+
+  @override
+  String get voiceFeaturesDesc => '• Appuie sur le micro pour poser ta question\n• Active ou désactive les réponses vocales avec l’icône du haut-parleur\n• Prend en charge l’anglais, le français et l’arabe';
+
+  @override
+  String get tipsDesc => '• Prends des photos claires et bien éclairées\n• Donne des détails précis sur ton problème\n• Mentionne ton type de culture et ta localisation\n• Pose des questions de suivi si besoin';
+
+  @override
+  String get processingTrouble => 'J’ai du mal à traiter ta demande. Peux-tu réessayer ?';
 }

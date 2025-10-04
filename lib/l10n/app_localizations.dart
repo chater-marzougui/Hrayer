@@ -166,13 +166,13 @@ abstract class AppLocalizations {
   /// No description provided for @plantDiseaseId.
   ///
   /// In en, this message translates to:
-  /// **'Plant Disease ID'**
+  /// **'Plant Disease Identification'**
   String get plantDiseaseId;
 
   /// No description provided for @takePhotosOfSickPlants.
   ///
   /// In en, this message translates to:
-  /// **'Take photos of sick plants'**
+  /// **'Take photos of sick plants for diagnosis'**
   String get takePhotosOfSickPlants;
 
   /// No description provided for @irrigationAdvice.
@@ -196,7 +196,7 @@ abstract class AppLocalizations {
   /// No description provided for @fertilizersSoilNutrition.
   ///
   /// In en, this message translates to:
-  /// **'Fertilizers, soil, and nutrition'**
+  /// **'Fertilizers and soil nutrition'**
   String get fertilizersSoilNutrition;
 
   /// No description provided for @pestControl.
@@ -1998,6 +1998,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'mm'**
   String get precipitationUnit;
+
+  /// No description provided for @appBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Farming Assistant'**
+  String get appBarTitle;
+
+  /// No description provided for @welcomeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'🌱 Hello! I\'m your AI farming assistant. I can help you with:\n\n• Plant disease identification\n• Crop care advice\n• Soil and fertilizer recommendations\n• Irrigation guidance\n• Weather-based farming tips\n\nFeel free to ask questions or upload photos of your plants!'**
+  String get welcomeMessage;
+
+  /// No description provided for @aiBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-powered plant disease identification • Crop care advice • Voice enabled • 24/7 availability'**
+  String get aiBanner;
+
+  /// No description provided for @aiAnalyzing.
+  ///
+  /// In en, this message translates to:
+  /// **'AI is analyzing...'**
+  String get aiAnalyzing;
+
+  /// No description provided for @listening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening...'**
+  String get listening;
+
+  /// No description provided for @askAnything.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask anything...'**
+  String get askAnything;
+
+  /// No description provided for @errorPickingImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error picking image: '**
+  String get errorPickingImage;
+
+  /// No description provided for @genericError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while processing your message. Please try again.'**
+  String get genericError;
+
+  /// No description provided for @photoAnalysisRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo analysis request'**
+  String get photoAnalysisRequest;
+
+  /// No description provided for @takePhotoForAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo for analysis'**
+  String get takePhotoForAnalysis;
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant Help'**
+  String get helpTitle;
+
+  /// No description provided for @helpWhatCanHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'What can the AI help you with:'**
+  String get helpWhatCanHelp;
+
+  /// No description provided for @voiceFeatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice Features:'**
+  String get voiceFeatures;
+
+  /// No description provided for @tipsForBetterResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips for better results:'**
+  String get tipsForBetterResults;
+
+  /// No description provided for @gotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it!'**
+  String get gotIt;
+
+  /// No description provided for @voiceFeaturesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'• Tap microphone to speak your question\n• Toggle speaker icon to enable/disable voice responses\n• Supports English, French, and Arabic'**
+  String get voiceFeaturesDesc;
+
+  /// No description provided for @tipsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'• Take clear, well-lit photos\n• Provide specific details about your problem\n• Mention your crop type and location\n• Ask follow-up questions for clarification'**
+  String get tipsDesc;
+
+  /// No description provided for @processingTrouble.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m having trouble processing your request. Could you try again?'**
+  String get processingTrouble;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

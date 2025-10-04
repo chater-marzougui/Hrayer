@@ -50,6 +50,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.2
+  flutter_tts: ^4.2.3
+  google_generative_ai: ^0.4.7
+  speech_to_text: ^7.3.0
 
 dev_dependencies:
   flutter_test:

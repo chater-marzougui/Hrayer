@@ -1,10 +1,14 @@
-﻿
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'dart:io';
-import 'dart:math';
+import 'dart:convert';
 
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+
+import '../../controllers/app_preferences.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/widgets.dart';
 
@@ -23,32 +27,191 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
   bool isLoading = false;
   File? selectedImage;
 
+  // Gemini AI integration
+  late final GenerativeModel model;
+
+  // Speech to text instance
+  final stt.SpeechToText _speech = stt.SpeechToText();
+  bool _isListening = false;
+  String _recognizedText = '';
+
+  // Text to speech instance
+  final FlutterTts _flutterTts = FlutterTts();
+  bool _isSpeaking = true;
+
+  late AppPreferences appPreferences;
+  String _selectedLanguage = 'en';
+
   @override
   void initState() {
     super.initState();
-    _addWelcomeMessage();
+
+
+    // Initialize Gemini AI
+    model = GenerativeModel(
+        model: 'gemini-2.5-flash',
+        apiKey: 'AIzaSyD7Ub-fmdXtKoLH6rFBThNDKEA3NKiMAbA' // Replace with your actual API key
+    );
+
+    _loadPreferences();
+    _initSpeech();
+    _initTts();
+  }
+
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    appPreferences = AppPreferences(prefs);
+
+    setState(() {
+      _selectedLanguage = appPreferences.getPreferredLanguage();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Add welcome message after context is available
+    if (messages.isEmpty) {
+      final loc = AppLocalizations.of(context);
+      if (loc != null) {
+        _addWelcomeMessage(loc.welcomeMessage);
+      }
+    }
   }
 
   @override
   void dispose() {
     _messageController.dispose();
     _scrollController.dispose();
+    _speech.cancel();
+    _flutterTts.stop();
     super.dispose();
   }
 
-  void _addWelcomeMessage() {
+  void _addWelcomeMessage(messageText) {
     messages.add(AIMessage(
-      text: '🌱 Hello! I\'m your AI farming assistant. I can help you with:\n\n'
-          '• Plant disease identification\n'
-          '• Crop care advice\n'
-          '• Soil and fertilizer recommendations\n'
-          '• Irrigation guidance\n'
-          '• Weather-based farming tips\n\n'
-          'Feel free to ask questions or upload photos of your plants!',
+      text: messageText,
       isAI: true,
       timestamp: DateTime.now(),
     ));
     setState(() {});
+  }
+
+  // Initialize speech recognition
+  Future<void> _initSpeech() async {
+    await _speech.initialize(
+      onStatus: (status) {
+        if (status == 'notListening') {
+          setState(() {
+            _isListening = false;
+          });
+        }
+      },
+      onError: (errorNotification) {
+        setState(() {
+          _isListening = false;
+        });
+      },
+    );
+  }
+
+  // Initialize text to speech
+  Future<void> _initTts() async {
+    await _flutterTts.setLanguage('en-US');
+    await _flutterTts.setSpeechRate(0.5);
+    await _flutterTts.setVolume(1.0);
+    await _flutterTts.setPitch(1.0);
+
+    _flutterTts.setCompletionHandler(() {
+      setState(() {
+        _isSpeaking = false;
+      });
+    });
+  }
+
+  void _changeLanguage(String lang) async {
+    String selectedLang;
+
+    switch (lang.toLowerCase()) {
+      case 'english':
+        selectedLang = 'en-US';
+        break;
+      case 'french':
+        selectedLang = 'fr-FR';
+        break;
+      case 'arabic':
+        selectedLang = 'ar-EG';
+        break;
+      default:
+        selectedLang = 'en-US';
+    }
+
+    await _flutterTts.setLanguage(selectedLang);
+  }
+
+  // Start listening for speech input
+  void _startListening() async {
+    _recognizedText = '';
+    if (!_isListening) {
+      bool available = await _speech.initialize();
+      if (available) {
+        setState(() {
+          _isListening = true;
+        });
+
+        // Get locale based on current language
+        String localeId = _getLocaleId();
+
+        await _speech.listen(
+          onResult: (result) {
+            setState(() {
+              _recognizedText = result.recognizedWords;
+              _messageController.text = _recognizedText;
+            });
+          },
+          localeId: localeId, // Specify the locale
+          listenFor: Duration(seconds: 30),
+          pauseFor: Duration(seconds: 5),
+          listenOptions: stt.SpeechListenOptions(
+            partialResults: true,
+            cancelOnError: true,
+            listenMode: stt.ListenMode.confirmation,
+          ),
+        );
+      }
+    } else {
+      setState(() {
+        _isListening = false;
+        _speech.stop();
+      });
+    }
+  }
+
+  // Get locale ID based on current language
+  String _getLocaleId() {
+    switch (_selectedLanguage.toLowerCase()) {
+      case 'en':
+        return 'en-US';
+      case 'fr':
+        return 'fr-FR';
+      case 'ar':
+        return 'ar-SA'; // Saudi Arabic, also try 'ar-EG' for Egyptian
+      default:
+        return 'en-US';
+    }
+  }
+
+  // Speak the given text
+  Future<void> _speak(String text) async {
+    if (text.isNotEmpty && _isSpeaking) {
+      await _flutterTts.speak(text);
+    }
+  }
+
+  // Stop speaking
+  Future<void> _stopSpeaking() async {
+    await _flutterTts.stop();
   }
 
   Future<void> _pickImage() async {
@@ -60,17 +223,18 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
         });
       }
     } catch (e) {
-      showCustomSnackBar(context, ('Error picking image: $e'));
+      showCustomSnackBar(context, (AppLocalizations.of(context)!.errorPickingImage));
     }
   }
 
   Future<void> _sendMessage() async {
     final messageText = _messageController.text.trim();
     if (messageText.isEmpty && selectedImage == null) return;
+    final loc = AppLocalizations.of(context)!;
 
     // Add user message
     messages.add(AIMessage(
-      text: messageText.isNotEmpty ? messageText : 'Photo analysis request',
+      text: messageText.isNotEmpty ? messageText : loc.photoAnalysisRequest,
       isAI: false,
       timestamp: DateTime.now(),
       imageFile: selectedImage,
@@ -82,147 +246,99 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
       isLoading = true;
     });
 
+    if (_isSpeaking) {
+      await _stopSpeaking();
+    }
+
     _scrollToBottom();
 
-    // Simulate AI response delay
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      final conversationHistory = messages.map((msg) =>
+      '${msg.isUser ? "User" : "Assistant"}: ${msg.content}')
+          .join('\n');
 
-    // Generate mock AI response
-    String aiResponse = _generateAIResponse(messageText);
+      // Create the prompt with farming assistant context
+      String systemPrompt = """      
+        Previous Conversation:
+        $conversationHistory
+        
+        You are an AI Farming Assistant designed to help farmers with:
+        - Plant disease identification and treatment
+        - Crop care advice and best practices
+        - Soil health and fertilizer recommendations
+        - Irrigation guidance and water management
+        - Pest control strategies
+        - Weather-based farming tips
+        
+        Provide practical, actionable advice that farmers can implement.
+        Keep responses conversational, helpful, and concise.
+        Always respond in the same language the user used in their last message.
+        
+        Return a JSON object with the following keys:
+        - "response": your helpful farming advice as a string
+        - "language": the language detected (en for english,fr for french and ar for arabic)
+      """;
 
-    messages.add(AIMessage(
-      text: aiResponse,
-      isAI: true,
-      timestamp: DateTime.now(),
-    ));
+      final content = Content.text(systemPrompt);
+      final response = await model.generateContent([content]);
+      final extractedJson = _extractJson(response.text!);
 
-    setState(() {
-      isLoading = false;
-    });
-    _scrollToBottom();
+      final jsonResponse = json.decode(extractedJson);
+
+      setState(() {
+        isLoading = false;
+      });
+
+      // Update language if changed
+      if(_selectedLanguage != jsonResponse['language']) {
+        _selectedLanguage = jsonResponse['language'];
+        _changeLanguage(jsonResponse['language']);
+      }
+
+      final aiResponseText = jsonResponse['response'] ??
+          'I apologize, but I encountered an issue processing your request.';
+
+      messages.add(AIMessage(
+        text: aiResponseText,
+        isAI: true,
+        timestamp: DateTime.now(),
+      ));
+
+      // Speak the response
+      _speak(aiResponseText);
+
+    } catch (e) {
+      final errorMessage = loc.genericError;
+      messages.add(AIMessage(
+        text: errorMessage,
+        isAI: true,
+        timestamp: DateTime.now(),
+      ));
+      _speak(errorMessage);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+      _scrollToBottom();
+    }
   }
 
-  String _generateAIResponse(String userMessage) {
-    final message = userMessage.toLowerCase();
+  String _extractJson(String responseText) {
+    final RegExp regex = RegExp(r'```json\s*([\s\S]*?)\s*```');
+    final Match? match = regex.firstMatch(responseText);
 
-    // Plant disease responses
-    if (message.contains('disease') || message.contains('sick') || message.contains('dying')) {
-      return _getRandomResponse([
-        '🔍 Based on common symptoms, this could be:\n\n'
-            '• **Fungal infection** - Apply copper-based fungicide\n'
-            '• **Nutrient deficiency** - Check soil pH and add balanced fertilizer\n'
-            '• **Overwatering** - Reduce irrigation frequency\n\n'
-            'Monitor for 3-5 days and let me know if symptoms persist.',
+    if (match != null) {
+      return match.group(1)!;
+    } else {
+      final jsonStart = responseText.indexOf('{');
+      final jsonEnd = responseText.lastIndexOf('}');
 
-        '🌿 Plant health analysis:\n\n'
-            '• **Yellow leaves** - Often nitrogen deficiency or overwatering\n'
-            '• **Brown spots** - Likely fungal disease, improve air circulation\n'
-            '• **Wilting** - Check soil moisture and root health\n\n'
-            'Would you like specific treatment recommendations?',
-      ]);
+      if (jsonStart != -1 && jsonEnd != -1 && jsonStart < jsonEnd) {
+        return responseText.substring(jsonStart, jsonEnd + 1);
+      }
+
+      return '{"response": "I\'m having trouble processing your request. Could you try again?", "language": "english"}';
     }
-
-    // Irrigation advice
-    if (message.contains('water') || message.contains('irrigation')) {
-      return _getRandomResponse([
-        '💧 Irrigation recommendations:\n\n'
-            '• **Morning watering** (6-8 AM) is most effective\n'
-            '• **Deep, less frequent** watering promotes root growth\n'
-            '• **Check soil moisture** 2-3 inches deep before watering\n'
-            '• **Mulching** reduces water evaporation by 30-50%\n\n'
-            'What crop are you growing? I can provide specific guidance.',
-
-        '🚿 Smart watering tips:\n\n'
-            '• **Sandy soil**: Water more frequently, less volume\n'
-            '• **Clay soil**: Water less frequently, more volume\n'
-            '• **Drip irrigation**: 90% more efficient than sprinklers\n\n'
-            'Current weather suggests watering every 2-3 days.',
-      ]);
-    }
-
-    // Fertilizer advice
-    if (message.contains('fertilizer') || message.contains('nutrient')) {
-      return _getRandomResponse([
-        '🌱 Fertilizer guidance:\n\n'
-            '• **N-P-K ratio** depends on growth stage\n'
-            '• **Vegetative stage**: High nitrogen (20-10-10)\n'
-            '• **Flowering stage**: Higher phosphorus (10-20-10)\n'
-            '• **Organic options**: Compost, bone meal, fish emulsion\n\n'
-            'When did you last fertilize? I can suggest timing.',
-
-        '🧪 Nutrient management:\n\n'
-            '• **Soil test first** - Know what your soil needs\n'
-            '• **Slow-release fertilizers** reduce nutrient loss\n'
-            '• **Foliar feeding** for quick nutrient uptake\n'
-            '• **Avoid over-fertilizing** - Can burn roots\n\n'
-            'What symptoms are you seeing in your plants?',
-      ]);
-    }
-
-    // General farming advice
-    if (message.contains('pest') || message.contains('insect')) {
-      return _getRandomResponse([
-        '🐛 Integrated Pest Management:\n\n'
-            '• **Identify the pest** first - Different treatments needed\n'
-            '• **Natural predators** - Encourage beneficial insects\n'
-            '• **Neem oil** - Effective organic pesticide\n'
-            '• **Companion planting** - Natural pest deterrent\n\n'
-            'Can you describe the pest or upload a photo?',
-
-        '🛡️ Pest control strategies:\n\n'
-            '• **Prevention first** - Healthy plants resist pests better\n'
-            '• **Crop rotation** - Breaks pest life cycles\n'
-            '• **Physical barriers** - Row covers, sticky traps\n'
-            '• **Organic sprays** - Soap solution, garlic spray\n\n'
-            'What type of damage are you seeing?',
-      ]);
-    }
-
-    // Weather-related advice
-    if (message.contains('weather') || message.contains('rain') || message.contains('sun')) {
-      return _getRandomResponse([
-        '🌤️ Weather-based farming tips:\n\n'
-            '• **Before rain**: Harvest ripe crops, secure supports\n'
-            '• **Hot weather**: Increase watering, provide shade cloth\n'
-            '• **Cold snap**: Cover sensitive plants, move containers\n'
-            '• **Windy conditions**: Stake tall plants, check irrigation\n\n'
-            'Check local 7-day forecast for planning.',
-
-        '🌡️ Climate adaptation strategies:\n\n'
-            '• **Mulching** - Protects from temperature extremes\n'
-            '• **Season extension** - Row covers, cold frames\n'
-            '• **Drought-resistant varieties** - For dry climates\n'
-            '• **Proper timing** - Plant according to frost dates\n\n'
-            'What\'s your local growing zone?',
-      ]);
-    }
-
-    // Default responses
-    return _getRandomResponse([
-      '🤖 I\'d be happy to help! Could you provide more details about:\n\n'
-          '• What crop you\'re growing\n'
-          '• The specific problem you\'re facing\n'
-          '• Current growing conditions\n\n'
-          'The more information you provide, the better I can assist you!',
-
-      '🌾 Thanks for your question! To give you the best advice, I need to know:\n\n'
-          '• Your location and climate\n'
-          '• What stage your crops are in\n'
-          '• Any symptoms you\'re observing\n\n'
-          'Feel free to upload photos - they help a lot with diagnosis!',
-
-      '👨‍🌾 I\'m here to help with all your farming questions! You can ask me about:\n\n'
-          '• Plant diseases and treatment\n'
-          '• Soil health and fertilizers\n'
-          '• Irrigation and water management\n'
-          '• Pest control strategies\n\n'
-          'What would you like to know more about?',
-    ]);
-  }
-
-  String _getRandomResponse(List<String> responses) {
-    final random = Random();
-    return responses[random.nextInt(responses.length)];
   }
 
   void _scrollToBottom() {
@@ -336,18 +452,33 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           children: [
             Icon(Icons.psychology, size: 24),
             SizedBox(width: 8),
-            Text('AI Farming Assistant'),
+            Text(loc.appBarTitle),
           ],
         ),
         actions: [
+          // Toggle text-to-speech
+          IconButton(
+            icon: Icon(
+              _isSpeaking ? Icons.volume_up : Icons.volume_off,
+            ),
+            onPressed: () {
+              setState(() {
+                _isSpeaking = !_isSpeaking;
+              });
+              if (!_isSpeaking) {
+                _stopSpeaking();
+              }
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.help_outline),
             onPressed: () {
@@ -368,14 +499,14 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
                 bottom: BorderSide(color: Colors.green.withAlpha(76)),
               ),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.auto_awesome, color: Colors.green, size: 16),
-                SizedBox(width: 8),
+                const Icon(Icons.auto_awesome, color: Colors.green, size: 16),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'AI-powered plant disease identification • Crop care advice • 24/7 availability',
-                    style: TextStyle(
+                    loc.aiBanner,
+                    style: const TextStyle(
                       color: Colors.green,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -401,6 +532,19 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
                         CircleAvatar(
                           radius: 20,
                           backgroundColor: Colors.green.withAlpha(76),
+                          child: const Icon(
+                            Icons.psychology,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: theme.cardColor,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -414,7 +558,7 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                'AI is analyzing...',
+                                loc.aiAnalyzing,
                                 style: TextStyle(
                                   color: theme.primaryColor,
                                   fontStyle: FontStyle.italic,
@@ -495,23 +639,43 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
             ),
             child: Row(
               children: [
+                // Microphone button
+                GestureDetector(
+                  onTap: _startListening,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: _isListening ? Colors.red : theme.primaryColor.withAlpha(180),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      _isListening ? Icons.mic : Icons.mic_none,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
                 IconButton(
                   onPressed: _pickImage,
                   icon: Icon(
                     Icons.camera_alt,
                     color: theme.primaryColor,
                   ),
-                  tooltip: 'Take photo for analysis',
+                  tooltip: loc.takePhotoForAnalysis,
                 ),
                 Expanded(
                   child: TextField(
                     controller: _messageController,
                     maxLines: null,
                     textCapitalization: TextCapitalization.sentences,
-                    style: const TextStyle(fontSize: 14), // Reduced text size
+                    style: const TextStyle(fontSize: 14),
                     decoration: InputDecoration(
-                      hintText: 'Ask anything....',
-                      hintStyle: const TextStyle(fontSize: 14), // Smaller hint text
+                      hintText: _isListening ? loc.listening : loc.askAnything,
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: _isListening ? Colors.red[400] : null,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
@@ -519,8 +683,8 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
                       filled: true,
                       fillColor: theme.scaffoldBackgroundColor,
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, // Slightly reduced horizontal padding
-                        vertical: 10,  // Slightly reduced vertical padding
+                        horizontal: 16,
+                        vertical: 10,
                       ),
                     ),
                     onSubmitted: (_) => _sendMessage(),
@@ -564,15 +728,15 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
           children: [
             Icon(Icons.psychology, color: theme.primaryColor),
             const SizedBox(width: 8),
-            const Text('AI Assistant Help'),
+            Text(loc.helpTitle),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'What can the AI help you with:',
+            Text(
+              loc.helpWhatCanHelp,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
@@ -583,17 +747,26 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
             _buildHelpItem(Icons.wb_sunny, loc.weatherTips, loc.weatherBasedFarmingGuidance),
             const SizedBox(height: 12),
             Text(
-              'Tips for better results:',
+              loc.voiceFeatures,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: theme.primaryColor,
               ),
             ),
             const SizedBox(height: 8),
-            const Text('• Take clear, well-lit photos\n'
-                '• Provide specific details about your problem\n'
-                '• Mention your crop type and location\n'
-                '• Ask follow-up questions for clarification',
+            Text(loc.voiceFeaturesDesc,
+              style: TextStyle(fontSize: 12),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              loc.tipsForBetterResults,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: theme.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(loc.tipsDesc,
               style: TextStyle(fontSize: 12),
             ),
           ],
@@ -601,7 +774,7 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Got it!'),
+            child: Text(loc.gotIt),
           ),
         ],
       ),
@@ -655,82 +828,8 @@ class AIMessage {
     required this.timestamp,
     this.imageFile,
   });
+
+  // Helper getter for consistency with old code
+  bool get isUser => !isAI;
+  String get content => text;
 }
-
-class AIMessageBubble extends StatelessWidget {
-  final AIMessage message;
-
-  const AIMessageBubble({super.key, required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isAI = message.isAI;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment:
-      isAI ? MainAxisAlignment.start : MainAxisAlignment.end,
-      children: [
-        if (isAI) ...[
-          const Icon(
-            Icons.psychology,
-            color: Colors.blue,
-            size: 20,
-          ),
-          const SizedBox(width: 12),
-        ],
-        Flexible(
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            margin: const EdgeInsets.symmetric(vertical: 6),
-            decoration: BoxDecoration(
-              color: isAI ? theme.cardColor : Colors.green.shade200,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (message.imageFile != null) ...[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.file(
-                      message.imageFile!,
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
-                Text(
-                  message.text,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.textTheme.bodyMedium?.color,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  DateFormat('HH:mm').format(message.timestamp),
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: Colors.grey,
-                    fontSize: 11,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        if (!isAI) ...[
-          const SizedBox(width: 12),
-          const Icon(
-            Icons.person,
-            color: Colors.orange,
-            size: 20,
-          ),
-        ],
-      ],
-    );
-  }
-}
-

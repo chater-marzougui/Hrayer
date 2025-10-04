@@ -42,10 +42,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get conversations => 'Conversations';
 
   @override
-  String get plantDiseaseId => 'Plant Disease ID';
+  String get plantDiseaseId => 'Plant Disease Identification';
 
   @override
-  String get takePhotosOfSickPlants => 'Take photos of sick plants';
+  String get takePhotosOfSickPlants => 'Take photos of sick plants for diagnosis';
 
   @override
   String get irrigationAdvice => 'Irrigation Advice';
@@ -57,7 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cropCare => 'Crop Care';
 
   @override
-  String get fertilizersSoilNutrition => 'Fertilizers, soil, and nutrition';
+  String get fertilizersSoilNutrition => 'Fertilizers and soil nutrition';
 
   @override
   String get pestControl => 'Pest Control';
@@ -1026,4 +1026,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get precipitationUnit => 'mm';
+
+  @override
+  String get appBarTitle => 'AI Farming Assistant';
+
+  @override
+  String get welcomeMessage => '🌱 Hello! I\'m your AI farming assistant. I can help you with:\n\n• Plant disease identification\n• Crop care advice\n• Soil and fertilizer recommendations\n• Irrigation guidance\n• Weather-based farming tips\n\nFeel free to ask questions or upload photos of your plants!';
+
+  @override
+  String get aiBanner => 'AI-powered plant disease identification • Crop care advice • Voice enabled • 24/7 availability';
+
+  @override
+  String get aiAnalyzing => 'AI is analyzing...';
+
+  @override
+  String get listening => 'Listening...';
+
+  @override
+  String get askAnything => 'Ask anything...';
+
+  @override
+  String get errorPickingImage => 'Error picking image: ';
+
+  @override
+  String get genericError => 'An error occurred while processing your message. Please try again.';
+
+  @override
+  String get photoAnalysisRequest => 'Photo analysis request';
+
+  @override
+  String get takePhotoForAnalysis => 'Take photo for analysis';
+
+  @override
+  String get helpTitle => 'AI Assistant Help';
+
+  @override
+  String get helpWhatCanHelp => 'What can the AI help you with:';
+
+  @override
+  String get voiceFeatures => 'Voice Features:';
+
+  @override
+  String get tipsForBetterResults => 'Tips for better results:';
+
+  @override
+  String get gotIt => 'Got it!';
+
+  @override
+  String get voiceFeaturesDesc => '• Tap microphone to speak your question\n• Toggle speaker icon to enable/disable voice responses\n• Supports English, French, and Arabic';
+
+  @override
+  String get tipsDesc => '• Take clear, well-lit photos\n• Provide specific details about your problem\n• Mention your crop type and location\n• Ask follow-up questions for clarification';
+
+  @override
+  String get processingTrouble => 'I\'m having trouble processing your request. Could you try again?';
 }

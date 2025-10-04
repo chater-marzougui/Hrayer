@@ -42,10 +42,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get conversations => 'المحادثات';
 
   @override
-  String get plantDiseaseId => 'تشخيص أمراض النباتات';
+  String get plantDiseaseId => 'تحديد أمراض النباتات';
 
   @override
-  String get takePhotosOfSickPlants => 'التقط صورًا للنباتات المريضة';
+  String get takePhotosOfSickPlants => 'التقط صورًا للنباتات المريضة لتشخيصها';
 
   @override
   String get irrigationAdvice => 'نصائح الري';
@@ -57,7 +57,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cropCare => 'العناية بالمحاصيل';
 
   @override
-  String get fertilizersSoilNutrition => 'الأسمدة والتربة والتغذية';
+  String get fertilizersSoilNutrition => 'الأسمدة وتغذية التربة';
 
   @override
   String get pestControl => 'مكافحة الآفات';
@@ -69,7 +69,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get weatherTips => 'نصائح الطقس';
 
   @override
-  String get weatherBasedFarmingGuidance => 'إرشادات زراعية مبنية على الطقس';
+  String get weatherBasedFarmingGuidance => 'إرشادات زراعية حسب الطقس';
 
   @override
   String get title => 'العنوان';
@@ -1026,4 +1026,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get precipitationUnit => 'مم';
+
+  @override
+  String get appBarTitle => 'المساعد الزراعي الذكي';
+
+  @override
+  String get welcomeMessage => '🌱 مرحبًا! أنا مساعدك الزراعي الذكي. أستطيع مساعدتك في:\n\n• تحديد أمراض النباتات\n• تقديم نصائح للعناية بالمحاصيل\n• اقتراح الأسمدة وتحليل التربة\n• إرشادات الري\n• نصائح زراعية حسب الطقس\n\nلا تتردد في طرح الأسئلة أو رفع صور لنباتاتك!';
+
+  @override
+  String get aiBanner => 'تحديد أمراض النباتات بالذكاء الاصطناعي • نصائح للعناية بالمحاصيل • دعم صوتي • متاح على مدار الساعة';
+
+  @override
+  String get aiAnalyzing => 'الذكاء الاصطناعي يقوم بالتحليل...';
+
+  @override
+  String get listening => 'يستمع...';
+
+  @override
+  String get askAnything => 'اسأل أي شيء...';
+
+  @override
+  String get errorPickingImage => 'حدث خطأ أثناء اختيار الصورة: ';
+
+  @override
+  String get genericError => 'حدث خطأ أثناء معالجة رسالتك. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get photoAnalysisRequest => 'طلب تحليل صورة';
+
+  @override
+  String get takePhotoForAnalysis => 'التقط صورة للتحليل';
+
+  @override
+  String get helpTitle => 'مساعدة المساعد الذكي';
+
+  @override
+  String get helpWhatCanHelp => 'ما الذي يمكن للذكاء الاصطناعي مساعدتك به:';
+
+  @override
+  String get voiceFeatures => 'الميزات الصوتية:';
+
+  @override
+  String get tipsForBetterResults => 'نصائح للحصول على نتائج أفضل:';
+
+  @override
+  String get gotIt => 'حسنًا!';
+
+  @override
+  String get voiceFeaturesDesc => '• اضغط على الميكروفون لتحدث سؤالك\n• فعّل أو عطّل الردود الصوتية عبر رمز السماعة\n• يدعم الإنجليزية والفرنسية والعربية';
+
+  @override
+  String get tipsDesc => '• التقط صورًا واضحة ومضيئة جيدًا\n• قدم تفاصيل دقيقة حول مشكلتك\n• اذكر نوع المحصول والموقع\n• اطرح أسئلة متابعة للتوضيح';
+
+  @override
+  String get processingTrouble => 'أواجه مشكلة في معالجة طلبك. هل يمكنك المحاولة مرة أخرى؟';
 }
