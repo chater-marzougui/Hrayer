@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import '../../controllers/app_preferences.dart';
+import '../../helpers/image_compress.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/widgets.dart';
 
@@ -214,16 +215,16 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
     await _flutterTts.stop();
   }
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImage(ImageSource source) async {
     try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? image = await _picker.pickImage(source: source);
       if (image != null) {
         setState(() {
           selectedImage = File(image.path);
         });
       }
     } catch (e) {
-      showCustomSnackBar(context, (AppLocalizations.of(context)!.errorPickingImage));
+      showCustomSnackBar(context, AppLocalizations.of(context)!.errorPickingImage);
     }
   }
 
@@ -241,6 +242,7 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
     ));
 
     _messageController.clear();
+    File? imageToAnalyze = selectedImage;
     selectedImage = null;
     setState(() {
       isLoading = true;
@@ -253,12 +255,53 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
     _scrollToBottom();
 
     try {
-      final conversationHistory = messages.map((msg) =>
-      '${msg.isUser ? "User" : "Assistant"}: ${msg.content}')
-          .join('\n');
+      // Prepare the content parts
+      List<Content> contents = [];
 
-      // Create the prompt with farming assistant context
-      String systemPrompt = """      
+      if (imageToAnalyze != null) {
+        // For image analysis, create multi-part content
+        final imageBytes = await ImageCompressor.compressImage(imageToAnalyze);
+        if (imageBytes == null) {
+          throw Exception(loc.genericError);
+        }
+        String imagePrompt = """
+      Analyze this plant/farming image and provide:
+      1. Plant identification (if visible)
+      2. Disease detection and diagnosis (if any)
+      3. Treatment recommendations
+      4. Preventive measures
+      5. General care advice
+      6- Respond in $_selectedLanguage
+      7- Keep the response concise and short and to the point
+      
+      ${messageText.isNotEmpty ? "User's specific question: $messageText" : ""}
+      
+      Return a JSON object with the following structure:
+      {
+        "response": "Your detailed analysis and advice here",
+        "language": "detected_language_code",
+        "analysis": {
+          "plant_identified": "plant name or 'unknown'",
+          "disease_detected": "disease name or 'none detected'",
+          "confidence": "high/medium/low",
+          "urgency": "immediate/soon/monitor"
+        }
+      }
+      """;
+
+        contents = [
+          Content.multi([
+            TextPart(imagePrompt),
+            DataPart('image/jpeg', imageBytes),
+          ])
+        ];
+      } else {
+        // Text-only conversation
+        final conversationHistory = messages.map((msg) =>
+        '${msg.isUser ? "User" : "Assistant"}: ${msg.content}')
+            .join('\n');
+
+        String systemPrompt = """      
         Previous Conversation:
         $conversationHistory
         
@@ -269,6 +312,7 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
         - Irrigation guidance and water management
         - Pest control strategies
         - Weather-based farming tips
+        - Respond in $_selectedLanguage
         
         Provide practical, actionable advice that farmers can implement.
         Keep responses conversational, helpful, and concise.
@@ -276,13 +320,14 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
         
         Return a JSON object with the following keys:
         - "response": your helpful farming advice as a string
-        - "language": the language detected (en for english,fr for french and ar for arabic)
+        - "language": the language detected (en for english, fr for french, ar for arabic)
       """;
 
-      final content = Content.text(systemPrompt);
-      final response = await model.generateContent([content]);
-      final extractedJson = _extractJson(response.text!);
+        contents = [Content.text(systemPrompt)];
+      }
 
+      final response = await model.generateContent(contents);
+      final extractedJson = _extractJson(response.text!);
       final jsonResponse = json.decode(extractedJson);
 
       setState(() {
@@ -290,7 +335,7 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
       });
 
       // Update language if changed
-      if(_selectedLanguage != jsonResponse['language']) {
+      if (_selectedLanguage != jsonResponse['language']) {
         _selectedLanguage = jsonResponse['language'];
         _changeLanguage(jsonResponse['language']);
       }
@@ -308,6 +353,7 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
       _speak(aiResponseText);
 
     } catch (e) {
+      print('Error sending message: $e');
       final errorMessage = loc.genericError;
       messages.add(AIMessage(
         text: errorMessage,
@@ -657,7 +703,7 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
                 ),
                 const SizedBox(width: 8),
                 IconButton(
-                  onPressed: _pickImage,
+                  onPressed: _showImageSourceDialog,
                   icon: Icon(
                     Icons.camera_alt,
                     color: theme.primaryColor,
@@ -813,6 +859,34 @@ class _ChatAIScreenState extends State<ChatAIScreen> {
       ),
     );
   }
+
+  void _showImageSourceDialog() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Icon(Icons.camera_alt),
+            title: Text('Camera'),
+            onTap: () {
+              Navigator.pop(context);
+              _pickImage(ImageSource.camera);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.photo_library),
+            title: Text('Gallery'),
+            onTap: () {
+              Navigator.pop(context);
+              _pickImage(ImageSource.gallery);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
 }
 
 

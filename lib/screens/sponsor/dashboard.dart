@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../helpers/current_location_service.dart';
+import '../../widgets/weather_forecast.dart';
 import '../../widgets/widgets.dart';
 import '../../structures/land_models.dart';
 import 'land_list.dart';
@@ -22,12 +24,28 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
   double totalSponsored = 0.0;
   int activeSponsorships = 0;
   int farmersBenefited = 0;
+  double latitude = 0.0;
+  double longitude = 0.0;
+  String locationName = 'Unknown Location';
 
   @override
   void initState() {
     super.initState();
     _loadSponsoredLands();
+    _loadLocation();
   }
+
+  Future<void> _loadLocation() async {
+    final position = await CurrentLocationService.getCurrentLocationWithName();
+    print(position);
+    if (position == null) return;
+    setState(() {
+      latitude = position.latitude; // Example: Tunisia latitude
+      longitude = position.longitude; // Example: Tunisia longitude
+      locationName = position.locationName;
+    });
+  }
+
 
   Future<void> _loadSponsoredLands() async {
     if (currentUser == null) return;
@@ -418,6 +436,15 @@ class _SponsorDashboardState extends State<SponsorDashboard> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
+
+              const SizedBox(height: 24),
+              if (latitude != 0.0 && longitude != 0.0)
+                WeatherWidget(
+                  latitude: latitude,
+                  longitude: longitude,
+                  locationName: locationName,
+                ),
 
               const SizedBox(height: 24),
 
