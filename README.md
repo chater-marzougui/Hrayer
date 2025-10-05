@@ -118,6 +118,46 @@ Hrayer contributes to multiple UN SDGs:
 
 ---
 
+## 🖥️ Interfaces
+
+### Mobile Application
+
+#### Farmer Interface
+<div align="center">
+  <img src="./assets/images/signup.jpeg" alt="sign up" width="250">
+</div>
+
+#### Chatbot
+<div align="center">
+  <img src="./assets/images/chatbot.jpeg" alt="Chatbot Interface" width="250">
+</div>
+
+#### Investor Interface
+<div align="center">
+  <img src="./assets/images/investor0.jpeg" alt="Investor Interface 1" width="250">
+  <img src="./assets/images/investor1.jpeg" alt="Investor Interface 2" width="250">
+  <img src="./assets/images/investor01.jpeg" alt="Investor Interface 3" width="250">
+</div>
+
+#### Farmer Interface
+<div align="center">
+  <img src="./assets/images/farmer0.jpeg" alt="Farmer Interface 1" width="250">
+  <img src="./assets/images/farmer1.jpeg" alt="Farmer Interface 2" width="250">
+</div>
+
+### IoT Dashboard
+<div align="center">
+  <img src="./assets/images/dashboard.jpeg" alt="IoT Dashboard" width="250
+</div>
+
+<div align="right">
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/Back_to_Top-⬆️-blue?style=for-the-badge" >
+  </a>
+</div>
+
+---
+
 ## ⚡ Getting Started
 
 ### Prerequisites
@@ -339,44 +379,3 @@ This project is dedicated to empowering rural women farmers and contributing to 
 [license-url]: https://github.com/chater-marzougui/Hrayer/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/chater-marzougui-342125299/
-
----
-
-## 🖥️ Interfaces
-
-### Mobile Application
-
-#### Farmer Interface
-<div align="center">
-  <img src="./assets/images/signup.jpeg" alt="sign up" width="250">
-</div>
-
-#### Chatbot
-<div align="center">
-  <img src="./assets/images/chatbot.jpeg" alt="Chatbot Interface" width="250">
-</div>
-
-#### Investor Interface
-<div align="center">
-  <img src="./assets/images/investor0.jpeg" alt="Investor Interface 1" width="250">
-  <img src="./assets/images/investor1.jpeg" alt="Investor Interface 2" width="250">
-  <img src="./assets/images/investor01.jpeg" alt="Investor Interface 3" width="250">
-</div>
-
-#### Farmer Interface
-<div align="center">
-  <img src="./assets/images/farmer0.jpeg" alt="Farmer Interface 1" width="250">
-  <img src="./assets/images/farmer1.jpeg" alt="Farmer Interface 2" width="250">
-</div>
-
-### IoT Dashboard
-<div align="center">
-  <img src="./assets/images/dashboard.jpeg" alt="IoT Dashboard" width="250
-</div>
-
-<div align="right">
-  <a href="#readme-top">
-    <img src="https://img.shields.io/badge/Back_to_Top-⬆️-blue?style=for-the-badge" >
-  </a>
-</div>
-
