@@ -370,7 +370,7 @@ This project is dedicated to empowering rural women farmers and contributing to 
 
 ### IoT Dashboard
 <div align="center">
-  <img src="./assets/images/dashboard.jpeg" alt="IoT Dashboard" width="800">
+  <img src="./assets/images/dashboard.jpeg" alt="IoT Dashboard" width="250
 </div>
 
 <div align="right">
