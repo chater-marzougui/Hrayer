@@ -20,7 +20,7 @@ Built with ❤️ by [Nermine Ezzine](https://github.com/nermine-ezzine) & [Chat
 <br />
 <div align="center">
   <a href="https://github.com/chater-marzougui/Hrayer">
-     <img src="https://raw.githubusercontent.com/chater-marzougui/Hrayer/main/assets/hrayer_icon.png" alt="Hrayer Logo" width="256" height="256">
+     <img src="assets/hrayer_icon.png" alt="Hrayer Logo" width="256" height="256">
   </a>
   <h3>Hrayer</h3>
   <p align="center">
