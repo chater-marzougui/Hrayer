@@ -171,11 +171,12 @@ flutter pub get
 flutter run
 ```
 
-\<div align="right"\>
-  \<a href="\#readme-top"\>
-    \<img src="https://img.shields.io/badge/Back\_to\_Top-⬆️-blue?style=for-the-badge" alt="Back to Top"\>
-  \</a\>
-\</div\>
+
+<div align="right">
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/Back_to_Top-⬆️-blue?style=for-the-badge" alt="Back to Top">
+  </a>
+</div>
 
 -----
 
@@ -206,12 +207,11 @@ flutter build apk --release
 # Build for iOS
 flutter build ios --release
 ```
-
-\<div align="right"\>
-  \<a href="\#readme-top"\>
-    \<img src="https://img.shields.io/badge/Back\_to\_Top-⬆️-blue?style=for-the-badge" alt="Back to Top"\>
-  \</a\>
-\</div\>
+<div align="right">
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/Back_to_Top-⬆️-blue?style=for-the-badge" alt="Back to Top">
+  </a>
+</div>
 
 -----
 
@@ -252,11 +252,11 @@ For farmers using IoT sensors:
 3. Deploy sensors in designated farm plots
 4. Sensors will automatically transmit data every 30 minutes
 
-\<div align="right"\>
-  \<a href="\#readme-top"\>
-    \<img src="https://img.shields.io/badge/Back\_to\_Top-⬆️-blue?style=for-the-badge" alt="Back to Top"\>
-  \</a\>
-\</div\>
+<div align="right">
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/Back_to_Top-⬆️-blue?style=for-the-badge" alt="Back to Top">
+  </a>
+</div>
 
 -----
 
@@ -272,11 +272,11 @@ Contributions are what make the open source community amazing\! Any contribution
 4.  **Push to the Branch** (`git push origin feature/AmazingFeature`)
 5.  **Open a Pull Request**
 
-\<div align="right"\>
-  \<a href="\#readme-top"\>
-    \<img src="https://img.shields.io/badge/Back\_to\_Top-⬆️-blue?style=for-the-badge" alt="Back to Top"\>
-  \</a\>
-\</div\>
+<div align="right">
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/Back_to_Top-⬆️-blue?style=for-the-badge" alt="Back to Top">
+  </a>
+</div>
 
 -----
 
@@ -284,11 +284,11 @@ Contributions are what make the open source community amazing\! Any contribution
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-\<div align="right"\>
-  \<a href="\#readme-top"\>
-    \<img src="https://img.shields.io/badge/Back\_to\_Top-⬆️-blue?style=for-the-badge" alt="Back to Top"\>
-  \</a\>
-\</div\>
+<div align="right">
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/Back_to_Top-⬆️-blue?style=for-the-badge" alt="Back to Top">
+  </a>
+</div>
 
 -----
 
@@ -315,11 +315,12 @@ We would like to thank the following for their support and inspiration:
 
 This project is dedicated to empowering rural women farmers and contributing to sustainable agricultural development.
 
-\<div align="right"\>
-  \<a href="\#readme-top"\>
-    \<img src="https://img.shields.io/badge/Back\_to\_Top-⬆️-blue?style=for-the-badge" alt="Back to Top"\>
-  \</a\>
-\</div\>
+
+<div align="right">
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/Back_to_Top-⬆️-blue?style=for-the-badge" alt="Back to Top">
+  </a>
+</div>
 
 -----
 
