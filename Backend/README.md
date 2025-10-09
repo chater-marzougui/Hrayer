@@ -28,10 +28,6 @@ A Node.js backend built with Express.js that serves both an API and dashboard UI
 
 ## Getting Started
 
-## Getting Started
-
-### Prerequisites
-
 ### Prerequisites
 
 - Node.js (v14 or higher)
