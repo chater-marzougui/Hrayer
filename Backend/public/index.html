@@ -248,7 +248,7 @@
         statusEl.textContent = `${new Date().toLocaleTimeString()} 🟢 live`;
       };
 
-      const renderChart = (entries = []) => {
+      const renderChart = (entries = [], animate = true) => {
         const labels = entries.map((entry) => toLocaleLabel(entry.createdAt));
         const temperature = entries.map((entry) => entry.temp);
         const humidity = entries.map((entry) => entry.humidity);
@@ -301,6 +301,10 @@
             options: {
               responsive: true,
               maintainAspectRatio: false,
+              animation: {
+                duration: 750,
+                easing: 'easeInOutQuart'
+              },
               plugins: {
                 legend: {
                   display: true,
@@ -326,8 +330,30 @@
         } else {
           chart.data.labels = labels;
           chart.data.datasets = allDatasets;
-          chart.update();
+          chart.update(animate ? 'active' : 'none');
         }
+      };
+
+      const appendNewReading = (newReading) => {
+        const newLabel = toLocaleLabel(newReading.createdAt);
+        
+        // Add new label
+        chart.data.labels.push(newLabel);
+        
+        // Add new data points to each dataset
+        chart.data.datasets[0].data.push(newReading.temp);
+        chart.data.datasets[1].data.push(newReading.humidity);
+        chart.data.datasets[2].data.push(newReading.moisture);
+        chart.data.datasets[3].data.push(newReading.soilRaw || 0);
+        
+        // Update visibility based on toggles
+        chart.data.datasets[0].hidden = !toggleTemp.checked;
+        chart.data.datasets[1].hidden = !toggleHumidity.checked;
+        chart.data.datasets[2].hidden = !toggleMoisture.checked;
+        chart.data.datasets[3].hidden = !toggleSoilRaw.checked;
+        
+        // Animate the update
+        chart.update('active');
       };
 
       const refreshData = async () => {
@@ -386,17 +412,23 @@
             // Initial data load
             allReadings = message.data;
             applyMetrics(allReadings);
-            renderChart(allReadings);
+            renderChart(allReadings, false);
           } else if (message.type === 'newReading') {
-            // New reading received - add to array and update
+            // New reading received - add to array and update with animation
             allReadings.push(message.data);
             applyMetrics(allReadings);
-            renderChart(allReadings);
+            
+            // Use append function for smooth animation
+            if (chart) {
+              appendNewReading(message.data);
+            } else {
+              renderChart(allReadings);
+            }
           } else if (message.type === 'clear') {
             // Data was cleared
             allReadings = [];
             applyMetrics([]);
-            renderChart([]);
+            renderChart([], false);
           }
         };
         
@@ -417,10 +449,10 @@
       clearBtn.addEventListener('click', clearData);
       
       // Add event listeners for chart toggles
-      toggleTemp.addEventListener('change', () => renderChart(allReadings));
-      toggleHumidity.addEventListener('change', () => renderChart(allReadings));
-      toggleMoisture.addEventListener('change', () => renderChart(allReadings));
-      toggleSoilRaw.addEventListener('change', () => renderChart(allReadings));
+      toggleTemp.addEventListener('change', () => renderChart(allReadings, false));
+      toggleHumidity.addEventListener('change', () => renderChart(allReadings, false));
+      toggleMoisture.addEventListener('change', () => renderChart(allReadings, false));
+      toggleSoilRaw.addEventListener('change', () => renderChart(allReadings, false));
 
       // Initialize WebSocket connection
       connectWebSocket();
