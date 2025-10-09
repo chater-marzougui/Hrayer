@@ -19,19 +19,21 @@ app.use(express.static(publicDir));
 const isNumber = (value) => typeof value === 'number' && Number.isFinite(value);
 
 const normaliseReading = (payload = {}) => {
-  const { temp, temperature, humidity, moisture, soilMoisture, createdAt } = payload;
+  const { temp, temperature, humidity, moisture, soilMoisture, createdAt, soilRaw } = payload;
 
   const resolvedTemp = temp ?? temperature;
   const resolvedHumidity = humidity;
   const resolvedMoisture = moisture ?? soilMoisture;
+  const resolvedSoilRaw = soilRaw;
 
   const parsed = {
     temp: isNumber(resolvedTemp) ? resolvedTemp : Number(resolvedTemp),
     humidity: isNumber(resolvedHumidity) ? resolvedHumidity : Number(resolvedHumidity),
-    moisture: isNumber(resolvedMoisture) ? resolvedMoisture : Number(resolvedMoisture)
+    moisture: isNumber(resolvedMoisture) ? resolvedMoisture : Number(resolvedMoisture),
+    soilRaw: isNumber(resolvedSoilRaw) ? resolvedSoilRaw : Number(resolvedSoilRaw)
   };
 
-  if (Number.isNaN(parsed.temp) || Number.isNaN(parsed.humidity) || Number.isNaN(parsed.moisture)) {
+  if (Number.isNaN(parsed.temp) || Number.isNaN(parsed.humidity) || Number.isNaN(parsed.moisture) || Number.isNaN(parsed.soilRaw)) {
     return null;
   }
 
@@ -39,6 +41,7 @@ const normaliseReading = (payload = {}) => {
     temp: parsed.temp,
     humidity: parsed.humidity,
     moisture: parsed.moisture,
+    soilRaw: parsed.soilRaw,
     createdAt: createdAt ? new Date(createdAt).toISOString() : new Date().toISOString()
   };
 };

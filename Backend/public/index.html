@@ -159,9 +159,32 @@
           <h2>Soil Moisture</h2>
           <p id="soil">--</p>
         </article>
+        <article class="metric-card">
+          <h2>Soil Raw</h2>
+          <p id="soilRaw">--</p>
+        </article>
       </section>
 
       <section>
+        <div id="chart-controls" style="margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+          <span style="font-weight: 600; color: #475569;">Chart Data:</span>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="toggle-temp" checked style="cursor: pointer; width: 18px; height: 18px;">
+            <span style="color: #ef4444; font-weight: 500;">Temperature</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="toggle-humidity" checked style="cursor: pointer; width: 18px; height: 18px;">
+            <span style="color: #2563eb; font-weight: 500;">Humidity</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="toggle-moisture" checked style="cursor: pointer; width: 18px; height: 18px;">
+            <span style="color: #10b981; font-weight: 500;">Soil Moisture</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="toggle-soilRaw" checked style="cursor: pointer; width: 18px; height: 18px;">
+            <span style="color: #f59e0b; font-weight: 500;">Soil Raw</span>
+          </label>
+        </div>
         <canvas id="chart" aria-label="Sensor readings over time"></canvas>
       </section>
 
@@ -175,9 +198,15 @@
       const tempEl = document.getElementById('temp');
       const humEl = document.getElementById('hum');
       const soilEl = document.getElementById('soil');
+      const soilRawEl = document.getElementById('soilRaw');
       const refreshBtn = document.getElementById('refresh-btn');
       const clearBtn = document.getElementById('clear-btn');
       const chartCtx = document.getElementById('chart');
+      
+      const toggleTemp = document.getElementById('toggle-temp');
+      const toggleHumidity = document.getElementById('toggle-humidity');
+      const toggleMoisture = document.getElementById('toggle-moisture');
+      const toggleSoilRaw = document.getElementById('toggle-soilRaw');
 
       let chart;
       let ws;
@@ -204,6 +233,7 @@
           tempEl.textContent = '-- °C';
           humEl.textContent = '-- %';
           soilEl.textContent = '--';
+          soilRawEl.textContent = '--';
           return;
         }
 
@@ -212,6 +242,7 @@
         tempEl.textContent = formatValue(latest.temp, '°C');
         humEl.textContent = formatValue(latest.humidity, '%');
         soilEl.textContent = formatValue(latest.moisture);
+        soilRawEl.textContent = formatValue(latest.soilRaw);
         
         // Update status with live indicator
         statusEl.textContent = `${new Date().toLocaleTimeString()} 🟢 live`;
@@ -222,15 +253,17 @@
         const temperature = entries.map((entry) => entry.temp);
         const humidity = entries.map((entry) => entry.humidity);
         const moisture = entries.map((entry) => entry.moisture);
+        const soilRaw = entries.map((entry) => entry.soilRaw || 0);
 
-        const datasets = [
+        const allDatasets = [
           {
             label: 'Temperature (°C)',
             data: temperature,
             borderColor: '#ef4444',
             backgroundColor: 'rgba(239, 68, 68, 0.15)',
             tension: 0.35,
-            fill: true
+            fill: true,
+            hidden: !toggleTemp.checked
           },
           {
             label: 'Humidity (%)',
@@ -238,7 +271,8 @@
             borderColor: '#2563eb',
             backgroundColor: 'rgba(37, 99, 235, 0.18)',
             tension: 0.35,
-            fill: true
+            fill: true,
+            hidden: !toggleHumidity.checked
           },
           {
             label: 'Soil Moisture',
@@ -246,14 +280,24 @@
             borderColor: '#10b981',
             backgroundColor: 'rgba(16, 185, 129, 0.18)',
             tension: 0.35,
-            fill: true
+            fill: true,
+            hidden: !toggleMoisture.checked
+          },
+          {
+            label: 'Soil Raw',
+            data: soilRaw,
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245, 158, 11, 0.18)',
+            tension: 0.35,
+            fill: true,
+            hidden: !toggleSoilRaw.checked
           }
         ];
 
         if (!chart) {
           chart = new Chart(chartCtx, {
             type: 'line',
-            data: { labels, datasets },
+            data: { labels, datasets: allDatasets },
             options: {
               responsive: true,
               maintainAspectRatio: false,
@@ -281,9 +325,7 @@
           });
         } else {
           chart.data.labels = labels;
-          chart.data.datasets.forEach((dataset, index) => {
-            dataset.data = datasets[index].data;
-          });
+          chart.data.datasets = allDatasets;
           chart.update();
         }
       };
@@ -373,6 +415,12 @@
 
       refreshBtn.addEventListener('click', refreshData);
       clearBtn.addEventListener('click', clearData);
+      
+      // Add event listeners for chart toggles
+      toggleTemp.addEventListener('change', () => renderChart(allReadings));
+      toggleHumidity.addEventListener('change', () => renderChart(allReadings));
+      toggleMoisture.addEventListener('change', () => renderChart(allReadings));
+      toggleSoilRaw.addEventListener('change', () => renderChart(allReadings));
 
       // Initialize WebSocket connection
       connectWebSocket();
