@@ -1,0 +1,26 @@
+﻿{
+    "name": "wieact",
+    "version": "1.0.0",
+    "description": "ESP8266 IoT dashboard served from a single Express instance",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "keywords": [
+        "iot",
+        "express",
+        "esp8266"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "dotenv": "^17.2.3",
+        "express": "^5.1.0",
+        "ws": "^8.18.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10"
+    }
+}

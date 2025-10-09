@@ -1,0 +1,70 @@
+╔════════════════════════════════════════════════════════╗
+║        QUICK REFERENCE - PRESENTATION DAY              ║
+╚════════════════════════════════════════════════════════╝
+
+🎬 DEMO PREPARATION (5 MINUTES BEFORE):
+
+1. Start Server:
+   cd C:\Users\chate\Desktop\WieAct
+   npm start
+
+2. Open Dashboard:
+   http://localhost:3000
+   (or your Heroku URL)
+
+3. Check Status:
+   Look for "connected 🟢 live" at bottom
+
+4. Test with Simulator (optional):
+   node test-esp8266.js
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎤 TALKING POINTS:
+
+✅ "Real-time WebSocket connection"
+✅ "Instant data visualization - no polling delays"
+✅ "Updates the moment ESP8266 sends data"
+✅ "Auto-reconnecting for reliability"
+✅ "Production-ready, deployed on Heroku"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 TROUBLESHOOTING:
+
+Problem: "Connection failed"
+→ Check server is running (npm start)
+→ Check URL matches server address
+
+Problem: "No data showing"
+→ ESP8266 might not be posting yet
+→ Use test simulator: node test-esp8266.js
+
+Problem: "Chart not updating"
+→ Check console for WebSocket errors (F12)
+→ Hard refresh browser (Ctrl+F5)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 ESP8266 SETUP:
+
+1. Flash esp8266-example.ino to your device
+2. Update WiFi credentials in code
+3. Update serverUrl to your Heroku app or local IP
+4. Upload and watch serial monitor (115200 baud)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 DEMO FLOW:
+
+1. Show dashboard (clean, professional)
+2. Point out live status indicator
+3. Trigger ESP8266 sensor reading
+4. Watch data appear INSTANTLY
+5. Show chart updating in real-time
+6. (Optional) Clear history with button
+7. Show multiple readings flowing
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ YOU'RE READY! Break a leg! 🎉

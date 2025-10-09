@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WieAct • ESP8266 IoT Dashboard</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='0' y='24' font-size='24'>📡</text></svg>" />
+    <style>
+      :root {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #1f2933;
+        background: #f3f4f6;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      main {
+        width: min(960px, 94vw);
+        background: #fff;
+        padding: 2.5rem 2rem 2rem;
+        border-radius: 18px;
+        box-shadow: 0 12px 28px -16px rgba(15, 23, 42, 0.35);
+        display: grid;
+        gap: 2rem;
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem 1rem;
+      }
+
+      h1 {
+        font-size: clamp(1.75rem, 4vw, 2.4rem);
+        margin: 0;
+      }
+
+      #meta {
+        color: #64748b;
+        font-size: 0.95rem;
+      }
+
+      #metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+      }
+
+      .metric-card {
+        padding: 1rem 1.25rem;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #eef2ff, #f8fafc);
+        border: 1px solid rgba(148, 163, 184, 0.24);
+      }
+
+      .metric-card h2 {
+        margin: 0 0 0.25rem;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #475569;
+      }
+
+      .metric-card p {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #0f172a;
+      }
+
+      #actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: flex-end;
+      }
+
+      button {
+        appearance: none;
+        border: none;
+        border-radius: 999px;
+        padding: 0.65rem 1.4rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 120ms ease, box-shadow 120ms ease;
+      }
+
+      button:active {
+        transform: translateY(1px);
+      }
+
+      #refresh-btn {
+        background: #2563eb;
+        color: #fff;
+        box-shadow: 0 10px 20px -12px rgba(37, 99, 235, 0.75);
+      }
+
+      #clear-btn {
+        background: #e11d48;
+        color: #fff;
+        box-shadow: 0 10px 20px -12px rgba(190, 24, 60, 0.75);
+      }
+
+      #status {
+        font-size: 0.9rem;
+        color: #475569;
+      }
+
+      canvas {
+        width: 100% !important;
+        max-height: 360px;
+      }
+
+      footer {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        text-align: center;
+      }
+
+      @media (max-width: 640px) {
+        main {
+          padding: 1.75rem 1.25rem 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <h1>ESP8266 Greenhouse</h1>
+          <p id="meta">Waiting for readings…</p>
+        </div>
+        <div id="actions">
+          <button id="refresh-btn" type="button">Refresh</button>
+          <button id="clear-btn" type="button">Clear history</button>
+        </div>
+      </header>
+
+      <section id="metrics">
+        <article class="metric-card">
+          <h2>Temperature</h2>
+          <p id="temp">-- °C</p>
+        </article>
+        <article class="metric-card">
+          <h2>Humidity</h2>
+          <p id="hum">-- %</p>
+        </article>
+        <article class="metric-card">
+          <h2>Soil Moisture</h2>
+          <p id="soil">--</p>
+        </article>
+      </section>
+
+      <section>
+        <canvas id="chart" aria-label="Sensor readings over time"></canvas>
+      </section>
+
+      <footer>Real-time updates via WebSocket. Status: <span id="status">connecting...</span>.</footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const statusEl = document.getElementById('status');
+      const metaEl = document.getElementById('meta');
+      const tempEl = document.getElementById('temp');
+      const humEl = document.getElementById('hum');
+      const soilEl = document.getElementById('soil');
+      const refreshBtn = document.getElementById('refresh-btn');
+      const clearBtn = document.getElementById('clear-btn');
+      const chartCtx = document.getElementById('chart');
+
+      let chart;
+      let ws;
+      let allReadings = [];
+
+      const formatValue = (value, unit = '') => {
+        if (typeof value !== 'number' || Number.isNaN(value)) {
+          return `-- ${unit}`.trim();
+        }
+        return `${value.toFixed(1)} ${unit}`.trim();
+      };
+
+      const toLocaleLabel = (isoString) => {
+        const date = new Date(isoString);
+        if (Number.isNaN(date.getTime())) {
+          return 'unknown';
+        }
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      };
+
+      const applyMetrics = (entries = []) => {
+        if (!entries.length) {
+          metaEl.textContent = 'Waiting for readings…';
+          tempEl.textContent = '-- °C';
+          humEl.textContent = '-- %';
+          soilEl.textContent = '--';
+          return;
+        }
+
+        metaEl.textContent = `Total readings: ${entries.length}`;
+        const latest = entries.at(-1);
+        tempEl.textContent = formatValue(latest.temp, '°C');
+        humEl.textContent = formatValue(latest.humidity, '%');
+        soilEl.textContent = formatValue(latest.moisture);
+        
+        // Update status with live indicator
+        statusEl.textContent = `${new Date().toLocaleTimeString()} 🟢 live`;
+      };
+
+      const renderChart = (entries = []) => {
+        const labels = entries.map((entry) => toLocaleLabel(entry.createdAt));
+        const temperature = entries.map((entry) => entry.temp);
+        const humidity = entries.map((entry) => entry.humidity);
+        const moisture = entries.map((entry) => entry.moisture);
+
+        const datasets = [
+          {
+            label: 'Temperature (°C)',
+            data: temperature,
+            borderColor: '#ef4444',
+            backgroundColor: 'rgba(239, 68, 68, 0.15)',
+            tension: 0.35,
+            fill: true
+          },
+          {
+            label: 'Humidity (%)',
+            data: humidity,
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37, 99, 235, 0.18)',
+            tension: 0.35,
+            fill: true
+          },
+          {
+            label: 'Soil Moisture',
+            data: moisture,
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.18)',
+            tension: 0.35,
+            fill: true
+          }
+        ];
+
+        if (!chart) {
+          chart = new Chart(chartCtx, {
+            type: 'line',
+            data: { labels, datasets },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: true,
+                  labels: {
+                    usePointStyle: true
+                  }
+                },
+                tooltip: {
+                  mode: 'index',
+                  intersect: false
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: false,
+                  ticks: {
+                    precision: 1
+                  }
+                }
+              }
+            }
+          });
+        } else {
+          chart.data.labels = labels;
+          chart.data.datasets.forEach((dataset, index) => {
+            dataset.data = datasets[index].data;
+          });
+          chart.update();
+        }
+      };
+
+      const refreshData = async () => {
+        try {
+          statusEl.textContent = 'loading…';
+          const response = await fetch('/api/data');
+          if (!response.ok) {
+            throw new Error(`Failed to load data (${response.status})`);
+          }
+          const entries = await response.json();
+          allReadings = entries;
+          applyMetrics(entries);
+          renderChart(entries);
+        } catch (error) {
+          console.error(error);
+          statusEl.textContent = 'failed';
+        }
+      };
+
+      const clearData = async () => {
+        clearBtn.disabled = true;
+        try {
+          const response = await fetch('/api/data/clear', {
+            method: 'POST'
+          });
+          if (!response.ok && response.status !== 204) {
+            throw new Error('Unable to clear data');
+          }
+          allReadings = [];
+          applyMetrics([]);
+          renderChart([]);
+        } catch (error) {
+          console.error(error);
+          statusEl.textContent = 'clear failed';
+        } finally {
+          clearBtn.disabled = false;
+        }
+      };
+
+      // WebSocket connection for real-time updates
+      const connectWebSocket = () => {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = `${protocol}//${window.location.host}`;
+        
+        ws = new WebSocket(wsUrl);
+        
+        ws.onopen = () => {
+          console.log('WebSocket connected');
+          statusEl.textContent = 'connected 🟢 live';
+        };
+        
+        ws.onmessage = (event) => {
+          const message = JSON.parse(event.data);
+          
+          if (message.type === 'init') {
+            // Initial data load
+            allReadings = message.data;
+            applyMetrics(allReadings);
+            renderChart(allReadings);
+          } else if (message.type === 'newReading') {
+            // New reading received - add to array and update
+            allReadings.push(message.data);
+            applyMetrics(allReadings);
+            renderChart(allReadings);
+          } else if (message.type === 'clear') {
+            // Data was cleared
+            allReadings = [];
+            applyMetrics([]);
+            renderChart([]);
+          }
+        };
+        
+        ws.onerror = (error) => {
+          console.error('WebSocket error:', error);
+          statusEl.textContent = 'connection error 🔴';
+        };
+        
+        ws.onclose = () => {
+          console.log('WebSocket disconnected, reconnecting...');
+          statusEl.textContent = 'reconnecting...';
+          // Reconnect after 2 seconds
+          setTimeout(connectWebSocket, 2000);
+        };
+      };
+
+      refreshBtn.addEventListener('click', refreshData);
+      clearBtn.addEventListener('click', clearData);
+
+      // Initialize WebSocket connection
+      connectWebSocket();
+    </script>
+  </body>
+</html>
