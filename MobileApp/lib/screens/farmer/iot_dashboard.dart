@@ -8,9 +8,9 @@ class IoTDashboardCard extends StatefulWidget {
   final String backendUrl;
 
   const IoTDashboardCard({
-    Key? key,
+    super.key,
     this.backendUrl = 'wss://wie-act-1faad7d7a3cf.herokuapp.com',
-  }) : super(key: key);
+  });
 
   @override
   State<IoTDashboardCard> createState() => _IoTDashboardCardState();
@@ -23,7 +23,6 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
   bool _showTemp = true;
   bool _showHumidity = true;
   bool _showMoisture = true;
-  bool _showSoilRaw = true;
   Timer? _reconnectTimer;
 
   @override
@@ -60,9 +59,6 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
           _reconnect();
         },
         onDone: () {
-          setState(() {
-            _status = 'Reconnecting...';
-          });
           _reconnect();
         },
       );
@@ -129,7 +125,7 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
               borderRadius: BorderRadius.circular(18),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withAlpha(25),
                   blurRadius: 28,
                   offset: const Offset(0, 12),
                 ),
@@ -223,12 +219,7 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
           'Soil Moisture',
           latest != null ? latest.moisture.toStringAsFixed(1) : '--',
           const Color(0xFF10B981),
-        ),
-        _buildMetricCard(
-          'Soil Raw',
-          latest != null ? latest.soilRaw.toStringAsFixed(1) : '--',
-          const Color(0xFFF59E0B),
-        ),
+        )
       ],
     );
   }
@@ -247,7 +238,7 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
         ),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: const Color(0xFF94A3B8).withOpacity(0.24),
+          color: const Color(0xFF94A3B8).withAlpha(62),
         ),
       ),
       child: Column(
@@ -297,10 +288,7 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
         }),
         _buildToggle('Moisture', const Color(0xFF10B981), _showMoisture, (val) {
           setState(() => _showMoisture = val);
-        }),
-        _buildToggle('Soil Raw', const Color(0xFFF59E0B), _showSoilRaw, (val) {
-          setState(() => _showSoilRaw = val);
-        }),
+        })
       ],
     );
   }
@@ -385,7 +373,7 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
           lineBarsData: _buildLineBars(),
           lineTouchData: LineTouchData(
             touchTooltipData: LineTouchTooltipData(
-              tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+              getTooltipColor: (_) => Colors.blueGrey,
             ),
           ),
         ),
@@ -407,7 +395,7 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(
           show: true,
-          color: const Color(0xFFEF4444).withOpacity(0.15),
+          color: const Color(0xFFEF4444).withAlpha(38),
         ),
       ));
     }
@@ -423,7 +411,7 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(
           show: true,
-          color: const Color(0xFF2563EB).withOpacity(0.15),
+          color: const Color(0xFF2563EB).withAlpha(38),
         ),
       ));
     }
@@ -439,27 +427,10 @@ class _IoTDashboardCardState extends State<IoTDashboardCard> {
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(
           show: true,
-          color: const Color(0xFF10B981).withOpacity(0.15),
+          color: const Color(0xFF10B981).withAlpha(38),
         ),
       ));
     }
-
-    if (_showSoilRaw) {
-      bars.add(LineChartBarData(
-        spots: _readings.asMap().entries.map((e) {
-          return FlSpot(e.key.toDouble(), e.value.soilRaw);
-        }).toList(),
-        color: const Color(0xFFF59E0B),
-        barWidth: 3,
-        isCurved: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(
-          show: true,
-          color: const Color(0xFFF59E0B).withOpacity(0.15),
-        ),
-      ));
-    }
-
     return bars;
   }
 
@@ -499,6 +470,17 @@ class SensorReading {
       moisture: (json['moisture'] ?? 0).toDouble(),
       soilRaw: (json['soilRaw'] ?? 0).toDouble(),
       createdAt: json['createdAt'] ?? DateTime.now().toIso8601String(),
+    );
+  }
+}
+
+class IoTDashboardPage extends StatelessWidget {
+  const IoTDashboardPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return IoTDashboardCard(
+      backendUrl: 'wss://wie-act-1faad7d7a3cf.herokuapp.com',
     );
   }
 }
