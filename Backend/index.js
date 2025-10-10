@@ -81,7 +81,7 @@ app.get('/', (_req, res) => {
 
 const normalisedPort = process.env.PORT !== undefined ? Number(process.env.PORT) : 3000;
 const port = Number.isFinite(normalisedPort) && normalisedPort >= 0 ? normalisedPort : 3000;
-const host = process.env.HOST || '0.0.0.0';
+const host = process.env.HOST || 'localhost';
 
 const server = app.listen(port, host, () => {
   console.log(`WieAct IoT dashboard listening on http://${host}:${port}`);
