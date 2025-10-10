@@ -110,9 +110,110 @@
         box-shadow: 0 10px 20px -12px rgba(190, 24, 60, 0.75);
       }
 
+      #qr-btn {
+        background: #8b5cf6;
+        color: #fff;
+        box-shadow: 0 10px 20px -12px rgba(139, 92, 246, 0.75);
+      }
+
       #status {
         font-size: 0.9rem;
         color: #475569;
+      }
+
+      /* QR Code Dialog Styles */
+      .dialog-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(4px);
+      }
+
+      .dialog-overlay.active {
+        display: flex;
+      }
+
+      .dialog-content {
+        background: #fff;
+        border-radius: 18px;
+        padding: 2rem;
+        max-width: 90vw;
+        max-height: 90vh;
+        box-shadow: 0 20px 40px -16px rgba(15, 23, 42, 0.5);
+        position: relative;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .dialog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .dialog-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #1f2933;
+      }
+
+      .close-btn {
+        background: #f1f5f9;
+        color: #475569;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: background 0.2s ease;
+        padding: 0;
+      }
+
+      .close-btn:hover {
+        background: #e2e8f0;
+      }
+
+      .qr-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .qr-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+      }
+
+      .qr-container p {
+        color: #64748b;
+        font-size: 0.95rem;
+        text-align: center;
+        margin: 0;
       }
 
       canvas {
@@ -141,6 +242,7 @@
           <p id="meta">Waiting for readings…</p>
         </div>
         <div id="actions">
+          <button id="qr-btn" type="button">📱 QR Code</button>
           <button id="refresh-btn" type="button">Refresh</button>
           <button id="clear-btn" type="button">Clear history</button>
         </div>
@@ -191,6 +293,20 @@
       <footer>Real-time updates via WebSocket. Status: <span id="status">connecting...</span>.</footer>
     </main>
 
+    <!-- QR Code Dialog -->
+    <div class="dialog-overlay" id="qr-dialog">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <h2>Scan to Access Dashboard</h2>
+          <button class="close-btn" id="close-dialog" aria-label="Close dialog">×</button>
+        </div>
+        <div class="qr-container">
+          <img src="/qrcode.png" alt="QR Code to access the dashboard" />
+          <p>Scan this QR code with your mobile device to access the dashboard</p>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       const statusEl = document.getElementById('status');
@@ -201,6 +317,9 @@
       const soilRawEl = document.getElementById('soilRaw');
       const refreshBtn = document.getElementById('refresh-btn');
       const clearBtn = document.getElementById('clear-btn');
+      const qrBtn = document.getElementById('qr-btn');
+      const qrDialog = document.getElementById('qr-dialog');
+      const closeDialogBtn = document.getElementById('close-dialog');
       const chartCtx = document.getElementById('chart');
       
       const toggleTemp = document.getElementById('toggle-temp');
@@ -447,6 +566,29 @@
 
       refreshBtn.addEventListener('click', refreshData);
       clearBtn.addEventListener('click', clearData);
+      
+      // QR Code Dialog handlers
+      qrBtn.addEventListener('click', () => {
+        qrDialog.classList.add('active');
+      });
+
+      closeDialogBtn.addEventListener('click', () => {
+        qrDialog.classList.remove('active');
+      });
+
+      // Close dialog when clicking outside the content
+      qrDialog.addEventListener('click', (e) => {
+        if (e.target === qrDialog) {
+          qrDialog.classList.remove('active');
+        }
+      });
+
+      // Close dialog with Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && qrDialog.classList.contains('active')) {
+          qrDialog.classList.remove('active');
+        }
+      });
       
       // Add event listeners for chart toggles
       toggleTemp.addEventListener('change', () => renderChart(allReadings, false));
