@@ -17,8 +17,8 @@ DHT dht(DHTPIN, DHTTYPE);
 
 // Soil Moisture Sensor Configuration
 #define SOIL_PIN A0
-const int AIR_VALUE = 620;    // Value in air (dry) - calibrate for your sensor
-const int WATER_VALUE = 495;  // Value in water (wet) - calibrate for your sensor
+const int AIR_VALUE = 700;    // Value in air (dry) - calibrate for your sensor
+const int WATER_VALUE = 430;  // Value in water (wet) - calibrate for your sensor
 
 // Timing
 unsigned long lastSendTime = 0;
@@ -30,16 +30,16 @@ WiFiClientSecure client;
 void setup() {
   Serial.begin(115200);
   delay(100);
+  
+  // Initialize DHT sensor
+  dht.begin();
+  Serial.println("DHT22 initialized");
   // Connect to WiFi
   connectWiFi();
 
   
   
   Serial.println("\n\n=== ESP8266 Sensor Monitor ===");
-  
-  // Initialize DHT sensor
-  dht.begin();
-  Serial.println("DHT22 initialized");
   
   // Initialize soil moisture sensor
   pinMode(SOIL_PIN, INPUT);
@@ -107,6 +107,14 @@ void readAndSendData() {
   int soilRaw = analogRead(SOIL_PIN);
   int moisture = map(soilRaw, AIR_VALUE, WATER_VALUE, 0, 100);
   moisture = constrain(moisture, 0, 100); // Keep within 0-100%
+
+  
+  
+  Serial.print("Soil Moisture: ");
+  Serial.print(moisture);
+  Serial.print(" % (raw: ");
+  Serial.print(soilRaw);
+  Serial.println(")");
   
   // Check if DHT readings are valid
   if (isnan(temperature) || isnan(humidity)) {
@@ -122,12 +130,6 @@ void readAndSendData() {
   Serial.print("Humidity: ");
   Serial.print(humidity, 1);
   Serial.println(" %");
-  
-  Serial.print("Soil Moisture: ");
-  Serial.print(moisture);
-  Serial.print(" % (raw: ");
-  Serial.print(soilRaw);
-  Serial.println(")");
   
   // Send data to server
   sendDataToServer(temperature, humidity, moisture, soilRaw);
